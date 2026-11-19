@@ -1,6 +1,6 @@
 
 
-![my_cs 计算机学习笔记](assets/banner.png)
+![my_cs 计算机学习笔记](assets/Gemini_Generated_Image_lfx9rglfx9rglfx9.jpg)
 
 
 # my_cs
