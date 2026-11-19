@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcWing 906. 区间分组 - 贪心 + 小根堆动画可视化</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .code-font { font-family: 'Fira Code', monospace; }
+
+        /* Smooth pointer glide */
+        .pointer-glide {
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+        }
+
+        /* Glow effects */
+        .glow-blue { box-shadow: 0 0 18px rgba(59, 130, 246, 0.6); }
+        .glow-emerald { box-shadow: 0 0 20px rgba(16, 185, 129, 0.65); }
+        .glow-rose { box-shadow: 0 0 20px rgba(244, 63, 94, 0.65); }
+        .glow-amber { box-shadow: 0 0 18px rgba(245, 158, 11, 0.6); }
+
+        @keyframes pop-in {
+            0% { transform: scale(0.86); opacity: 0.25; }
+            65% { transform: scale(1.04); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop-in {
+            animation: pop-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-blue-500 selection:text-white">
+
+    <!-- Top Header & Presets Bar -->
+    <header class="bg-slate-900/95 backdrop-blur border-b border-slate-800 px-4 lg:px-8 py-3.5 sticky top-0 z-30 shadow-lg">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 p-2.5 rounded-xl text-white font-extrabold text-base shadow-md code-font">
+                    906
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold tracking-tight flex flex-wrap items-center gap-2">
+                        AcWing 906. 区间分组
+                        <span class="text-xs px-2.5 py-0.5 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded-full font-medium">贪心 + 小根堆可视化</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">按左端点 <code class="text-blue-400 code-font">l</code> 升序排列，维护各组最右端点 <code class="text-amber-400 code-font">max_r</code> 的最小堆</p>
+                </div>
+            </div>
+
+            <!-- Presets & Custom Input Trigger -->
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs text-slate-400 hidden sm:inline">预设样例:</span>
+                <button onclick="loadPreset('classic')" id="btn-preset-classic"
+                    class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition bg-blue-600/20 border-blue-500 text-blue-300 hover:bg-blue-600/30">
+                    经典6区间 (默认)
+                </button>
+                <button onclick="loadPreset('sample')" id="btn-preset-sample"
+                    class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition bg-slate-800 border-slate-700 text-slate-200 hover:border-blue-500 hover:text-white">
+                    题目样例 (3区间)
+                </button>
+                <button onclick="loadPreset('touch')" id="btn-preset-touch"
+                    class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition bg-slate-800 border-slate-700 text-slate-200 hover:border-blue-500 hover:text-white">
+                    端点重合测试
+                </button>
+                <button onclick="toggleCustomModal(true)"
+                    class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition shadow flex items-center gap-1">
+                    <span>✏️ 自定义输入</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-6 flex flex-col gap-5">
+
+        <!-- AREA A: Interval Sequence & Movable Pointer i -->
+        <section class="bg-slate-900 rounded-2xl p-4 lg:p-5 border border-slate-800 shadow-xl">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2.5 border-b border-slate-800/80">
+                <div class="flex items-center space-x-2">
+                    <span class="text-base">🧭</span>
+                    <h2 class="text-sm font-bold text-slate-200 uppercase tracking-wider">区域 A：区间序列与可移动扫描指针 <code class="text-blue-400 code-font">i</code></h2>
+                    <span id="sort-status-badge" class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700 font-medium">
+                        原始输入顺序
+                    </span>
+                </div>
+                <div class="flex items-center gap-3 text-xs text-slate-400">
+                    <span>点击任意区间卡片可直接跳转</span>
+                    <span id="total-n-badge" class="code-font font-semibold text-slate-200 bg-slate-800 px-2.5 py-0.5 rounded-md border border-slate-700">N = 6</span>
+                </div>
+            </div>
+
+            <!-- Horizontal Scrollable Pointer + Cards Track -->
+            <div class="overflow-x-auto pb-2">
+                <div class="inline-block min-w-full">
+                    <!-- Movable Pointer Track -->
+                    <div class="h-11 relative mb-1.5">
+                        <div id="scan-pointer" class="pointer-glide absolute top-0 left-0 w-28 flex flex-col items-center opacity-30">
+                            <div class="bg-blue-600 text-white text-[11px] font-extrabold code-font px-2.5 py-0.5 rounded-md shadow-lg border border-blue-300 whitespace-nowrap flex items-center gap-1">
+                                <span>指针 i =</span>
+                                <span id="pointer-i-text">0</span>
+                            </div>
+                            <svg class="w-4 h-4 text-blue-400 -mt-0.5 fill-current" viewBox="0 0 20 20">
+                                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Interval Cards Row -->
+                    <div id="interval-cards-row" class="flex items-center space-x-3">
+                        <!-- Dynamically populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AREA B & AREA C: Split Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1">
+
+            <!-- Left Column (7 cols): Number Line Swimlanes + Playback Controls -->
+            <div class="lg:col-span-7 flex flex-col gap-5">
+
+                <!-- AREA B: Number Line Swimlanes (Gantt Chart) -->
+                <section class="bg-slate-900 rounded-2xl p-5 border border-slate-800 shadow-xl flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2.5 border-b border-slate-800/80">
+                            <div>
+                                <h2 class="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+                                    <span>📊</span> 区域 B：数轴分组泳道图 (同组内两两无交集)
+                                </h2>
+                                <p class="text-[11px] text-slate-400 mt-0.5">垂直虚线标示当前区间左端点 <code class="text-blue-400 code-font">x = r.l</code>，与各组最右端点 <code class="text-amber-400 code-font">max_r</code> 进行重叠判定</p>
+                            </div>
+                            <div id="group-count-pill" class="px-3 py-1 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 text-xs font-bold code-font">
+                                当前组数 (heap.size): 0
+                            </div>
+                        </div>
+
+                        <!-- Decision Comparison Banner -->
+                        <div id="decision-banner" class="mb-4 px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">
+                            <span class="text-slate-400">贪心判定器：等待扫描区间...</span>
+                        </div>
+
+                        <!-- Swimlanes Visualization Canvas -->
+                        <div class="bg-slate-950 rounded-xl border border-slate-800/90 p-4 overflow-x-auto">
+                            <div id="swimlanes-canvas" class="min-w-[540px] flex flex-col">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Legend Footer -->
+                    <div class="mt-4 pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-0.5 h-3 border-l-2 border-dashed border-blue-400 inline-block"></span>
+                                当前左端点扫描线 (<code class="code-font text-blue-400">x = r.l</code>)
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500/40 border border-emerald-400 inline-block"></span>
+                                堆顶组可接纳 (<code class="code-font text-emerald-400">top &lt; r.l</code>)
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-sm bg-rose-500/40 border border-rose-400 inline-block"></span>
+                                堆顶冲突新建组 (<code class="code-font text-rose-400">top &gt;= r.l</code>)
+                            </span>
+                        </div>
+                        <span class="text-slate-500">闭区间端点相接也算交集</span>
+                    </div>
+                </section>
+
+                <!-- Playback Control Bar -->
+                <section class="bg-slate-900 rounded-2xl p-4 border border-slate-800 shadow-xl space-y-3">
+                    <!-- Scrubber Bar -->
+                    <div class="flex items-center space-x-3">
+                        <span id="step-counter" class="text-xs text-slate-400 code-font w-24">步骤 0 / 0</span>
+                        <input id="step-slider" type="range" min="0" max="10" value="0" oninput="onSliderChange(this.value)"
+                            class="flex-1 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-xs text-slate-400">倍速:</span>
+                            <select id="speed-select" onchange="updateSpeed()" class="bg-slate-800 text-slate-200 text-xs rounded-lg px-2 py-1 border border-slate-700 focus:outline-none">
+                                <option value="1800">0.5x 慢速</option>
+                                <option value="1050" selected>1.0x 标准</option>
+                                <option value="550">2.0x 快速</option>
+                                <option value="250">4.0x 极速</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+                        <div class="flex items-center space-x-2">
+                            <button onclick="resetAnimation()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-xl transition border border-slate-700 flex items-center space-x-1">
+                                <span>⏮️ 重置</span>
+                            </button>
+                            <button onclick="prevStep()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-xl transition border border-slate-700 flex items-center space-x-1">
+                                <span>◀️ 上一步</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <button id="btn-play" onclick="togglePlay()" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold rounded-xl transition shadow-lg flex items-center space-x-1.5">
+                                <span id="play-icon">▶️</span>
+                                <span id="play-text">自动播放</span>
+                            </button>
+                            <button onclick="nextStep()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition shadow-lg flex items-center space-x-1">
+                                <span>单步执行 ▶️</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Right Column (5 cols): Min-Heap Tree & C++ Code & Explanation -->
+            <div class="lg:col-span-5 flex flex-col gap-5">
+
+                <!-- AREA C1: Min-Heap Binary Tree & Array View -->
+                <section class="bg-slate-900 rounded-2xl p-5 border border-slate-800 shadow-xl">
+                    <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800/80">
+                        <div>
+                            <h2 class="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+                                <span>🌲</span> 区域 C：小根堆 (Min-Heap) 结构
+                            </h2>
+                            <p class="text-[11px] text-slate-400">堆顶 <code class="text-amber-400 code-font">heap.top()</code> 始终维护所有组中最小的右端点</p>
+                        </div>
+                        <span id="heap-op-badge" class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-mono">
+                            heap.empty()
+                        </span>
+                    </div>
+
+                    <!-- Binary Tree SVG + HTML Nodes Container -->
+                    <div id="heap-tree-container" class="bg-slate-950 rounded-xl border border-slate-800/90 p-3 min-h-[175px] flex flex-col items-center justify-center relative">
+                        <!-- Dynamically rendered by JS -->
+                    </div>
+
+                    <!-- Sorted Priority Queue Strip -->
+                    <div class="mt-3 flex flex-wrap items-center justify-between gap-2 bg-slate-950/70 px-3 py-2 rounded-lg border border-slate-800/80 text-xs">
+                        <span class="text-slate-400">堆内元素 (按右端点升序):</span>
+                        <div id="heap-array-strip" class="flex flex-wrap items-center gap-1.5 code-font">
+                            <span class="text-slate-500">空 []</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AREA C2: Step Explanation & C++ Source Code -->
+                <section class="bg-slate-900 rounded-2xl p-5 border border-slate-800 shadow-xl flex-1 flex flex-col justify-between gap-4">
+                    <!-- Step Explanation Box -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                                <span>💡</span> 当前步骤算法解析
+                            </span>
+                            <span id="step-phase-badge" class="text-[11px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-medium">准备就绪</span>
+                        </div>
+                        <div class="bg-blue-950/25 border border-blue-500/25 rounded-xl p-3.5">
+                            <p id="explanation-text" class="text-xs text-slate-200 leading-relaxed">
+                                已加载经典 6 区间例子：[-1,1], [2,9], [3,4], [5,6], [7,8], [11,13]。点击【单步执行】或【自动播放】开始观察贪心与小根堆如何巧妙调度分组！
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- C++ Source Code Viewer -->
+                    <div class="flex-1 flex flex-col">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <span>💻</span> C++ 核心代码跟踪
+                            </span>
+                            <span class="text-[11px] text-slate-500 code-font">O(N log N)</span>
+                        </div>
+                        <div class="code-font text-xs bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1 flex-1 overflow-x-auto text-slate-300">
+                            <div id="code-line-1" class="py-0.5 px-2 rounded text-slate-400">sort(range, range + n); <span class="text-slate-500">// 按左端点 l 升序</span></div>
+                            <div id="code-line-2" class="py-0.5 px-2 rounded text-slate-400">priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; heap;</div>
+                            <div id="code-line-3" class="py-0.5 px-2 rounded text-blue-400 font-semibold">for (int i = 0; i &lt; n; i ++ ) {</div>
+                            <div id="code-line-4" class="py-0.5 px-2 rounded pl-5">  auto r = range[i];</div>
+                            <div id="code-line-5" class="py-0.5 px-2 rounded pl-5 text-rose-300">  if (heap.empty() || heap.top() &gt;= r.l)</div>
+                            <div id="code-line-6" class="py-0.5 px-2 rounded pl-9 text-rose-400 font-bold">    heap.push(r.r); <span class="text-slate-500 font-normal">// 开新组</span></div>
+                            <div id="code-line-7" class="py-0.5 px-2 rounded pl-5 text-emerald-300">  else {</div>
+                            <div id="code-line-8" class="py-0.5 px-2 rounded pl-9 text-amber-300">    heap.pop();     <span class="text-slate-500 font-normal">// 弹出最小右端点</span></div>
+                            <div id="code-line-9" class="py-0.5 px-2 rounded pl-9 text-emerald-400 font-bold">    heap.push(r.r); <span class="text-slate-500 font-normal">// 更新该组右端点</span></div>
+                            <div id="code-line-10" class="py-0.5 px-2 rounded pl-5">  }</div>
+                            <div id="code-line-11" class="py-0.5 px-2 rounded">}</div>
+                            <div id="code-line-12" class="py-0.5 px-2 rounded text-purple-400 font-semibold">printf("%d\n", heap.size());</div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Custom Input Modal -->
+    <div id="custom-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <span>✏️</span> 自定义输入区间数据
+                </h3>
+                <button onclick="toggleCustomModal(false)" class="text-slate-400 hover:text-white text-lg leading-none">&times;</button>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">
+                每行输入一个闭区间 <code class="text-blue-400 code-font">l r</code>（用空格或逗号分隔，最多支持 10 个区间以保证最佳视觉效果）：
+            </p>
+            <textarea id="custom-textarea" rows="6" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs code-font text-slate-100 focus:outline-none focus:border-blue-500"
+                placeholder="-1 1&#10;2 9&#10;3 4&#10;5 6&#10;7 8&#10;11 13">-1 1
+2 9
+3 4
+5 6
+7 8
+11 13</textarea>
+            <div id="custom-error" class="text-xs text-rose-400 hidden"></div>
+            <div class="flex items-center justify-end gap-2 pt-2">
+                <button onclick="toggleCustomModal(false)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition">
+                    取消
+                </button>
+                <button onclick="applyCustomInput()" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition shadow">
+                    确认并生成动画
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        // Presets definition
+        const PRESETS = {
+            classic: [
+                { l: -1, r: 1 },
+                { l: 2, r: 9 },
+                { l: 3, r: 4 },
+                { l: 5, r: 6 },
+                { l: 7, r: 8 },
+                { l: 11, r: 13 }
+            ],
+            sample: [
+                { l: -1, r: 1 },
+                { l: 2, r: 4 },
+                { l: 3, r: 5 }
+            ],
+            touch: [
+                { l: 1, r: 3 },
+                { l: 3, r: 5 },
+                { l: 2, r: 4 },
+                { l: 5, r: 7 },
+                { l: 4, r: 6 }
+            ]
+        };
+
+        // Group color palette
+        const GROUP_COLORS = [
+            { bg: 'bg-blue-500/25', border: 'border-blue-400', text: 'text-blue-200', badge: 'bg-blue-600', hex: '#3b82f6' },
+            { bg: 'bg-emerald-500/25', border: 'border-emerald-400', text: 'text-emerald-200', badge: 'bg-emerald-600', hex: '#10b981' },
+            { bg: 'bg-purple-500/25', border: 'border-purple-400', text: 'text-purple-200', badge: 'bg-purple-600', hex: '#a855f7' },
+            { bg: 'bg-amber-500/25', border: 'border-amber-400', text: 'text-amber-200', badge: 'bg-amber-600', hex: '#f59e0b' },
+            { bg: 'bg-rose-500/25', border: 'border-rose-400', text: 'text-rose-200', badge: 'bg-rose-600', hex: '#f43f5e' },
+            { bg: 'bg-cyan-500/25', border: 'border-cyan-400', text: 'text-cyan-200', badge: 'bg-cyan-600', hex: '#06b6d4' }
+        ];
+
+        let rawIntervals = [...PRESETS.classic];
+        let steps = [];
+        let currentStepIndex = 0;
+        let isPlaying = false;
+        let playInterval = null;
+        let playDelay = 1050;
+        let axisMin = -2;
+        let axisMax = 14;
+
+        // Compute dynamic number line bounds
+        function computeAxisBounds(intervals) {
+            let minVal = Infinity;
+            let maxVal = -Infinity;
+            intervals.forEach(item => {
+                if (item.l < minVal) minVal = item.l;
+                if (item.r > maxVal) maxVal = item.r;
+            });
+            axisMin = Math.min(-2, minVal - 1);
+            axisMax = Math.max(14, maxVal + 1);
+        }
+
+        // Deep clone groups state
+        function cloneGroups(groups) {
+            return groups.map(g => ({
+                id: g.id,
+                maxR: g.maxR,
+                items: g.items.map(it => ({ ...it }))
+            }));
+        }
+
+        // Sort heap array by maxR ascending (and id ascending for tie-break)
+        function sortHeap(heapArr) {
+            return [...heapArr].sort((a, b) => (a.maxR !== b.maxR ? a.maxR - b.maxR : a.id - b.id));
+        }
+
+        // Generate all simulation steps
+        function generateSteps(inputList) {
+            computeAxisBounds(inputList);
+            const timeline = [];
+            const n = inputList.length;
+
+            const unsortedWithId = inputList.map((item, idx) => ({
+                origIdx: idx,
+                l: item.l,
+                r: item.r
+            }));
+
+            // Step 0: Initial unsorted state
+            timeline.push({
+                phase: 'init',
+                phaseBadge: '1. 读取输入',
+                intervals: unsortedWithId,
+                isSorted: false,
+                activeIdx: -1,
+                groups: [],
+                heap: [],
+                codeLine: 1,
+                heapOp: '未初始化',
+                scanLineX: null,
+                decisionHtml: `<span class="text-slate-400">准备就绪：共读入 <strong class="text-white">${n}</strong> 个闭区间，下一步将按左端点 <code class="text-blue-400 code-font">l</code> 从小到大排序。</span>`,
+                desc: `读入 ${n} 个区间：${unsortedWithId.map(x => `[${x.l},${x.r}]`).join(', ')}。贪心算法的第一步是将所有区间按左端点 l 升序排序。`
+            });
+
+            // Sort by left endpoint ascending
+            const sortedList = [...unsortedWithId].sort((a, b) => (a.l !== b.l ? a.l - b.l : a.r - b.r));
+
+            // Step 1: Sorted state
+            timeline.push({
+                phase: 'sorted',
+                phaseBadge: '2. 左端点排序完成',
+                intervals: sortedList,
+                isSorted: true,
+                activeIdx: -1,
+                groups: [],
+                heap: [],
+                codeLine: 2,
+                heapOp: 'heap.empty()',
+                scanLineX: null,
+                decisionHtml: `<span class="text-blue-300">✅ 排序完成：区间已按左端点 <code class="code-font font-bold">l</code> 升序排列，小根堆 <code class="code-font font-bold">heap</code> 初始化为空。</span>`,
+                desc: `执行 sort(range, range + n) 后，区间按左端点从小到大排列为：${sortedList.map(x => `[${x.l},${x.r}]`).join(' → ')}。接下来初始化小根堆 heap（存储每个分组当前的最右端点），开始遍历！`
+            });
+
+            let groups = [];
+            let heap = []; // Array of { groupId, maxR }
+
+            for (let i = 0; i < n; i++) {
+                const cur = sortedList[i];
+                const sortedHeapBefore = sortHeap(heap);
+
+                // Sub-step A: Inspect current interval range[i] & compare with heap.top()
+                if (sortedHeapBefore.length === 0) {
+                    timeline.push({
+                        phase: 'inspect_new',
+                        phaseBadge: `扫描 i=${i} · 堆为空`,
+                        intervals: sortedList,
+                        isSorted: true,
+                        activeIdx: i,
+                        groups: cloneGroups(groups),
+                        heap: sortedHeapBefore,
+                        codeLine: 5,
+                        heapOp: 'heap.empty() == true',
+                        scanLineX: cur.l,
+                        decisionHtml: `<span class="text-rose-300 font-semibold">🔍 扫描区间 [${cur.l}, ${cur.r}]：当前 <code class="code-font">heap.empty()</code> 为真，必须创建第 1 个分组！</span>`,
+                        desc: `指针 i 移动到第 ${i} 个区间 [${cur.l}, ${cur.r}]。此时小根堆为空（还没有任何分组），满足 if (heap.empty() || heap.top() >= r.l)，准备创建【第 1 组】并把右端点 ${cur.r} 压入堆中。`
+                    });
+
+                    // Execute push new group
+                    const newGroupId = 1;
+                    groups.push({ id: newGroupId, maxR: cur.r, items: [{ ...cur, sortedIdx: i }] });
+                    heap.push({ groupId: newGroupId, maxR: cur.r });
+
+                    timeline.push({
+                        phase: 'action_new',
+                        phaseBadge: `创建第 ${newGroupId} 组`,
+                        intervals: sortedList,
+                        isSorted: true,
+                        activeIdx: i,
+                        groups: cloneGroups(groups),
+                        heap: sortHeap(heap),
+                        highlightGroupId: newGroupId,
+                        actionType: 'new',
+                        codeLine: 6,
+                        heapOp: `heap.push(${cur.r})`,
+                        scanLineX: cur.l,
+                        decisionHtml: `<span class="text-rose-300 font-semibold">➕ 新建【第 ${newGroupId} 组】放入 [${cur.l}, ${cur.r}]，右端点 <code class="code-font">${cur.r}</code> 入堆。</span>`,
+                        desc: `执行 heap.push(${cur.r})：【第 ${newGroupId} 组】建立，包含区间 [${cur.l}, ${cur.r}]，该组当前最右端点 max_r = ${cur.r} 已存入小根堆。`
+                    });
+                } else {
+                    const topNode = sortedHeapBefore[0];
+                    const hasConflict = (topNode.maxR >= cur.l);
+
+                    if (hasConflict) {
+                        // Conflict: heap.top() >= r.l -> must open a new group
+                        timeline.push({
+                            phase: 'inspect_new',
+                            phaseBadge: `扫描 i=${i} · 存在交集`,
+                            intervals: sortedList,
+                            isSorted: true,
+                            activeIdx: i,
+                            groups: cloneGroups(groups),
+                            heap: sortedHeapBefore,
+                            highlightGroupId: topNode.groupId,
+                            actionType: 'conflict_check',
+                            codeLine: 5,
+                            heapOp: `top(${topNode.maxR}) >= l(${cur.l})`,
+                            scanLineX: cur.l,
+                            decisionHtml: `<span class="text-rose-300 font-semibold">⚠️ 判定冲突：堆顶最小右端点 <code class="code-font">heap.top() = ${topNode.maxR}</code> &ge; 当前左端点 <code class="code-font">r.l = ${cur.l}</code>（有交集，无法放入任何现有组！）</span>`,
+                            desc: `指针 i 扫描 [${cur.l}, ${cur.r}]。查看小根堆堆顶：所有现有组中结束最早的是【第 ${topNode.groupId} 组】(max_r = ${topNode.maxR})。因为 ${topNode.maxR} >= ${cur.l}，连结束最早的组都与 [${cur.l}, ${cur.r}] 重叠，其他组更不可能放下！因此必须新开一组。`
+                        });
+
+                        const newGroupId = groups.length + 1;
+                        groups.push({ id: newGroupId, maxR: cur.r, items: [{ ...cur, sortedIdx: i }] });
+                        heap.push({ groupId: newGroupId, maxR: cur.r });
+
+                        timeline.push({
+                            phase: 'action_new',
+                            phaseBadge: `新开第 ${newGroupId} 组`,
+                            intervals: sortedList,
+                            isSorted: true,
+                            activeIdx: i,
+                            groups: cloneGroups(groups),
+                            heap: sortHeap(heap),
+                            highlightGroupId: newGroupId,
+                            actionType: 'new',
+                            codeLine: 6,
+                            heapOp: `heap.push(${cur.r})`,
+                            scanLineX: cur.l,
+                            decisionHtml: `<span class="text-rose-300 font-semibold">➕ 开辟【第 ${newGroupId} 组】容纳 [${cur.l}, ${cur.r}]，右端点 <code class="code-font">${cur.r}</code> 压入小根堆。</span>`,
+                            desc: `执行 heap.push(${cur.r})：新开【第 ${newGroupId} 组】放入 [${cur.l}, ${cur.r}]。现在共有 ${groups.length} 个组，堆顶更新为 ${sortHeap(heap)[0].maxR}（第 ${sortHeap(heap)[0].groupId} 组）。`
+                        });
+                    } else {
+                        // No conflict: heap.top() < r.l -> reuse top group!
+                        const extraHint = (cur.l >= 3 && cur.r <= 8 && topNode.groupId === 2 && sortedHeapBefore.some(h => h.maxR === 9))
+                            ? `（注意：第 1 组被 [2, 9] 占据到 9，而第 2 组右端点 ${topNode.maxR} < ${cur.l} 位于堆顶，所以连续复用第 2 组！）`
+                            : ``;
+
+                        timeline.push({
+                            phase: 'inspect_merge',
+                            phaseBadge: `扫描 i=${i} · 无交集可复用`,
+                            intervals: sortedList,
+                            isSorted: true,
+                            activeIdx: i,
+                            groups: cloneGroups(groups),
+                            heap: sortedHeapBefore,
+                            highlightGroupId: topNode.groupId,
+                            actionType: 'merge_check',
+                            codeLine: 7,
+                            heapOp: `top(${topNode.maxR}) < l(${cur.l})`,
+                            scanLineX: cur.l,
+                            decisionHtml: `<span class="text-emerald-300 font-semibold">✅ 判定无交集：堆顶 <code class="code-font">heap.top() = ${topNode.maxR}</code> &lt; 当前左端点 <code class="code-font">r.l = ${cur.l}</code>，可直接追加到【第 ${topNode.groupId} 组】！</span>`,
+                            desc: `指针 i 扫描 [${cur.l}, ${cur.r}]。堆顶【第 ${topNode.groupId} 组】的最右端点为 ${topNode.maxR}，满足 ${topNode.maxR} < ${cur.l}，说明 [${cur.l}, ${cur.r}] 与【第 ${topNode.groupId} 组】完全没有交集！${extraHint}`
+                        });
+
+                        // Pop top and push updated right endpoint
+                        const targetGroup = groups.find(g => g.id === topNode.groupId);
+                        targetGroup.maxR = cur.r;
+                        targetGroup.items.push({ ...cur, sortedIdx: i });
+
+                        heap = heap.filter(h => h.groupId !== topNode.groupId);
+                        heap.push({ groupId: topNode.groupId, maxR: cur.r });
+
+                        timeline.push({
+                            phase: 'action_merge',
+                            phaseBadge: `并入第 ${topNode.groupId} 组`,
+                            intervals: sortedList,
+                            isSorted: true,
+                            activeIdx: i,
+                            groups: cloneGroups(groups),
+                            heap: sortHeap(heap),
+                            highlightGroupId: topNode.groupId,
+                            actionType: 'merge',
+                            codeLine: 9,
+                            heapOp: `pop(${topNode.maxR}) → push(${cur.r})`,
+                            scanLineX: cur.l,
+                            decisionHtml: `<span class="text-emerald-300 font-semibold">🔗 [${cur.l}, ${cur.r}] 并入【第 ${topNode.groupId} 组】！堆中弹出 ${topNode.maxR} 并压入新右端点 <code class="code-font">${cur.r}</code>。</span>`,
+                            desc: `执行 heap.pop() 弹出旧右端点 ${topNode.maxR}，再执行 heap.push(${cur.r}) 将【第 ${topNode.groupId} 组】的最右端点更新为 ${cur.r}。总组数保持 ${groups.length} 组不变！`
+                        });
+                    }
+                }
+            }
+
+            // Final Summary Step
+            timeline.push({
+                phase: 'done',
+                phaseBadge: '🎉 算法执行完毕',
+                intervals: sortedList,
+                isSorted: true,
+                activeIdx: n - 1,
+                groups: cloneGroups(groups),
+                heap: sortHeap(heap),
+                codeLine: 12,
+                heapOp: `heap.size() = ${groups.length}`,
+                scanLineX: null,
+                decisionHtml: `<span class="text-purple-300 font-bold">🎉 全部扫描完成！最小分组数为 <code class="code-font text-base text-white bg-purple-600 px-2 py-0.5 rounded">${groups.length}</code> 组（即最终堆的大小 heap.size()）。</span>`,
+                desc: `所有 ${n} 个区间均已妥善分配！最终小根堆中共有 ${groups.length} 个元素，输出最小组数 ${groups.length}。通过小根堆始终维护每组最小右端点，我们以 O(N log N) 的时间复杂度求得了全局最优解。`
+            });
+
+            return timeline;
+        }
+
+        // Render Area A: Interval Cards & Movable Scan Pointer i
+        function renderIntervalCards() {
+            const step = steps[currentStepIndex];
+            const row = document.getElementById('interval-cards-row');
+            row.innerHTML = '';
+
+            document.getElementById('total-n-badge').innerText = `N = ${step.intervals.length}`;
+            const sortBadge = document.getElementById('sort-status-badge');
+            if (step.isSorted) {
+                sortBadge.className = "text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-medium";
+                sortBadge.innerText = "已按左端点 l 升序排列";
+            } else {
+                sortBadge.className = "text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-medium";
+                sortBadge.innerText = "原始输入顺序 (未排序)";
+            }
+
+            // Map each sortedIdx to its assigned groupId so far
+            const assignedMap = {};
+            step.groups.forEach(g => {
+                g.items.forEach(it => {
+                    assignedMap[it.sortedIdx] = g.id;
+                });
+            });
+
+            step.intervals.forEach((item, idx) => {
+                const isActive = (step.activeIdx === idx && step.phase !== 'done');
+                const assignedGroupId = assignedMap[idx];
+
+                let cardStyle = "bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-600";
+                let groupTag = `<span class="text-[10px] text-slate-500">待分配</span>`;
+
+                if (assignedGroupId !== undefined) {
+                    const color = GROUP_COLORS[(assignedGroupId - 1) % GROUP_COLORS.length];
+                    groupTag = `<span class="text-[10px] px-1.5 py-0.5 rounded ${color.badge} text-white font-bold">第 ${assignedGroupId} 组</span>`;
+                }
+
+                if (isActive) {
+                    cardStyle = "bg-blue-600/25 border-blue-400 text-white glow-blue scale-105";
+                } else if (assignedGroupId !== undefined) {
+                    cardStyle = "bg-slate-900/90 border-slate-700 text-slate-200";
+                }
+
+                const card = document.createElement('div');
+                card.onclick = () => jumpToInterval(idx);
+                card.title = `点击跳转到第 ${idx} 个区间 [${item.l}, ${item.r}]`;
+                card.className = `w-28 shrink-0 rounded-xl border-2 p-2.5 flex flex-col items-center justify-between cursor-pointer transition-all duration-300 select-none ${cardStyle}`;
+                card.innerHTML = `
+                    <div class="w-full flex items-center justify-between text-[10px] text-slate-400 code-font mb-1">
+                        <span>[${idx}]</span>
+                        ${groupTag}
+                    </div>
+                    <div class="text-sm font-extrabold code-font tracking-tight">
+                        [${item.l}, ${item.r}]
+                    </div>
+                `;
+                row.appendChild(card);
+            });
+
+            // Move Pointer i smoothly
+            // Card width w-28 = 112px + space-x-3 = 12px -> stride = 124px
+            const ptr = document.getElementById('scan-pointer');
+            const ptrText = document.getElementById('pointer-i-text');
+            if (step.activeIdx >= 0 && step.activeIdx < step.intervals.length) {
+                ptrText.innerText = step.activeIdx;
+                ptr.style.transform = `translateX(${step.activeIdx * 124}px)`;
+                ptr.style.opacity = '1';
+            } else {
+                ptrText.innerText = '0';
+                ptr.style.transform = `translateX(0px)`;
+                ptr.style.opacity = '0.25';
+            }
+        }
+
+        // Render Area B: Number Line Swimlanes
+        function renderSwimlanes() {
+            const step = steps[currentStepIndex];
+            const canvas = document.getElementById('swimlanes-canvas');
+            canvas.innerHTML = '';
+
+            document.getElementById('group-count-pill').innerText = `当前组数 (heap.size): ${step.groups.length}`;
+            document.getElementById('decision-banner').innerHTML = step.decisionHtml;
+
+            const span = axisMax - axisMin;
+            const toPct = (val) => ((val - axisMin) / span) * 100;
+
+            // 1. Calibrated Number Line Axis Header
+            const axisRow = document.createElement('div');
+            axisRow.className = "flex items-center mb-2";
+            axisRow.innerHTML = `<div class="w-24 shrink-0 text-[11px] font-bold text-slate-400 pr-2 text-right">数轴刻度</div>`;
+
+            const axisTrack = document.createElement('div');
+            axisTrack.className = "flex-1 h-7 relative border-b border-slate-700";
+
+            for (let x = axisMin; x <= axisMax; x++) {
+                const leftPct = toPct(x);
+                const tick = document.createElement('div');
+                tick.style.left = `${leftPct}%`;
+                tick.className = "absolute bottom-0 -translate-x-1/2 flex flex-col items-center";
+                tick.innerHTML = `
+                    <span class="text-[10px] code-font ${x === 0 ? 'text-blue-400 font-bold' : 'text-slate-400'} mb-0.5">${x}</span>
+                    <span class="w-px h-1.5 ${x === 0 ? 'bg-blue-400' : 'bg-slate-600'}"></span>
+                `;
+                axisTrack.appendChild(tick);
+            }
+
+            // Scanline label badge on top axis if active
+            if (step.scanLineX !== null) {
+                const scanPct = toPct(step.scanLineX);
+                const scanBadge = document.createElement('div');
+                scanBadge.style.left = `${scanPct}%`;
+                scanBadge.className = "absolute -top-3 -translate-x-1/2 bg-blue-600 text-white text-[9px] font-bold code-font px-1.5 py-0.2 rounded shadow z-20 whitespace-nowrap";
+                scanBadge.innerText = `r.l=${step.scanLineX}`;
+                axisTrack.appendChild(scanBadge);
+            }
+
+            axisRow.appendChild(axisTrack);
+            canvas.appendChild(axisRow);
+
+            // 2. Swimlanes Container (with vertical grid lines & scanline)
+            const lanesBox = document.createElement('div');
+            lanesBox.className = "flex flex-col space-y-3 relative";
+
+            if (step.groups.length === 0) {
+                const emptyMsg = document.createElement('div');
+                emptyMsg.className = "py-10 text-center text-xs text-slate-500 border border-dashed border-slate-800 rounded-xl";
+                emptyMsg.innerText = "暂无分组泳道，请点击【单步执行】或【自动播放】开始分配区间...";
+                lanesBox.appendChild(emptyMsg);
+            } else {
+                step.groups.forEach(group => {
+                    const color = GROUP_COLORS[(group.id - 1) % GROUP_COLORS.length];
+                    const isHighlighted = (step.highlightGroupId === group.id);
+
+                    let rowHighlight = "bg-slate-900/60 border-slate-800/90";
+                    if (isHighlighted) {
+                        if (step.actionType === 'conflict_check' || step.actionType === 'new') {
+                            rowHighlight = "bg-rose-950/30 border-rose-500/60 shadow-md";
+                        } else if (step.actionType === 'merge_check' || step.actionType === 'merge') {
+                            rowHighlight = "bg-emerald-950/30 border-emerald-500/60 shadow-md";
+                        }
+                    }
+
+                    const laneRow = document.createElement('div');
+                    laneRow.className = `flex items-center p-2 rounded-xl border transition-all duration-300 ${rowHighlight}`;
+
+                    // Left Label: Group ID & max_r
+                    const labelCol = document.createElement('div');
+                    labelCol.className = "w-24 shrink-0 pr-2 flex flex-col items-end justify-center border-r border-slate-800 mr-2";
+                    labelCol.innerHTML = `
+                        <span class="text-xs font-bold text-slate-200 flex items-center gap-1">
+                            <span class="w-2 h-2 rounded-full ${color.badge}"></span>
+                            第 ${group.id} 组
+                        </span>
+                        <span class="text-[10px] code-font text-amber-400 font-semibold mt-0.5">max_r = ${group.maxR}</span>
+                    `;
+                    laneRow.appendChild(labelCol);
+
+                    // Track Area
+                    const track = document.createElement('div');
+                    track.className = "flex-1 h-11 relative bg-slate-950/80 rounded-lg border border-slate-800/60";
+
+                    // Background integer grid lines
+                    for (let x = axisMin; x <= axisMax; x++) {
+                        const gLine = document.createElement('div');
+                        gLine.style.left = `${toPct(x)}%`;
+                        gLine.className = `absolute top-0 bottom-0 w-px ${x === 0 ? 'bg-slate-700/80' : 'bg-slate-800/40'}`;
+                        track.appendChild(gLine);
+                    }
+
+                    // Vertical Dashed Scanline at x = r.l
+                    if (step.scanLineX !== null) {
+                        const sLine = document.createElement('div');
+                        sLine.style.left = `${toPct(step.scanLineX)}%`;
+                        sLine.className = "absolute -top-2 -bottom-2 w-0.5 border-l-2 border-dashed border-blue-400 z-20 pointer-events-none";
+                        track.appendChild(sLine);
+                    }
+
+                    // Render each interval bar inside this group
+                    group.items.forEach((it, idxInGroup) => {
+                        const leftPct = toPct(it.l);
+                        const widthPct = Math.max(toPct(it.r) - leftPct, 2.2); // Minimum visible width for point intervals [x, x]
+                        const isLatestInGroup = (idxInGroup === group.items.length - 1);
+                        const isJustAdded = isLatestInGroup && isHighlighted && (step.actionType === 'new' || step.actionType === 'merge');
+
+                        const bar = document.createElement('div');
+                        bar.style.left = `${leftPct}%`;
+                        bar.style.width = `${widthPct}%`;
+                        bar.className = `absolute top-1.5 bottom-1.5 rounded-md border-2 ${color.bg} ${color.border} ${color.text} flex items-center justify-center text-[11px] font-bold code-font shadow-sm z-10 ${isJustAdded ? 'animate-pop-in ring-2 ring-white/60' : ''}`;
+                        bar.innerHTML = `<span class="truncate px-1">[${it.l},${it.r}]</span>`;
+                        track.appendChild(bar);
+                    });
+
+                    // Rightmost Endpoint Flag Marker (max_r)
+                    const maxRPct = toPct(group.maxR);
+                    const flag = document.createElement('div');
+                    flag.style.left = `${maxRPct}%`;
+                    flag.className = "absolute -bottom-2.5 -translate-x-1/2 z-20 flex flex-col items-center pointer-events-none";
+                    flag.innerHTML = `
+                        <span class="bg-amber-500 text-slate-950 text-[9px] font-extrabold code-font px-1 rounded shadow">
+                            ${group.maxR}
+                        </span>
+                    `;
+                    track.appendChild(flag);
+
+                    laneRow.appendChild(track);
+                    lanesBox.appendChild(laneRow);
+                });
+            }
+
+            canvas.appendChild(lanesBox);
+        }
+
+        // Render Area C1: Min-Heap Binary Tree & Array Strip
+        function renderMinHeap() {
+            const step = steps[currentStepIndex];
+            const treeContainer = document.getElementById('heap-tree-container');
+            const stripContainer = document.getElementById('heap-array-strip');
+            document.getElementById('heap-op-badge').innerText = step.heapOp;
+
+            // Update sorted array strip
+            stripContainer.innerHTML = '';
+            if (step.heap.length === 0) {
+                stripContainer.innerHTML = `<span class="text-slate-500">空 []</span>`;
+            } else {
+                step.heap.forEach((node, idx) => {
+                    const isTop = (idx === 0);
+                    const pill = document.createElement('span');
+                    pill.className = isTop
+                        ? "px-2 py-0.5 rounded bg-amber-500/25 border border-amber-400 text-amber-300 font-bold"
+                        : "px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300";
+                    pill.innerText = `${node.maxR} (组${node.groupId})`;
+                    stripContainer.appendChild(pill);
+                });
+            }
+
+            // Render Binary Tree SVG + HTML nodes
+            treeContainer.innerHTML = '';
+            const count = step.heap.length;
+            if (count === 0) {
+                treeContainer.innerHTML = `
+                    <div class="text-center text-xs text-slate-500 py-6">
+                        <div class="text-2xl mb-1 opacity-50">📭</div>
+                        小根堆当前为空 (<code class="code-font">heap.size() == 0</code>)
+                    </div>
+                `;
+                return;
+            }
+
+            // Compute coordinates for up to 7 nodes in a binary heap
+            const width = 340;
+            const height = count <= 1 ? 85 : (count <= 3 ? 135 : 175);
+            const coords = [
+                { x: 170, y: 34 },  // 0 (root / top)
+                { x: 95,  y: 96 },  // 1
+                { x: 245, y: 96 },  // 2
+                { x: 55,  y: 152 }, // 3
+                { x: 135, y: 152 }, // 4
+                { x: 205, y: 152 }, // 5
+                { x: 285, y: 152 }  // 6
+            ];
+
+            const wrapper = document.createElement('div');
+            wrapper.style.width = `${width}px`;
+            wrapper.style.height = `${height}px`;
+            wrapper.className = "relative mx-auto select-none";
+
+            // SVG edges
+            let svgEdges = `<svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 ${width} ${height}">`;
+            for (let i = 1; i < Math.min(count, 7); i++) {
+                const parentIdx = Math.floor((i - 1) / 2);
+                const p = coords[parentIdx];
+                const c = coords[i];
+                svgEdges += `<line x1="${p.x}" y1="${p.y}" x2="${c.x}" y2="${c.y}" stroke="#475569" stroke-width="2" />`;
+            }
+            svgEdges += `</svg>`;
+            wrapper.innerHTML = svgEdges;
+
+            // Render nodes
+            for (let i = 0; i < Math.min(count, 7); i++) {
+                const item = step.heap[i];
+                const pos = coords[i];
+                const isTop = (i === 0);
+                const color = GROUP_COLORS[(item.groupId - 1) % GROUP_COLORS.length];
+
+                const nodeEl = document.createElement('div');
+                nodeEl.style.left = `${pos.x}px`;
+                nodeEl.style.top = `${pos.y}px`;
+                nodeEl.className = `absolute -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full border-2 flex flex-col items-center justify-center transition-all duration-300 shadow-lg ${
+                    isTop
+                        ? 'bg-amber-500 border-amber-200 text-slate-950 font-extrabold glow-amber scale-110 z-10'
+                        : 'bg-slate-800 border-slate-600 text-slate-100 font-bold'
+                }`;
+
+                nodeEl.innerHTML = `
+                    ${isTop ? '<span class="absolute -top-3.5 bg-amber-300 text-slate-950 text-[8px] font-extrabold px-1.5 rounded-full shadow">TOP</span>' : ''}
+                    <span class="text-sm code-font leading-none">${item.maxR}</span>
+                    <span class="text-[9px] leading-none mt-0.5 ${isTop ? 'text-slate-900 font-bold' : 'text-slate-400'}">组${item.groupId}</span>
+                `;
+                wrapper.appendChild(nodeEl);
+            }
+
+            treeContainer.appendChild(wrapper);
+        }
+
+        // Render Explanation, C++ Code Highlight & Scrubber
+        function renderCodeAndControls() {
+            const step = steps[currentStepIndex];
+
+            document.getElementById('step-phase-badge').innerText = step.phaseBadge;
+            document.getElementById('explanation-text').innerText = step.desc;
+
+            // Highlight active C++ code line
+            for (let l = 1; l <= 12; l++) {
+                const lineEl = document.getElementById(`code-line-${l}`);
+                if (lineEl) {
+                    lineEl.classList.remove('bg-blue-600/25', 'border-l-4', 'border-blue-400', 'text-white');
+                }
+            }
+            const activeEl = document.getElementById(`code-line-${step.codeLine}`);
+            if (activeEl) {
+                activeEl.classList.add('bg-blue-600/25', 'border-l-4', 'border-blue-400', 'text-white');
+            }
+
+            // Update Scrubber
+            const slider = document.getElementById('step-slider');
+            slider.max = steps.length - 1;
+            slider.value = currentStepIndex;
+            document.getElementById('step-counter').innerText = `步骤 ${currentStepIndex} / ${steps.length - 1}`;
+        }
+
+        function updateUI() {
+            renderIntervalCards();
+            renderSwimlanes();
+            renderMinHeap();
+            renderCodeAndControls();
+        }
+
+        // Jump to interval index when clicking card in Area A
+        function jumpToInterval(sortedIdx) {
+            pauseAnimation();
+            const found = steps.findIndex(s => s.activeIdx === sortedIdx && (s.phase === 'action_new' || s.phase === 'action_merge'));
+            if (found !== -1) {
+                currentStepIndex = found;
+                updateUI();
+            }
+        }
+
+        function onSliderChange(val) {
+            pauseAnimation();
+            currentStepIndex = parseInt(val, 10);
+            updateUI();
+        }
+
+        function nextStep() {
+            if (currentStepIndex < steps.length - 1) {
+                currentStepIndex++;
+                updateUI();
+            } else {
+                pauseAnimation();
+            }
+        }
+
+        function prevStep() {
+            pauseAnimation();
+            if (currentStepIndex > 0) {
+                currentStepIndex--;
+                updateUI();
+            }
+        }
+
+        function resetAnimation() {
+            pauseAnimation();
+            currentStepIndex = 0;
+            updateUI();
+        }
+
+        function togglePlay() {
+            if (isPlaying) {
+                pauseAnimation();
+            } else {
+                if (currentStepIndex >= steps.length - 1) {
+                    currentStepIndex = 0;
+                }
+                playAnimation();
+            }
+        }
+
+        function playAnimation() {
+            isPlaying = true;
+            document.getElementById('play-icon').innerText = '⏸️';
+            document.getElementById('play-text').innerText = '暂停播放';
+            playInterval = setInterval(() => {
+                if (currentStepIndex < steps.length - 1) {
+                    currentStepIndex++;
+                    updateUI();
+                } else {
+                    pauseAnimation();
+                }
+            }, playDelay);
+        }
+
+        function pauseAnimation() {
+            isPlaying = false;
+            clearInterval(playInterval);
+            document.getElementById('play-icon').innerText = '▶️';
+            document.getElementById('play-text').innerText = '自动播放';
+        }
+
+        function updateSpeed() {
+            const sel = document.getElementById('speed-select');
+            playDelay = parseInt(sel.value, 10);
+            if (isPlaying) {
+                clearInterval(playInterval);
+                playAnimation();
+            }
+        }
+
+        // Preset switching
+        function loadPreset(key) {
+            pauseAnimation();
+            rawIntervals = PRESETS[key].map(x => ({ ...x }));
+
+            // Update preset button active states
+            ['classic', 'sample', 'touch'].forEach(k => {
+                const btn = document.getElementById(`btn-preset-${k}`);
+                if (btn) {
+                    if (k === key) {
+                        btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold border transition bg-blue-600/20 border-blue-500 text-blue-300 hover:bg-blue-600/30";
+                    } else {
+                        btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold border transition bg-slate-800 border-slate-700 text-slate-200 hover:border-blue-500 hover:text-white";
+                    }
+                }
+            });
+
+            // Sync textarea
+            document.getElementById('custom-textarea').value = rawIntervals.map(x => `${x.l} ${x.r}`).join('\n');
+
+            steps = generateSteps(rawIntervals);
+            currentStepIndex = 0;
+            updateUI();
+        }
+
+        // Custom Input Modal
+        function toggleCustomModal(show) {
+            const modal = document.getElementById('custom-modal');
+            const err = document.getElementById('custom-error');
+            err.classList.add('hidden');
+            if (show) {
+                pauseAnimation();
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function applyCustomInput() {
+            const text = document.getElementById('custom-textarea').value.trim();
+            const err = document.getElementById('custom-error');
+            const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+
+            if (lines.length === 0 || lines.length > 10) {
+                err.innerText = "请输入 1 到 10 行区间数据！";
+                err.classList.remove('hidden');
+                return;
+            }
+
+            const parsed = [];
+            for (let i = 0; i < lines.length; i++) {
+                const parts = lines[i].replace(/[\[\]]/g, '').split(/[\s,]+/).filter(Boolean);
+                if (parts.length !== 2 || isNaN(Number(parts[0])) || isNaN(Number(parts[1]))) {
+                    err.innerText = `第 ${i + 1} 行格式错误，请输入两个整数，例如：2 9`;
+                    err.classList.remove('hidden');
+                    return;
+                }
+                const l = parseInt(parts[0], 10);
+                const r = parseInt(parts[1], 10);
+                if (l > r) {
+                    err.innerText = `第 ${i + 1} 行左端点 (${l}) 不能大于右端点 (${r})！`;
+                    err.classList.remove('hidden');
+                    return;
+                }
+                parsed.push({ l, r });
+            }
+
+            rawIntervals = parsed;
+            ['classic', 'sample', 'touch'].forEach(k => {
+                const btn = document.getElementById(`btn-preset-${k}`);
+                if (btn) {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold border transition bg-slate-800 border-slate-700 text-slate-200 hover:border-blue-500 hover:text-white";
+                }
+            });
+
+            steps = generateSteps(rawIntervals);
+            currentStepIndex = 0;
+            toggleCustomModal(false);
+            updateUI();
+        }
+
+        window.onload = function() {
+            steps = generateSteps(rawIntervals);
+            updateUI();
+        };
+    </script>
+</body>
+</html>

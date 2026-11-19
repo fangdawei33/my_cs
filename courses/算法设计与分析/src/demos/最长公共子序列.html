@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最长公共子序列 (LCS) 带指针动态规划可视化</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .code-font { font-family: 'Fira Code', monospace; }
+        
+        /* Smooth pointer movement */
+        .pointer-track {
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+        }
+        
+        /* Glow effects */
+        .glow-blue { box-shadow: 0 0 18px rgba(59, 130, 246, 0.65); }
+        .glow-amber { box-shadow: 0 0 18px rgba(245, 158, 11, 0.65); }
+        .glow-emerald { box-shadow: 0 0 22px rgba(16, 185, 129, 0.75); }
+        .glow-purple { box-shadow: 0 0 18px rgba(168, 85, 247, 0.65); }
+
+        @keyframes pulse-match {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+        .match-bounce {
+            animation: pulse-match 0.5s ease-in-out;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-blue-500 selection:text-white">
+
+    <!-- Top Header & Custom Input Bar -->
+    <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 lg:px-8 py-3.5 sticky top-0 z-30 shadow-lg">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-br from-blue-500 to-purple-600 p-2 rounded-xl text-white font-extrabold text-lg shadow-md code-font">
+                    LCS
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold tracking-tight flex items-center gap-2">
+                        最长公共子序列 · 双指针动画演示
+                        <span class="text-xs px-2.5 py-0.5 bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-full font-medium">带可移动字符串指针</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">直观展示外层指针 <code class="text-blue-400 code-font">i</code> 与内层指针 <code class="text-amber-400 code-font">j</code> 在字符串上的扫描与状态转移过程</p>
+                </div>
+            </div>
+
+            <!-- Custom Input Form -->
+            <div class="flex flex-wrap items-center gap-2 bg-slate-950/80 p-1.5 rounded-xl border border-slate-800">
+                <div class="flex items-center space-x-1.5 px-2">
+                    <label class="text-xs text-blue-400 font-semibold code-font">A:</label>
+                    <input id="input-a" type="text" value="acbd" maxlength="8" 
+                        class="w-20 bg-slate-900 text-slate-100 text-xs code-font px-2 py-1 rounded border border-slate-700 focus:outline-none focus:border-blue-500 uppercase-none"
+                        placeholder="字符串A">
+                </div>
+                <div class="flex items-center space-x-1.5 px-2 border-l border-slate-800">
+                    <label class="text-xs text-amber-400 font-semibold code-font">B:</label>
+                    <input id="input-b" type="text" value="abedc" maxlength="8" 
+                        class="w-24 bg-slate-900 text-slate-100 text-xs code-font px-2 py-1 rounded border border-slate-700 focus:outline-none focus:border-amber-500"
+                        placeholder="字符串B">
+                </div>
+                <button onclick="applyCustomStrings()" class="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition shadow">
+                    应用并重置
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-6 flex flex-col gap-6">
+
+        <!-- SECTION 1: Prominent Movable String Pointers Area (The Core Requirement) -->
+        <section class="bg-slate-900 rounded-2xl p-5 border border-slate-800 shadow-xl">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-800/80">
+                <div class="flex items-center space-x-2">
+                    <span class="text-base">🎯</span>
+                    <h2 class="text-sm font-bold text-slate-200 uppercase tracking-wider">字符串双指针实时扫描区</h2>
+                    <span class="text-xs text-slate-400">(点击任意字符盒子可直接跳转到对应指针位置)</span>
+                </div>
+                <!-- Real-time Comparison Badge -->
+                <div id="comparison-badge" class="flex items-center space-x-2 px-3.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono transition-all">
+                    <span class="text-slate-400">当前比对: 等待开始...</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-11 gap-4 items-center">
+                
+                <!-- String A Card with Movable Pointer i (5 cols) -->
+                <div class="md:col-span-5 bg-slate-950/90 rounded-2xl p-4 border border-slate-800/90 flex flex-col items-center relative overflow-hidden">
+                    <div class="w-full flex items-center justify-between mb-2">
+                        <span class="text-xs font-semibold text-blue-400 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                            字符串 A (行 · 外层循环)
+                        </span>
+                        <span id="label-n" class="text-xs text-slate-400 code-font">N = 4</span>
+                    </div>
+
+                    <!-- Movable Pointer i Container -->
+                    <div class="relative py-2 flex flex-col items-center">
+                        <!-- Pointer i Track -->
+                        <div class="w-full h-11 relative mb-1">
+                            <div id="pointer-i" class="pointer-track absolute top-0 left-0 w-12 flex flex-col items-center opacity-40">
+                                <div class="bg-blue-600 text-white text-[11px] font-bold code-font px-2 py-0.5 rounded-md shadow-md border border-blue-400 whitespace-nowrap">
+                                    i = <span id="ptr-i-val">0</span>
+                                </div>
+                                <!-- Down Arrow SVG -->
+                                <svg class="w-4 h-4 text-blue-500 -mt-0.5 fill-current" viewBox="0 0 20 20">
+                                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- String A Character Boxes -->
+                        <div id="string-a-boxes" class="flex items-center space-x-2">
+                            <!-- Dynamically generated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center VS / Match Status Pillar (1 col) -->
+                <div class="md:col-span-1 flex flex-col items-center justify-center py-2">
+                    <div id="center-match-box" class="w-12 h-12 rounded-2xl bg-slate-800 border border-slate-700 flex flex-col items-center justify-center text-slate-400 font-bold code-font shadow-inner transition-all">
+                        <span id="center-match-symbol" class="text-lg">VS</span>
+                    </div>
+                    <span id="center-match-label" class="text-[11px] text-slate-400 mt-1.5 font-medium text-center">待比对</span>
+                </div>
+
+                <!-- String B Card with Movable Pointer j (5 cols) -->
+                <div class="md:col-span-5 bg-slate-950/90 rounded-2xl p-4 border border-slate-800/90 flex flex-col items-center relative overflow-hidden">
+                    <div class="w-full flex items-center justify-between mb-2">
+                        <span class="text-xs font-semibold text-amber-400 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                            字符串 B (列 · 内层循环)
+                        </span>
+                        <span id="label-m" class="text-xs text-slate-400 code-font">M = 5</span>
+                    </div>
+
+                    <!-- Movable Pointer j Container -->
+                    <div class="relative py-2 flex flex-col items-center">
+                        <!-- Pointer j Track -->
+                        <div class="w-full h-11 relative mb-1">
+                            <div id="pointer-j" class="pointer-track absolute top-0 left-0 w-12 flex flex-col items-center opacity-40">
+                                <div class="bg-amber-500 text-slate-950 text-[11px] font-extrabold code-font px-2 py-0.5 rounded-md shadow-md border border-amber-300 whitespace-nowrap">
+                                    j = <span id="ptr-j-val">0</span>
+                                </div>
+                                <!-- Down Arrow SVG -->
+                                <svg class="w-4 h-4 text-amber-400 -mt-0.5 fill-current" viewBox="0 0 20 20">
+                                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- String B Character Boxes -->
+                        <div id="string-b-boxes" class="flex items-center space-x-2">
+                            <!-- Dynamically generated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 2: Main Content Split (Left: Code & Formula | Right: 2D DP Matrix & Controls) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+
+            <!-- Left Column: Formula Breakdown & C++ Code (5 cols) -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                
+                <!-- Live State Transition Formula Card -->
+                <div class="bg-slate-900 rounded-2xl p-5 border border-slate-800 shadow-xl">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <span>📐</span> 当前状态转移方程实时演算
+                        </h3>
+                        <span id="step-phase-badge" class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-medium">初始化</span>
+                    </div>
+
+                    <div class="bg-slate-950 rounded-xl p-4 border border-slate-800/90 space-y-3 code-font text-xs">
+                        <!-- Step 1 formula: max(up, left) -->
+                        <div id="formula-box-1" class="p-2.5 rounded-lg border border-slate-800/80 bg-slate-900/50 transition-all">
+                            <div class="text-slate-400 text-[11px] mb-1 font-sans">① 基础继承（取上方或左方的最大值）：</div>
+                            <div class="flex items-center justify-between">
+                                <span>f[i][j] = max(<span class="text-sky-400">f[i-1][j]</span>, <span class="text-indigo-400">f[i][j-1]</span>)</span>
+                                <span id="formula-val-1" class="font-bold text-slate-200">-</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 formula: if a[i] == b[j] -->
+                        <div id="formula-box-2" class="p-2.5 rounded-lg border border-slate-800/80 bg-slate-900/50 transition-all">
+                            <div class="text-slate-400 text-[11px] mb-1 font-sans">② 字符相等奖励（取左上方对角线 + 1）：</div>
+                            <div class="flex items-center justify-between">
+                                <span>if (a[i] == b[j]) f[i][j] = <span class="text-emerald-400">f[i-1][j-1] + 1</span></span>
+                                <span id="formula-val-2" class="font-bold text-slate-200">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Natural Language Explanation -->
+                    <div class="mt-4 bg-blue-950/20 border border-blue-500/20 rounded-xl p-3.5">
+                        <div class="flex items-start space-x-2">
+                            <span class="text-blue-400 text-sm mt-0.5">💡</span>
+                            <p id="explanation-text" class="text-xs text-slate-300 leading-relaxed">
+                                点击下方【下一步】或【自动播放】开始演示。指针 i 和 j 将在上方字符串上移动。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- C++ Source Code Viewer -->
+                <div class="bg-slate-900 rounded-2xl p-5 border border-slate-800 shadow-xl flex-1 flex flex-col">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <span>💻</span> C++ 代码同步跟踪
+                        </h3>
+                        <span class="text-[11px] text-slate-500 code-font">O(N × M)</span>
+                    </div>
+                    <div class="code-font text-xs bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1 flex-1 overflow-x-auto text-slate-300">
+                        <div id="code-line-1" class="py-1 px-2.5 rounded">int n = 4, m = 5;</div>
+                        <div id="code-line-2" class="py-1 px-2.5 rounded">cin >> a + 1 >> b + 1;</div>
+                        <div id="code-line-3" class="py-1 px-2.5 rounded text-blue-400 font-semibold">for (int i = 1; i <= n; ++ i) {</div>
+                        <div id="code-line-4" class="py-1 px-2.5 rounded pl-6 text-amber-400 font-semibold">  for (int j = 1; j <= m; ++ j) {</div>
+                        <div id="code-line-5" class="py-1 px-2.5 rounded pl-10">    f[i][j] = max(f[i - 1][j], f[i][j - 1]);</div>
+                        <div id="code-line-6" class="py-1 px-2.5 rounded pl-10 text-emerald-400">    if (a[i] == b[j])</div>
+                        <div id="code-line-7" class="py-1 px-2.5 rounded pl-14 text-emerald-300 font-bold">      f[i][j] = f[i - 1][j - 1] + 1;</div>
+                        <div id="code-line-8" class="py-1 px-2.5 rounded pl-6">  }</div>
+                        <div id="code-line-9" class="py-1 px-2.5 rounded">}</div>
+                        <div id="code-line-10" class="py-1 px-2.5 rounded text-purple-400 font-semibold">cout << f[n][m];</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: 2D DP Table with Row/Col Pointers & Playback Controls (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+
+                <!-- 2D DP Matrix Card -->
+                <div class="bg-slate-900 rounded-2xl p-5 border border-slate-800 shadow-xl flex-1 flex flex-col justify-between overflow-x-auto">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                        <div>
+                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <span>📊</span> 二维状态矩阵 f[i][j]
+                            </h3>
+                            <p class="text-[11px] text-slate-500 mt-0.5">f[i][j] 表示前缀 A[1..i] 与 B[1..j] 的最长公共子序列长度（点击格子可跳转）</p>
+                        </div>
+                        <!-- Color Legend -->
+                        <div class="flex flex-wrap items-center gap-2 text-[11px]">
+                            <span class="flex items-center gap-1 px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                                <span class="w-2 h-2 rounded-full bg-purple-500"></span>当前格 f[i][j]
+                            </span>
+                            <span class="flex items-center gap-1 px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                                <span class="w-2 h-2 rounded-full bg-sky-400"></span>上/左候选
+                            </span>
+                            <span class="flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>左上匹配 f[i-1][j-1]
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Matrix Container Centered -->
+                    <div class="my-auto py-2 flex items-center justify-center overflow-x-auto">
+                        <div id="dp-matrix-container" class="inline-flex flex-col space-y-1.5 code-font select-none">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Current LCS Subsequence Result Footer -->
+                    <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
+                        <span class="text-slate-400">当前已知最优公共子序列示例：</span>
+                        <div id="lcs-string-preview" class="code-font font-bold text-emerald-400 bg-emerald-950/40 px-3 py-1 rounded-lg border border-emerald-500/30">
+                            "" (长度 0)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Playback & Scrubber Controls Card -->
+                <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800 shadow-xl space-y-3">
+                    <!-- Progress Scrubber -->
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xs text-slate-400 code-font w-20" id="step-counter">步骤 0 / 0</span>
+                        <input id="step-slider" type="range" min="0" max="10" value="0" oninput="onSliderChange(this.value)"
+                            class="flex-1 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-xs text-slate-400">速度:</span>
+                            <select id="speed-select" onchange="updateSpeed()" class="bg-slate-800 text-slate-200 text-xs rounded-lg px-2 py-1 border border-slate-700 focus:outline-none">
+                                <option value="1600">0.5x 慢速</option>
+                                <option value="950" selected>1.0x 标准</option>
+                                <option value="500">2.0x 快速</option>
+                                <option value="220">4.0x 极速</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Control Buttons -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+                        <div class="flex items-center space-x-2">
+                            <button onclick="resetAnimation()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-xl transition border border-slate-700 flex items-center space-x-1">
+                                <span>⏮️ 重置</span>
+                            </button>
+                            <button onclick="prevStep()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-xl transition border border-slate-700 flex items-center space-x-1">
+                                <span>◀️ 上一步</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <button id="btn-play" onclick="togglePlay()" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold rounded-xl transition shadow-lg flex items-center space-x-1.5">
+                                <span id="play-icon">▶️</span>
+                                <span id="play-text">自动播放</span>
+                            </button>
+                            <button onclick="nextStep()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition shadow-lg flex items-center space-x-1">
+                                <span>下一步 ▶️</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Script Logic -->
+    <script>
+        let strA = "acbd";
+        let strB = "abedc";
+        let n = 4;
+        let m = 5;
+        let A = ['', 'a', 'c', 'b', 'd'];
+        let B = ['', 'a', 'b', 'e', 'd', 'c'];
+
+        let steps = [];
+        let currentStepIndex = 0;
+        let isPlaying = false;
+        let playInterval = null;
+        let playDelay = 950;
+
+        // Reconstruct one valid LCS string up to (row, col) for preview
+        function reconstructLCS(fTable, r, c) {
+            let i = r, j = c;
+            let res = [];
+            while (i > 0 && j > 0) {
+                if (A[i] === B[j] && fTable[i][j] === fTable[i - 1][j - 1] + 1) {
+                    res.push(A[i]);
+                    i--;
+                    j--;
+                } else if (fTable[i - 1][j] >= fTable[i][j - 1]) {
+                    i--;
+                } else {
+                    j--;
+                }
+            }
+            return res.reverse().join('');
+        }
+
+        function generateSteps() {
+            n = strA.length;
+            m = strB.length;
+            A = [''].concat(strA.split(''));
+            B = [''].concat(strB.split(''));
+
+            let f = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
+            let timeline = [];
+
+            // Step 0: Initial state
+            timeline.push({
+                i: 0,
+                j: 0,
+                fState: f.map(row => [...row]),
+                codeLine: 2,
+                subPhase: 'init',
+                phaseBadge: "初始化完成",
+                f1Text: "-",
+                f2Text: "-",
+                lcsSample: "",
+                desc: `初始化完成：字符串 A = "${strA}" (长度 ${n})，字符串 B = "${strB}" (长度 ${m})。DP 数组边界第 0 行和第 0 列全部置为 0。准备启动双重循环移动指针 i 和 j。`
+            });
+
+            for (let i = 1; i <= n; i++) {
+                for (let j = 1; j <= m; j++) {
+                    let valUp = f[i - 1][j];
+                    let valLeft = f[i][j - 1];
+                    let maxVal = Math.max(valUp, valLeft);
+
+                    // Sub-step 1: Move pointers (i, j) & take max(f[i-1][j], f[i][j-1])
+                    f[i][j] = maxVal;
+                    timeline.push({
+                        i: i,
+                        j: j,
+                        fState: f.map(row => [...row]),
+                        codeLine: 5,
+                        subPhase: 'max',
+                        valUp: valUp,
+                        valLeft: valLeft,
+                        maxVal: maxVal,
+                        phaseBadge: `步骤 ①: 继承上/左最大值`,
+                        f1Text: `max(${valUp}, ${valLeft}) = ${maxVal}`,
+                        f2Text: `待检查 a[${i}] 与 b[${j}]...`,
+                        lcsSample: reconstructLCS(f, i, j),
+                        desc: `指针移动至 i = ${i} (a[${i}]='${A[i]}'), j = ${j} (b[${j}]='${B[j]}')。首先不考虑当前字符是否匹配，先从上方 f[${i-1}][${j}](${valUp}) 和左方 f[${i}][${j-1}](${valLeft}) 中取较大值，暂存 f[${i}][${j}] = ${maxVal}。`
+                    });
+
+                    // Sub-step 2: Check if a[i] == b[j]
+                    if (A[i] === B[j]) {
+                        let diagVal = f[i - 1][j - 1];
+                        let matchedVal = diagVal + 1;
+                        f[i][j] = matchedVal;
+                        timeline.push({
+                            i: i,
+                            j: j,
+                            fState: f.map(row => [...row]),
+                            codeLine: 7,
+                            subPhase: 'match_true',
+                            valUp: valUp,
+                            valLeft: valLeft,
+                            diagVal: diagVal,
+                            matchedVal: matchedVal,
+                            phaseBadge: `步骤 ②: 字符匹配成功 ✨`,
+                            f1Text: `max(${valUp}, ${valLeft}) = ${maxVal}`,
+                            f2Text: `${diagVal} + 1 = ${matchedVal} (命中!)`,
+                            lcsSample: reconstructLCS(f, i, j),
+                            desc: `比对发现 a[${i}] ('${A[i]}') == b[${j}] ('${B[j]}') 相等！说明当前字符可以追加到前缀 A[1..${i-1}] 和 B[1..${j-1}] 的公共子序列末尾，因此更新 f[${i}][${j}] = f[${i-1}][${j-1}] + 1 = ${diagVal} + 1 = ${matchedVal}！`
+                        });
+                    } else {
+                        timeline.push({
+                            i: i,
+                            j: j,
+                            fState: f.map(row => [...row]),
+                            codeLine: 6,
+                            subPhase: 'match_false',
+                            valUp: valUp,
+                            valLeft: valLeft,
+                            maxVal: maxVal,
+                            phaseBadge: `步骤 ②: 字符不匹配`,
+                            f1Text: `max(${valUp}, ${valLeft}) = ${maxVal}`,
+                            f2Text: `'${A[i]}' != '${B[j]}' (跳过)`,
+                            lcsSample: reconstructLCS(f, i, j),
+                            desc: `比对发现 a[${i}] ('${A[i]}') != b[${j}] ('${B[j]}') 不相等。无法同时扩充公共子序列，跳过 if 分支，f[${i}][${j}] 保持为 ${maxVal}。`
+                        });
+                    }
+                }
+            }
+
+            // Final completion step
+            timeline.push({
+                i: n,
+                j: m,
+                fState: f.map(row => [...row]),
+                codeLine: 10,
+                subPhase: 'done',
+                phaseBadge: "计算完成 🎉",
+                f1Text: `最终答案 f[${n}][${m}] = ${f[n][m]}`,
+                f2Text: `最长公共子序列: "${reconstructLCS(f, n, m)}"`,
+                lcsSample: reconstructLCS(f, n, m),
+                desc: `全部双重循环执行完毕！右下角格子的值 f[${n}][${m}] = ${f[n][m]} 即为字符串 A 和 B 的最长公共子序列长度（对应子序列为 "${reconstructLCS(f, n, m)}"）。`
+            });
+
+            return timeline;
+        }
+
+        // Render the 1-indexed character boxes for String A and String B + update movable pointers
+        function renderStringPointers() {
+            const step = steps[currentStepIndex];
+            const boxA = document.getElementById('string-a-boxes');
+            const boxB = document.getElementById('string-b-boxes');
+            boxA.innerHTML = '';
+            boxB.innerHTML = '';
+
+            document.getElementById('label-n').innerText = `N = ${n}`;
+            document.getElementById('label-m').innerText = `M = ${m}`;
+
+            // Render String A boxes (index 0 placeholder + 1..n)
+            for (let idx = 1; idx <= n; idx++) {
+                const isActive = (step.i === idx);
+                const isMatched = isActive && (step.subPhase === 'match_true');
+
+                let boxStyle = "bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-600";
+                if (isMatched) {
+                    boxStyle = "bg-emerald-600 border-emerald-300 text-white glow-emerald scale-110 match-bounce";
+                } else if (isActive) {
+                    boxStyle = "bg-blue-600 border-blue-300 text-white glow-blue scale-105";
+                } else if (idx < step.i) {
+                    boxStyle = "bg-slate-900/90 border-slate-700 text-slate-300";
+                }
+
+                const el = document.createElement('div');
+                el.onclick = () => jumpToIndices(idx, step.j || 1);
+                el.title = `点击跳转到 i = ${idx}`;
+                el.className = `w-12 h-14 rounded-xl border-2 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 select-none ${boxStyle}`;
+                el.innerHTML = `
+                    <span class="text-[10px] opacity-75 code-font leading-none mb-1">a[${idx}]</span>
+                    <span class="text-lg font-extrabold code-font leading-none">${A[idx]}</span>
+                `;
+                boxA.appendChild(el);
+            }
+
+            // Render String B boxes (1..m)
+            for (let idx = 1; idx <= m; idx++) {
+                const isActive = (step.j === idx);
+                const isMatched = isActive && (step.subPhase === 'match_true');
+
+                let boxStyle = "bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-600";
+                if (isMatched) {
+                    boxStyle = "bg-emerald-600 border-emerald-300 text-white glow-emerald scale-110 match-bounce";
+                } else if (isActive) {
+                    boxStyle = "bg-amber-500 border-amber-200 text-slate-950 glow-amber scale-105";
+                } else if (idx < step.j) {
+                    boxStyle = "bg-slate-900/90 border-slate-700 text-slate-300";
+                }
+
+                const el = document.createElement('div');
+                el.onclick = () => jumpToIndices(step.i || 1, idx);
+                el.title = `点击跳转到 j = ${idx}`;
+                el.className = `w-12 h-14 rounded-xl border-2 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 select-none ${boxStyle}`;
+                el.innerHTML = `
+                    <span class="text-[10px] opacity-75 code-font leading-none mb-1">b[${idx}]</span>
+                    <span class="text-lg font-extrabold code-font leading-none">${B[idx]}</span>
+                `;
+                boxB.appendChild(el);
+            }
+
+            // Move Pointer i and Pointer j smoothly
+            // Each box is w-12 (48px) + space-x-2 (8px) = 56px stride
+            const ptrI = document.getElementById('pointer-i');
+            const ptrJ = document.getElementById('pointer-j');
+            document.getElementById('ptr-i-val').innerText = step.i;
+            document.getElementById('ptr-j-val').innerText = step.j;
+
+            if (step.i >= 1 && step.i <= n) {
+                const offsetI = (step.i - 1) * 56;
+                ptrI.style.transform = `translateX(${offsetI}px)`;
+                ptrI.style.opacity = '1';
+            } else {
+                ptrI.style.transform = `translateX(0px)`;
+                ptrI.style.opacity = '0.25';
+            }
+
+            if (step.j >= 1 && step.j <= m) {
+                const offsetJ = (step.j - 1) * 56;
+                ptrJ.style.transform = `translateX(${offsetJ}px)`;
+                ptrJ.style.opacity = '1';
+            } else {
+                ptrJ.style.transform = `translateX(0px)`;
+                ptrJ.style.opacity = '0.25';
+            }
+
+            // Update center VS & Top Comparison Badge
+            const compBadge = document.getElementById('comparison-badge');
+            const centerBox = document.getElementById('center-match-box');
+            const centerSymbol = document.getElementById('center-match-symbol');
+            const centerLabel = document.getElementById('center-match-label');
+
+            if (step.i >= 1 && step.j >= 1 && step.subPhase !== 'done') {
+                const charA = A[step.i];
+                const charB = B[step.j];
+                const isEqual = (charA === charB);
+
+                if (step.subPhase === 'match_true') {
+                    compBadge.className = "flex items-center space-x-2 px-3.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/50 text-xs font-mono text-emerald-300 shadow";
+                    compBadge.innerHTML = `<span>✨ 匹配成功: a[${step.i}] ('${charA}') == b[${step.j}] ('${charB}')</span>`;
+
+                    centerBox.className = "w-12 h-12 rounded-2xl bg-emerald-600 border-2 border-emerald-300 flex flex-col items-center justify-center text-white font-extrabold code-font glow-emerald match-bounce transition-all";
+                    centerSymbol.innerText = "==";
+                    centerLabel.innerText = "字符相等!";
+                    centerLabel.className = "text-[11px] text-emerald-400 mt-1.5 font-bold text-center";
+                } else if (step.subPhase === 'match_false') {
+                    compBadge.className = "flex items-center space-x-2 px-3.5 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-xs font-mono text-rose-300";
+                    compBadge.innerHTML = `<span>❌ 不匹配: a[${step.i}] ('${charA}') != b[${step.j}] ('${charB}')</span>`;
+
+                    centerBox.className = "w-12 h-12 rounded-2xl bg-slate-800 border border-rose-500/40 flex flex-col items-center justify-center text-rose-400 font-bold code-font transition-all";
+                    centerSymbol.innerText = "!=";
+                    centerLabel.innerText = "不相等";
+                    centerLabel.className = "text-[11px] text-rose-400 mt-1.5 font-medium text-center";
+                } else {
+                    compBadge.className = "flex items-center space-x-2 px-3.5 py-1 rounded-full bg-blue-500/15 border border-blue-500/30 text-xs font-mono text-blue-300";
+                    compBadge.innerHTML = `<span>🔍 准备比对: a[${step.i}] ('${charA}') 与 b[${step.j}] ('${charB}')</span>`;
+
+                    centerBox.className = "w-12 h-12 rounded-2xl bg-slate-800 border border-blue-500/40 flex flex-col items-center justify-center text-blue-300 font-bold code-font transition-all";
+                    centerSymbol.innerText = "?=";
+                    centerLabel.innerText = isEqual ? "即将匹配" : "比较中";
+                    centerLabel.className = "text-[11px] text-blue-400 mt-1.5 font-medium text-center";
+                }
+            } else if (step.subPhase === 'done') {
+                compBadge.className = "flex items-center space-x-2 px-3.5 py-1 rounded-full bg-purple-500/20 border border-purple-500/40 text-xs font-mono text-purple-300";
+                compBadge.innerHTML = `<span>🎉 扫描完成！最大长度 = ${step.fState[n][m]}</span>`;
+                centerBox.className = "w-12 h-12 rounded-2xl bg-purple-600 border border-purple-400 flex flex-col items-center justify-center text-white font-bold code-font";
+                centerSymbol.innerText = "OK";
+                centerLabel.innerText = "完成";
+                centerLabel.className = "text-[11px] text-purple-400 mt-1.5 font-bold text-center";
+            } else {
+                compBadge.className = "flex items-center space-x-2 px-3.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-slate-400";
+                compBadge.innerHTML = `<span>当前比对: 等待开始...</span>`;
+                centerBox.className = "w-12 h-12 rounded-2xl bg-slate-800 border border-slate-700 flex flex-col items-center justify-center text-slate-400 font-bold code-font";
+                centerSymbol.innerText = "VS";
+                centerLabel.innerText = "待比对";
+                centerLabel.className = "text-[11px] text-slate-400 mt-1.5 font-medium text-center";
+            }
+        }
+
+        // Render 2D DP Table with Row Pointer i and Column Pointer j
+        function renderMatrix() {
+            const container = document.getElementById('dp-matrix-container');
+            container.innerHTML = '';
+            const step = steps[currentStepIndex];
+
+            // Top Column Pointer Row (shows j arrow above active column)
+            let colPtrRow = document.createElement('div');
+            colPtrRow.className = "flex space-x-1.5 h-5 items-end";
+            // Empty space for row-ptr + row-header
+            let spacer = document.createElement('div');
+            spacer.className = "w-24";
+            colPtrRow.appendChild(spacer);
+
+            for (let j = 0; j <= m; j++) {
+                let ptrCell = document.createElement('div');
+                ptrCell.className = "w-12 flex justify-center";
+                if (step.j === j && j >= 1) {
+                    ptrCell.innerHTML = `<span class="text-[10px] bg-amber-500 text-slate-950 font-extrabold px-1.5 rounded shadow animate-bounce">↓ j=${j}</span>`;
+                }
+                colPtrRow.appendChild(ptrCell);
+            }
+            container.appendChild(colPtrRow);
+
+            // Header Row for B characters
+            let headerRow = document.createElement('div');
+            headerRow.className = "flex space-x-1.5 items-center";
+
+            let corner = document.createElement('div');
+            corner.className = "w-24 h-10 flex items-center justify-end pr-2 text-slate-500 text-xs font-bold";
+            corner.innerText = "i \\ j";
+            headerRow.appendChild(corner);
+
+            for (let j = 0; j <= m; j++) {
+                const isColActive = (step.j === j && j >= 1);
+                const thStyle = isColActive 
+                    ? "bg-amber-500/25 border-amber-400 text-amber-300 font-bold" 
+                    : "bg-slate-950/70 border-slate-800 text-slate-400";
+
+                let th = document.createElement('div');
+                th.className = `w-12 h-10 flex flex-col items-center justify-center rounded-lg border text-xs transition-all ${thStyle}`;
+                th.innerHTML = `<span class="text-[9px] opacity-60">j=${j}</span><span class="font-bold ${j>0?'text-amber-400':''}">${j === 0 ? '∅' : B[j]}</span>`;
+                headerRow.appendChild(th);
+            }
+            container.appendChild(headerRow);
+
+            // Matrix Rows 0..n
+            for (let i = 0; i <= n; i++) {
+                let rowDiv = document.createElement('div');
+                rowDiv.className = "flex space-x-1.5 items-center";
+
+                // Left Row Pointer + Row Header (w-24 total)
+                const isRowActive = (step.i === i && i >= 1);
+                let rowLeft = document.createElement('div');
+                rowLeft.className = "w-24 flex items-center justify-end space-x-1";
+
+                let ptrBadge = document.createElement('div');
+                if (isRowActive) {
+                    ptrBadge.innerHTML = `<span class="text-[10px] bg-blue-600 text-white font-bold px-1.5 py-0.5 rounded shadow">i=${i} →</span>`;
+                }
+                rowLeft.appendChild(ptrBadge);
+
+                let rhStyle = isRowActive 
+                    ? "bg-blue-500/25 border-blue-400 text-blue-300 font-bold" 
+                    : "bg-slate-950/70 border-slate-800 text-slate-400";
+
+                let rh = document.createElement('div');
+                rh.className = `w-12 h-11 flex flex-col items-center justify-center rounded-lg border text-xs transition-all ${rhStyle}`;
+                rh.innerHTML = `<span class="text-[9px] opacity-60">i=${i}</span><span class="font-bold ${i>0?'text-blue-400':''}">${i === 0 ? '∅' : A[i]}</span>`;
+                rowLeft.appendChild(rh);
+
+                rowDiv.appendChild(rowLeft);
+
+                // Cells 0..m
+                for (let j = 0; j <= m; j++) {
+                    let cellClass = "bg-slate-950 border-slate-800/90 text-slate-400 hover:border-slate-600";
+                    let tagHtml = "";
+
+                    const isTarget = (step.i === i && step.j === j && i >= 1 && j >= 1);
+                    const isUpSource = (i === step.i - 1 && j === step.j && step.i >= 1 && step.j >= 1 && step.subPhase !== 'done');
+                    const isLeftSource = (i === step.i && j === step.j - 1 && step.i >= 1 && step.j >= 1 && step.subPhase !== 'done');
+                    const isDiagSource = (i === step.i - 1 && j === step.j - 1 && step.subPhase === 'match_true');
+
+                    if (isTarget) {
+                        if (step.subPhase === 'match_true') {
+                            cellClass = "bg-emerald-600 border-emerald-300 text-white font-extrabold glow-emerald scale-105 z-10";
+                            tagHtml = `<span class="absolute -top-1.5 -right-1.5 bg-amber-300 text-slate-950 text-[8px] font-extrabold px-1 rounded">+1</span>`;
+                        } else {
+                            cellClass = "bg-purple-600 border-purple-300 text-white font-extrabold glow-purple scale-105 z-10";
+                            tagHtml = `<span class="absolute -top-1.5 -right-1.5 bg-purple-300 text-slate-950 text-[8px] font-extrabold px-1 rounded">cur</span>`;
+                        }
+                    } else if (isDiagSource) {
+                        cellClass = "bg-emerald-900/70 border-emerald-400 text-emerald-200 font-bold";
+                        tagHtml = `<span class="absolute -top-1.5 -left-1 bg-emerald-400 text-slate-950 text-[8px] font-extrabold px-1 rounded">左上</span>`;
+                    } else if (isUpSource) {
+                        cellClass = "bg-sky-900/60 border-sky-400 text-sky-200 font-bold";
+                        tagHtml = `<span class="absolute -top-1.5 -left-1 bg-sky-400 text-slate-950 text-[8px] font-extrabold px-1 rounded">上方</span>`;
+                    } else if (isLeftSource) {
+                        cellClass = "bg-indigo-900/60 border-indigo-400 text-indigo-200 font-bold";
+                        tagHtml = `<span class="absolute -top-1.5 -left-1 bg-indigo-400 text-slate-950 text-[8px] font-extrabold px-1 rounded">左方</span>`;
+                    } else if (i < step.i || (i === step.i && j < step.j)) {
+                        cellClass = "bg-slate-900/90 border-slate-800 text-slate-200";
+                    }
+
+                    let cell = document.createElement('div');
+                    cell.className = `relative w-12 h-11 flex items-center justify-center rounded-lg border text-sm transition-all duration-200 cursor-pointer ${cellClass}`;
+                    cell.onclick = () => { if (i >= 1 && j >= 1) jumpToIndices(i, j); };
+                    cell.title = i >= 1 && j >= 1 ? `点击跳转到 (i=${i}, j=${j})` : `边界 f[${i}][${j}] = 0`;
+                    cell.innerHTML = `${tagHtml}<span>${step.fState[i][j]}</span>`;
+                    rowDiv.appendChild(cell);
+                }
+
+                container.appendChild(rowDiv);
+            }
+        }
+
+        function renderFormulaAndCode() {
+            const step = steps[currentStepIndex];
+
+            document.getElementById('step-phase-badge').innerText = step.phaseBadge;
+            document.getElementById('formula-val-1').innerText = step.f1Text;
+            document.getElementById('formula-val-2').innerText = step.f2Text;
+            document.getElementById('explanation-text').innerText = step.desc;
+
+            // Highlight active formula box
+            const fBox1 = document.getElementById('formula-box-1');
+            const fBox2 = document.getElementById('formula-box-2');
+            fBox1.className = "p-2.5 rounded-lg border border-slate-800/80 bg-slate-900/50 transition-all";
+            fBox2.className = "p-2.5 rounded-lg border border-slate-800/80 bg-slate-900/50 transition-all";
+
+            if (step.subPhase === 'max') {
+                fBox1.className = "p-2.5 rounded-lg border border-sky-500/60 bg-sky-950/30 transition-all shadow";
+            } else if (step.subPhase === 'match_true') {
+                fBox2.className = "p-2.5 rounded-lg border border-emerald-500/60 bg-emerald-950/30 transition-all shadow";
+            } else if (step.subPhase === 'match_false') {
+                fBox2.className = "p-2.5 rounded-lg border border-rose-500/40 bg-rose-950/20 transition-all";
+            }
+
+            // Update LCS sample preview
+            const lcsStr = step.lcsSample || "";
+            document.getElementById('lcs-string-preview').innerText = `"${lcsStr}" (长度 ${lcsStr.length})`;
+
+            // Highlight C++ code line
+            for (let l = 1; l <= 10; l++) {
+                const lineEl = document.getElementById(`code-line-${l}`);
+                if (lineEl) {
+                    lineEl.classList.remove('bg-blue-600/25', 'border-l-4', 'border-blue-400', 'text-white');
+                }
+            }
+            const activeEl = document.getElementById(`code-line-${step.codeLine}`);
+            if (activeEl) {
+                activeEl.classList.add('bg-blue-600/25', 'border-l-4', 'border-blue-400', 'text-white');
+            }
+
+            // Update Scrubber
+            const slider = document.getElementById('step-slider');
+            slider.max = steps.length - 1;
+            slider.value = currentStepIndex;
+            document.getElementById('step-counter').innerText = `步骤 ${currentStepIndex} / ${steps.length - 1}`;
+        }
+
+        function updateUI() {
+            renderStringPointers();
+            renderMatrix();
+            renderFormulaAndCode();
+        }
+
+        // Jump directly to a specific (i, j) pair when clicking character boxes or matrix cells
+        function jumpToIndices(targetI, targetJ) {
+            pauseAnimation();
+            const foundIdx = steps.findIndex(s => s.i === targetI && s.j === targetJ && (s.subPhase === 'match_true' || s.subPhase === 'match_false'));
+            if (foundIdx !== -1) {
+                currentStepIndex = foundIdx;
+                updateUI();
+            }
+        }
+
+        function onSliderChange(val) {
+            pauseAnimation();
+            currentStepIndex = parseInt(val, 10);
+            updateUI();
+        }
+
+        function nextStep() {
+            if (currentStepIndex < steps.length - 1) {
+                currentStepIndex++;
+                updateUI();
+            } else {
+                pauseAnimation();
+            }
+        }
+
+        function prevStep() {
+            pauseAnimation();
+            if (currentStepIndex > 0) {
+                currentStepIndex--;
+                updateUI();
+            }
+        }
+
+        function resetAnimation() {
+            pauseAnimation();
+            currentStepIndex = 0;
+            updateUI();
+        }
+
+        function togglePlay() {
+            if (isPlaying) {
+                pauseAnimation();
+            } else {
+                if (currentStepIndex >= steps.length - 1) {
+                    currentStepIndex = 0;
+                }
+                playAnimation();
+            }
+        }
+
+        function playAnimation() {
+            isPlaying = true;
+            document.getElementById('play-icon').innerText = '⏸️';
+            document.getElementById('play-text').innerText = '暂停播放';
+            playInterval = setInterval(() => {
+                if (currentStepIndex < steps.length - 1) {
+                    currentStepIndex++;
+                    updateUI();
+                } else {
+                    pauseAnimation();
+                }
+            }, playDelay);
+        }
+
+        function pauseAnimation() {
+            isPlaying = false;
+            clearInterval(playInterval);
+            document.getElementById('play-icon').innerText = '▶️';
+            document.getElementById('play-text').innerText = '自动播放';
+        }
+
+        function updateSpeed() {
+            const sel = document.getElementById('speed-select');
+            playDelay = parseInt(sel.value, 10);
+            if (isPlaying) {
+                clearInterval(playInterval);
+                playAnimation();
+            }
+        }
+
+        function applyCustomStrings() {
+            pauseAnimation();
+            const rawA = document.getElementById('input-a').value.trim().toLowerCase();
+            const rawB = document.getElementById('input-b').value.trim().toLowerCase();
+            if (!rawA || !rawB) return;
+
+            strA = rawA.slice(0, 8);
+            strB = rawB.slice(0, 8);
+            document.getElementById('input-a').value = strA;
+            document.getElementById('input-b').value = strB;
+
+            steps = generateSteps();
+            currentStepIndex = 0;
+            updateUI();
+        }
+
+        window.onload = function() {
+            steps = generateSteps();
+            updateUI();
+        };
+    </script>
+</body>
+</html>
