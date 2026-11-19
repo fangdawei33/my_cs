@@ -66,17 +66,72 @@ kbd { font: 12px ui-monospace, Consolas, monospace; padding: 0 5px; border: 1px 
 .course-read { color: var(--blue); font-size: 14px; font-weight: 600; }
 .library-note { font-size: 13px; color: #728198; margin: 20px 0 0; }
 .empty-result { padding: 30px; background: white; border: 1px dashed var(--line); border-radius: 5px; color: var(--muted); }
-.workflow { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 52px; border-top: 1px solid var(--line); padding: 36px 0 43px; }
-.workflow .eyebrow { margin-bottom: 11px; font-size: 11px; }
-.workflow h2 { font-size: 23px; }
-.step-label { display: inline-block; font-size: 12px; color: var(--blue); margin: 0 0 9px; background: #eaf0f9; padding: 2px 9px; border-radius: 3px; }
-.workflow h3 { font-size: 16px; margin: 0 0 8px; font-weight: 650; }
-.workflow p { color: var(--muted); font-size: 14px; line-height: 1.85; margin: 0; }
+/* 生活入口：左侧介绍，右侧为进入生活笔记的卡片。 */
+.life-section {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  align-items: center;
+  gap: 52px;
+  border-top: 1px solid var(--line);
+  padding: 36px 0 43px;
+}
+
+.life-intro .eyebrow {
+  margin-bottom: 11px;
+}
+
+.life-intro > p:last-child {
+  color: var(--muted);
+  margin: 12px 0 0;
+}
+
+.life-card {
+  display: block;
+  padding: 25px 28px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.life-card:hover {
+  border-color: #8eadd3;
+  box-shadow: 0 7px 24px #21456d0c;
+}
+
+.life-card-label {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.life-card h3 {
+  font-size: 23px;
+  margin: 10px 0;
+}
+
+.life-card p {
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+.life-card-read {
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 600;
+}
 footer { display: flex; gap: 24px; align-items: center; border-top: 1px solid var(--line); min-height: 88px; color: #758399; font-size: 12px; }
 .footer-brand { color: var(--ink); font-size: 22px; }
 footer p { margin: 0; }
 footer > span { margin-left: auto; }
 @media (min-width: 1500px) { .site-shell { max-width: 1380px; } .hero { gap: 90px; padding-top: 90px; padding-bottom: 85px; } h1 { font-size: 48px; } }
-@media (max-width: 1000px) { .site-shell { padding: 0 32px; } .hero { gap: 30px; grid-template-columns: 1.1fr 1fr; padding-top: 55px; } .notebook-page { padding: 20px 16px; } .header-label { display: none; } .stat-note { display: none; } .workflow { gap: 28px; } }
-@media (max-width: 700px) { .site-shell { padding: 0 22px; } .site-header { min-height: 78px; gap: 25px; justify-content: space-between; } .brand { font-size: 28px; } nav { gap: 20px; } nav a { padding: 24px 0 22px; } .hero { grid-template-columns: 1fr; padding: 42px 0; gap: 35px; } h1 { font-size: 35px; letter-spacing: -1px; } .hero-description { font-size: 15px; } .hero-stats { margin-top: 24px; } .notebook { max-width: 470px; transform: none; } .section-heading { align-items: stretch; flex-direction: column; gap: 18px; } .search-box { max-width: 100%; } .search-box input { flex: 1; width: 100%; } .course-grid { grid-template-columns: 1fr; } .course-card { padding: 22px; } .workflow { grid-template-columns: 1fr; gap: 25px; } .workflow h2 br { display: none; } footer { flex-wrap: wrap; gap: 15px; padding: 25px 0; } footer > span { width: 100%; margin: 0; } }
+@media (max-width: 1000px) { .site-shell { padding: 0 32px; } .hero { gap: 30px; grid-template-columns: 1.1fr 1fr; padding-top: 55px; } .notebook-page { padding: 20px 16px; } .header-label { display: none; } .stat-note { display: none; } }
+@media (max-width: 700px) { .site-shell { padding: 0 22px; } .site-header { min-height: 78px; gap: 25px; justify-content: space-between; } .brand { font-size: 28px; } nav { gap: 20px; } nav a { padding: 24px 0 22px; } .hero { grid-template-columns: 1fr; padding: 42px 0; gap: 35px; } h1 { font-size: 35px; letter-spacing: -1px; } .hero-description { font-size: 15px; } .hero-stats { margin-top: 24px; } .notebook { max-width: 470px; transform: none; } .section-heading { align-items: stretch; flex-direction: column; gap: 18px; } .search-box { max-width: 100%; } .search-box input { flex: 1; width: 100%; } .course-grid { grid-template-columns: 1fr; } .course-card { padding: 22px; } footer { flex-wrap: wrap; gap: 15px; padding: 25px 0; } footer > span { width: 100%; margin: 0; } }
+
+/* 窄屏下把生活介绍与卡片改成上下排列。 */
+@media (max-width: 700px) {
+  .life-section {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+}
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; } }

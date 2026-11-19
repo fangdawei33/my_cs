@@ -14,27 +14,47 @@ export const escapeHtml = (text) => String(text).replace(/[&<>"']/g, (char) => (
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
 }[char]));
 
+// 课程和生活笔记使用相同的目录校验，避免 mdBook 自动创建误拼写的空白文章。
+export function getBookPages(path) {
+  const summary = readFileSync(join(path, 'src', 'SUMMARY.md'), 'utf8');
+  const pages = [...summary.matchAll(/\]\(([^)]+\.md)\)/g)].map((match) => match[1]);
+
+  for (const page of pages) {
+    const target = resolve(path, 'src', page);
+    if (!target.startsWith(join(path, 'src') + '/') && !target.startsWith(join(path, 'src') + '\\')) {
+      throw new Error(`${path}: SUMMARY.md 的文章必须位于 src 内：${page}`);
+    }
+    if (!existsSync(target)) {
+      throw new Error(`${path}: 目录引用的文章不存在：${page}`);
+    }
+  }
+
+  return [...new Set(pages)];
+}
+
+export function getLifeBook() {
+  const path = join(root, 'life');
+  return {
+    slug: 'life',
+    title: '生活笔记',
+    path,
+    pageCount: getBookPages(path).length
+  };
+}
+
 export function getCourses() {
   return readdirSync(join(root, 'courses'), { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
     .map((entry) => {
       const slug = entry.name;
+      if (slug === 'life') throw new Error('life 是生活模块的保留路径，请为课程使用其他目录名。');
       if (!validCourseName(slug)) throw new Error(`课程目录请使用中文、小写英文、数字或连字符，且不能使用 Windows 保留名称：${slug}`);
       const path = join(root, 'courses', slug);
       const meta = readJson(join(path, 'course.json'));
       if (typeof meta.title !== 'string' || !meta.title.trim() || typeof meta.description !== 'string') {
         throw new Error(`${slug}/course.json 需要 title 和 description。`);
       }
-      const summary = readFileSync(join(path, 'src', 'SUMMARY.md'), 'utf8');
-      const pages = [...summary.matchAll(/\]\(([^)]+\.md)\)/g)].map((match) => match[1]);
-      for (const page of pages) {
-        const target = resolve(path, 'src', page);
-        if (!target.startsWith(join(path, 'src') + '/') && !target.startsWith(join(path, 'src') + '\\')) {
-          throw new Error(`${slug}: SUMMARY.md 的文章必须位于 src 内：${page}`);
-        }
-        if (!existsSync(target)) throw new Error(`${slug}: 目录引用的文章不存在：${page}`);
-      }
-      return { ...meta, slug, path, pageCount: new Set(pages).size };
+      return { ...meta, slug, path, pageCount: getBookPages(path).length };
     }).sort((a, b) => (a.order ?? 100) - (b.order ?? 100) || a.slug.localeCompare(b.slug));
 }
 

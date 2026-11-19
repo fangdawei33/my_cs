@@ -1,0 +1,17 @@
+[book]
+title = "生活笔记"
+authors = ["fangdawei33"]
+language = "zh-CN"
+src = "src"
+
+# life 与 courses 并列，比每门课程的目录少一层，因此共用主题路径是 ../theme。
+[output.html]
+theme = "../theme"
+additional-css = ["theme/custom.css", "theme/my-cs.css"]
+additional-js = ["theme/site.js"]
+default-theme = "light"
+preferred-dark-theme = "navy"
+no-section-label = true
+
+[output.html.print]
+enable = false

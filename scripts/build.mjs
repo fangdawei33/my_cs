@@ -1,10 +1,11 @@
-import { cpSync, existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { dist, escapeHtml, getCourses, mdbook, readJson, root } from './lib.mjs';
+import { dist, escapeHtml, getCourses, getLifeBook, mdbook, readJson, root } from './lib.mjs';
 
 export function build() {
   const courses = getCourses();
+  const life = getLifeBook();
   if (!courses.length) throw new Error('还没有课程。运行 npm run new-course -- machine-learning "机器学习"。');
   const binary = mdbook();
   // 固定清理目标，并拒绝符号链接，防止误删工作区之外的目录。
@@ -18,23 +19,25 @@ export function build() {
   mkdirSync(dist, { recursive: true });
   const basePath = (process.env.SITE_BASE_PATH ?? '').replace(/\/$/, '');
   if (basePath && !/^\/(?:[A-Za-z0-9._-]+\/)*[A-Za-z0-9._-]+$/.test(basePath)) throw new Error('SITE_BASE_PATH 应类似 /my_cs。');
-  for (const course of courses) {
-    console.log(`构建：${course.title} (${course.pageCount} 页)`);
-    const target = join(dist, course.slug);
+  // 生活与课程分别构建，共用主题；课程卡片和课程统计仍只使用 courses。
+  for (const book of [...courses, life]) {
+    console.log(`构建：${book.title} (${book.pageCount} 页)`);
+    const target = join(dist, book.slug);
     // mdBook 0.4 的 additional-css 路径会原样写进 HTML。
     // 同步到各课程的生成目录，避免 ../ 路径逃出网站产物。
-    const generatedTheme = join(course.path, 'theme');
-    if (existsSync(generatedTheme) && lstatSync(generatedTheme).isSymbolicLink()) throw new Error('课程 theme 不能是符号链接。');
+    const generatedTheme = join(book.path, 'theme');
+    if (existsSync(generatedTheme) && lstatSync(generatedTheme).isSymbolicLink()) throw new Error('笔记的 theme 不能是符号链接。');
     mkdirSync(generatedTheme, { recursive: true });
     for (const name of ['custom.css', 'my-cs.css', 'site.js']) {
-      cpSync(join(root, 'theme', name), join(generatedTheme, name));
+      // 单个文件直接覆盖复制，绕过 Node 24 在 Windows 上 cpSync 覆盖已有文件时的 unlink 错误。
+      copyFileSync(join(root, 'theme', name), join(generatedTheme, name));
     }
-    const result = spawnSync(binary, ['build', course.path, '--dest-dir', target], {
+    const result = spawnSync(binary, ['build', book.path, '--dest-dir', target], {
       stdio: 'inherit',
-      env: { ...process.env, MDBOOK_OUTPUT__HTML__SITE_URL: `${basePath}/${encodeURIComponent(course.slug)}/` }
+      env: { ...process.env, MDBOOK_OUTPUT__HTML__SITE_URL: `${basePath}/${encodeURIComponent(book.slug)}/` }
     });
-    if (result.status !== 0) throw new Error(`${course.title} 构建失败。`);
-    const experiments = join(course.path, 'experiments');
+    if (result.status !== 0) throw new Error(`${book.title} 构建失败。`);
+    const experiments = join(book.path, 'experiments');
     if (existsSync(experiments)) cpSync(experiments, join(target, 'experiments'), {
       recursive: true,
       filter: (source) => !/(?:^|[/\\])(?:__pycache__|\.ipynb_checkpoints|\.venv|venv|\.env|\.git|node_modules)(?:[/\\]|$)/.test(source)

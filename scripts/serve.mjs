@@ -38,7 +38,7 @@ const changed = () => {
     try { build(); } catch (error) { console.error(`构建失败：${error.message}`); }
   }, 350);
 };
-const watchers = ['courses', 'theme', 'web'].map((path) => watch(join(root, path), { recursive: true }, (_, name) => {
+const watchers = ['courses', 'life', 'theme', 'web'].map((path) => watch(join(root, path), { recursive: true }, (_, name) => {
   if (!name || !/(?:^|[/\\])(?:theme|book|\.ipynb_checkpoints|__pycache__|\.venv)(?:[/\\]|$)/.test(name)) changed();
 }));
 watchers.push(watch(root, (_, name) => { if (['index.html', 'site.json'].includes(name)) changed(); }));

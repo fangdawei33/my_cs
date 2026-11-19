@@ -1,62 +1,278 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{{description}}">
-  <meta name="color-scheme" content="light">
-  <title>{{title}} · 我的计算机学习笔记</title>
-  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/home.css">
-  <script src="./assets/home.js" defer></script>
-</head>
-<body>
-  <a class="skip-link" href="#courses">跳到课程列表</a>
-  <div class="site-shell">
-    <header class="site-header">
-      <a class="brand" href="./" aria-label="my_cs 首页">my_cs<span>/</span></a>
-      <nav aria-label="主导航"><a class="nav-active" href="#courses">课程笔记</a><a href="#workflow">学习方式</a></nav>
-      <span class="header-label">PERSONAL KNOWLEDGE BASE</span>
-    </header>
-    <main>
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="eyebrow-line"></span> 我的计算机学习笔记</p>
-          <h1 id="hero-title">学过的知识，<br>慢慢变成<span>自己的理解。</span></h1>
-          <p class="hero-description">{{description}}</p>
-          <a class="primary-link" href="#courses">翻开一本笔记</a>
-          <div class="hero-stats"><span><strong>{{course_count}}</strong> 门课程</span><span><strong>{{page_count}}</strong> 篇笔记</span><span class="stat-note">边学，边写，边实践</span></div>
-        </div>
-        <aside class="notebook" aria-label="笔记的组织方式">
-          <div class="notebook-top"><span class="notebook-tab">my_cs / 学习档案</span><span class="notebook-mark">CS</span></div>
-          <div class="notebook-page">
-            <p class="notebook-caption">一门课，一本书。</p>
-            <div class="tree-row tree-root"><span class="folder-icon"></span><strong>my_cs</strong></div>
-            <div class="tree-branches">
-              <div class="tree-row"><span class="folder-icon"></span><span>机器学习</span><span class="tree-badge">正在整理</span></div>
-              <div class="tree-sub"><span>概念与推导</span><span class="file-type">.md</span></div>
-              <div class="tree-sub"><span>代码与实验</span><span class="file-type">.ipynb / .py</span></div>
-              <div class="tree-row future-row"><span class="folder-icon"></span><span>下一门课</span><span class="tree-future">留给新的好奇</span></div>
+  <!--
+    my_cs 首页修改指南
+
+    这是首页的源模板，修改这里，不要修改 dist/index.html（每次构建都会重新生成）。
+    修改后运行 npm run dev，打开 http://localhost:3000/；保存后等待构建完成，再刷新浏览器。
+
+    常用文件分工：
+    1. index.html：区域的先后顺序、文字、链接、页面结构。
+    2. web/home.css：颜色、字体、大小、间距、布局，以及手机屏幕下的排版。
+    3. web/home.js：课程搜索和按 / 键定位搜索框的交互。
+    4. site.json：网站标题 title 和首页介绍 description。
+    5. courses/每门课/course.json：课程卡片的标题、简介与排序。
+    6. scripts/build.mjs：生成课程卡片、替换模板变量、汇总整个网站。
+    7. life/src/：生活文章；life/src/SUMMARY.md 管理生活笔记的左侧目录。
+
+    阅读下面的代码：
+    - 标签之间的中文通常就是页面上显示的文字，可以直接修改。
+    - class 是样式名称，例如 hero 对应 CSS 中的 .hero；改名时要同步修改 CSS。
+    - id 是页面内的唯一标识，href 中的 #名字 会跳到对应的 id。
+    - aria-label / aria-labelledby 是给辅助阅读工具使用的说明，后者引用标题的 id。
+    - section 是一个内容区域；调整区域顺序时，要连同它完整的开始和结束标签一起移动。
+    - 双大括号包围的是构建变量，由脚本填充，不是普通文字；它们的来源在下方分别说明。
+
+    注释不会显示在页面上，但浏览器“查看网页源代码”时可以看到，请不要在注释中放密码。
+  -->
+
+  <head>
+    <!-- 使用 UTF-8 编码，保证中文正常显示。 -->
+    <meta charset="utf-8">
+
+    <!-- 让手机按实际屏幕宽度排版；具体的窄屏样式在 home.css 的 @media 规则里。 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- 网站描述：构建时从 site.json 的 description 填充。 -->
+    <meta name="description" content="{{description}}">
+
+    <!-- 告诉浏览器首页使用浅色配色；完整改成深色还需要修改 home.css 中的颜色。 -->
+    <meta name="color-scheme" content="light">
+
+    <!-- 浏览器标签页的标题：前半段来自 site.json 的 title，后半段可以直接改。 -->
+    <title>{{title}} · 我的计算机学习笔记</title>
+
+    <!--
+      ./ 表示相对当前首页的位置，部署在 /my_cs/ 下也能找到资源。
+      构建脚本会将 web/ 复制成 dist/assets/，所以网页路径叫 assets，源文件却在 web/。
+      网站标签页图标：修改 web/favicon.svg；首页样式和交互分别由下面的 CSS、JS 提供。
+      注意：仓库根目录 assets/ 中的 README 封面并不会自动复制到网站。
+    -->
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./assets/home.css">
+
+    <!-- defer 表示 HTML 解析完成后再执行脚本，这时才能找到搜索框等元素。 -->
+    <script src="./assets/home.js" defer></script>
+  </head>
+
+  <body>
+    <!-- 键盘辅助入口：按 Tab 时可见，点击后跳到课程区域；建议保留。 -->
+    <a class="skip-link" href="#courses">跳到课程列表</a>
+
+    <!-- 页面总容器：最大宽度与左右留白由 home.css 中的 .site-shell 控制。 -->
+    <div class="site-shell">
+
+      <!-- ==================== 区域一：顶部导航 ==================== -->
+      <header class="site-header">
+        <!-- 左上角文字 Logo，可改 my_cs；span 中的斜杠只是装饰。href 为 ./ 表示返回首页。 -->
+        <a class="brand" href="./" aria-label="my_cs 首页">
+          my_cs<span>/</span>
+        </a>
+
+        <!--
+          “课程笔记”跳到当前首页的课程列表；“生活”直接打开独立的 life/ 页面。
+          增加导航：在 nav 内增加一个 a 标签，并把 href 指向目标区域的 id 或完整网址。
+          删除页面区域时，也要删除或调整指向它的导航链接。
+          nav-active 只控制当前的高亮外观，目前不会随滚动自动切换。
+        -->
+        <nav aria-label="主导航">
+          <a class="nav-active" href="#courses">课程笔记</a>
+          <a href="./life/">生活</a>
+        </nav>
+
+        <!-- 右侧英文小字，可直接改；较窄屏幕下会被 CSS 隐藏。 -->
+        <span class="header-label">PERSONAL KNOWLEDGE BASE</span>
+      </header>
+
+      <!-- main 包含页面的主要内容，下面各个 section 可以作为整体调整顺序。 -->
+      <main>
+
+        <!-- ==================== 区域二：首屏介绍 ==================== -->
+        <!-- .hero 默认是左右两列：左侧介绍，右侧笔记示意卡；手机上变为上下排列。 -->
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <!-- 主标题上方的小字。空的 span 由 CSS 画出一条短线，可以只修改后面的中文。 -->
+            <p class="eyebrow">
+              <span class="eyebrow-line"></span>
+              我的计算机学习笔记
+            </p>
+
+            <!-- 主标题：br 是手动换行；span 中的内容使用强调颜色。 -->
+            <h1 id="hero-title">
+              学过的知识，<br>
+              慢慢变成<span>自己的理解。</span>
+            </h1>
+
+            <!-- 首页介绍：来自 site.json 的 description；修改该配置，也会更新上面的 meta 描述。 -->
+            <p class="hero-description">{{description}}</p>
+
+            <!-- 主要按钮，点击跳到课程列表；文字可改，href 可换成你希望跳转的地址。 -->
+            <a class="primary-link" href="#courses">翻开一本笔记</a>
+
+            <!--
+              统计数字由构建脚本生成：course_count 是课程数；page_count 是各课目录中 Markdown 页数之和。
+              页数包含介绍和模板，并不代表已写完的笔记数量。最后一句小字可以直接改。
+              若不想展示统计，可整体删除这个 hero-stats 的 div，不影响搜索或课程跳转。
+            -->
+            <div class="hero-stats">
+              <span><strong>{{course_count}}</strong> 门课程</span>
+              <span><strong>{{page_count}}</strong> 篇笔记</span>
+              <span class="stat-note">边学，边写，边实践</span>
             </div>
-            <div class="notebook-note"><span class="note-stroke"></span>记录问题，也记录想明白的瞬间。</div>
           </div>
-        </aside>
-      </section>
-      <section class="courses-section" id="courses" aria-labelledby="courses-title">
-        <div class="section-heading"><div><p class="eyebrow">COURSE LIBRARY</p><h2 id="courses-title">从这里开始阅读</h2></div>
-          <label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><input id="course-search" type="search" placeholder="查找课程" aria-label="查找课程"><kbd>/</kbd></label>
-        </div>
-        <div class="course-grid" id="course-grid">{{course_cards}}</div>
-        <p class="empty-result" id="empty-result" role="status" hidden>没有找到这门课程，试试其他关键词。</p>
-        <p class="library-note">新的课程会陆续加入，每本笔记都有独立的目录与搜索。</p>
-      </section>
-      <section class="workflow" id="workflow" aria-labelledby="workflow-title">
-        <div class="workflow-intro"><p class="eyebrow">LEARN · WRITE · BUILD</p><h2 id="workflow-title">让笔记和实践<br>一起生长。</h2></div>
-        <div class="workflow-item"><span class="step-label">理解</span><h3>把概念讲给自己听</h3><p>从一个具体问题出发，用自己的语言梳理定义、直觉与推导。</p></div>
-        <div class="workflow-item"><span class="step-label">验证</span><h3>让代码回答问题</h3><p>做一个小实验，观察结果，再回到笔记里补充证据与疑问。</p></div>
-      </section>
-    </main>
-    <footer><a class="brand footer-brand" href="./">my_cs<span>/</span></a><p>保持好奇，持续记录。</p><span>用 Markdown 写作 · 用 mdBook 阅读</span></footer>
-  </div>
-</body>
+
+          <!--
+            首屏右侧的“笔记档案”示意图：这是手写展示内容，不会自动读取课程列表。
+            可以修改其中的课程名和说明，也可以整体替换成图片或个人介绍。
+            若删除整个 aside，可把 home.css 中 .hero 的 grid-template-columns 改成 1fr，取消右侧空列。
+            若换成图片：先将图片放入 web/，再在这里添加 img 标签，使用 ./assets/图片文件名 作为图片路径。
+          -->
+          <aside class="notebook" aria-label="笔记的组织方式">
+            <!-- 示意卡顶部的标签和 CS 字样，均可直接修改。 -->
+            <div class="notebook-top">
+              <span class="notebook-tab">my_cs / 学习档案</span>
+              <span class="notebook-mark">CS</span>
+            </div>
+
+            <div class="notebook-page">
+              <p class="notebook-caption">一门课，一本书。</p>
+
+              <!-- folder-icon 是 CSS 绘制的文件夹，不是图片文件。 -->
+              <div class="tree-row tree-root">
+                <span class="folder-icon"></span>
+                <strong>my_cs</strong>
+              </div>
+
+              <div class="tree-branches">
+                <!-- tree-row 表示一行课程；tree-sub 表示其下方的说明行，可复制或删除完整的一行 div。 -->
+                <div class="tree-row">
+                  <span class="folder-icon"></span>
+                  <span>机器学习</span>
+                  <span class="tree-badge">正在整理</span>
+                </div>
+
+                <div class="tree-sub">
+                  <span>概念与推导</span>
+                  <span class="file-type">.md</span>
+                </div>
+
+                <div class="tree-sub">
+                  <span>代码与实验</span>
+                  <span class="file-type">.ipynb / .py</span>
+                </div>
+
+                <!-- future-row 只是展示性的“下一门课”，它不是创建课程的按钮。 -->
+                <div class="tree-row future-row">
+                  <span class="folder-icon"></span>
+                  <span>下一门课</span>
+                  <span class="tree-future">留给新的好奇</span>
+                </div>
+              </div>
+
+              <div class="notebook-note">
+                <span class="note-stroke"></span>
+                记录问题，也记录想明白的瞬间。
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <!-- ==================== 区域三：课程列表与搜索 ==================== -->
+        <!-- 保留 id=courses，顶部导航、首屏按钮和键盘辅助入口都通过它定位。 -->
+        <section
+          class="courses-section"
+          id="courses"
+          aria-labelledby="courses-title"
+        >
+          <!-- 左边是区域标题，右边是搜索框；英文和中文标题都可以直接修改。 -->
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">COURSE LIBRARY</p>
+              <h2 id="courses-title">从这里开始阅读</h2>
+            </div>
+
+            <!--
+              svg 绘制放大镜；input 是输入框；placeholder 是未输入时的提示文字。
+              kbd 中的 / 是快捷键提示，实际快捷键由 home.js 实现。
+              id=course-search 由脚本查找，请保留；若删除搜索框，要同步移除或调整 home.js 的搜索与快捷键代码。
+            -->
+            <label class="search-box">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="10.5" cy="10.5" r="6.5"></circle>
+                <path d="m16 16 4.5 4.5"></path>
+              </svg>
+
+              <input
+                id="course-search"
+                type="search"
+                placeholder="查找课程"
+                aria-label="查找课程"
+              >
+
+              <kbd>/</kbd>
+            </label>
+          </div>
+
+          <!--
+            course_cards 变量会在构建时替换成全部课程卡片，不要在这里逐门手写课程。
+            增加课程：运行 npm run new-course；修改课程标题、简介、排序：编辑对应课程的 course.json。
+            修改卡片本身的 HTML 结构：编辑 scripts/build.mjs 中生成 cards 的部分。
+            修改卡片外观或每行列数：编辑 home.css 的 .course-card、.course-grid 及相关 @media 规则。
+            home.js 根据 .course-card 查找卡片，所以重命名该 class 时要同时修改脚本与 CSS。
+          -->
+          <div class="course-grid" id="course-grid">{{course_cards}}</div>
+
+          <!-- 没有搜索结果时显示。hidden 表示初始隐藏；id=empty-result 是脚本依赖，不要单独删除。 -->
+          <p class="empty-result" id="empty-result" role="status" hidden>
+            没有找到这门课程，试试其他关键词。
+          </p>
+
+          <!-- 列表下方的普通说明文字，可修改或删除这整个 p。 -->
+          <p class="library-note">
+            新的课程会陆续加入，每本笔记都有独立的目录与搜索。
+          </p>
+        </section>
+
+        <!-- ==================== 区域四：生活 ==================== -->
+        <!--
+          这里展示生活笔记入口；具体文章放在 life/src/，通过 SUMMARY.md 管理。
+          life 与 courses 并列，单独生成 /life/ 网页，不计入上方的课程数。
+          修改这一块的外观：编辑 home.css 中 .life-section 和 .life-card 的样式。
+          可整体删除这个展示区域；顶部“生活”导航仍会直接打开独立的生活笔记。
+        -->
+        <section class="life-section" id="life" aria-labelledby="life-title">
+          <div class="life-intro">
+            <p class="eyebrow">LIFE NOTES</p>
+            <h2 id="life-title">生活</h2>
+            <p>记录课程之外的日常、随笔和想法。</p>
+          </div>
+
+          <!-- 点击整张卡片进入生活笔记；href 使用相对路径，兼容本地和 GitHub Pages。 -->
+          <a class="life-card" href="./life/">
+            <span class="life-card-label">随笔 · 记录 · 想法</span>
+            <h3>生活笔记</h3>
+            <p>留下一些生活的片段，也给自己的思考找一个地方。</p>
+            <span class="life-card-read">打开生活笔记</span>
+          </a>
+        </section>
+
+        <!--
+          添加自己的新区域：可在这里放一个新的 section，包含 h2 标题与正文。
+          若需要顶部导航跳转，给新区域一个唯一 id，再到上方 nav 添加对应的链接。
+          给新区域取 class 后，在 home.css 中编写它的样式，并检查窄屏是否能正常显示。
+        -->
+      </main>
+
+      <!-- ==================== 区域五：页脚 ==================== -->
+      <!-- footer 中的三部分依次为 Logo、寄语、工具说明；可直接修改文字或增加自己的链接。 -->
+      <footer>
+        <a class="brand footer-brand" href="./">
+          my_cs<span>/</span>
+        </a>
+
+        <p>保持好奇，持续记录。</p>
+        <span>用 Markdown 写作 · 用 mdBook 阅读</span>
+      </footer>
+    </div>
+  </body>
 </html>

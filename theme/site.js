@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
   // path_to_root 由 mdBook 注入，对嵌套章节同样有效。
-  const courseRoot = typeof path_to_root === 'string' ? path_to_root : './';
-  const homeUrl = `${courseRoot}../`;
+  const bookRoot = typeof path_to_root === 'string' ? path_to_root : './';
+  const homeUrl = `${bookRoot}../`;
   const rightButtons = document.querySelector('.right-buttons');
   if (rightButtons) {
     const home = document.createElement('a');
     home.href = homeUrl;
     home.className = 'my-cs-home';
-    home.textContent = '课程首页';
-    home.setAttribute('aria-label', '返回 my_cs 课程首页');
+    home.textContent = '首页';
+    home.setAttribute('aria-label', '返回 my_cs 首页');
     rightButtons.prepend(home);
   }
   const sidebar = document.querySelector('.sidebar-scrollbox');

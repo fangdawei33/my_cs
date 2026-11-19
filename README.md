@@ -20,10 +20,13 @@
 <p align="center">
   <a href="https://fangdawei33.github.io/my_cs/">在线阅读</a> ·
   <a href="#课程目录">课程目录</a> ·
+  <a href="https://fangdawei33.github.io/my_cs/life/">生活</a> ·
   <a href="https://github.com/fangdawei33/my_cs/issues">反馈与建议</a>
 </p>
 
 作者：[fangdawei33](https://github.com/fangdawei33)
+
+`my_cs` 用来整理我的计算机课程笔记、配套实验和生活随笔。课程与生活分开管理，共用一套阅读主题。
 
 
 2024年12月份有了自己的第一篇博客园，也第一次解除了github，当时的c语言课设的第一版就上传到了上面，纯豆包生成2000多行，后续由于代码漏洞太多放弃了上传了。
@@ -49,6 +52,36 @@
 | 数学基础与优化 | [高数](https://fangdawei33.github.io/my_cs/高数/) · [线性代数](https://fangdawei33.github.io/my_cs/线性代数/) · [概率论](https://fangdawei33.github.io/my_cs/概率论/) · [离散数学](https://fangdawei33.github.io/my_cs/离散数学/) · [数值分析](https://fangdawei33.github.io/my_cs/数值分析/) · [最优化理论](https://fangdawei33.github.io/my_cs/最优化理论/) · [凸优化](https://fangdawei33.github.io/my_cs/凸优化/) |
 | 人工智能与数据 | [人工智能导论](https://fangdawei33.github.io/my_cs/人工智能导论/) · [机器学习](https://fangdawei33.github.io/my_cs/machine-learning/) · [强化学习](https://fangdawei33.github.io/my_cs/强化学习/) · [深度学习](https://fangdawei33.github.io/my_cs/深度学习/) · [大模型](https://fangdawei33.github.io/my_cs/大模型/) · [Agentic RL](https://fangdawei33.github.io/my_cs/agentic-rl/) · [数据分析](https://fangdawei33.github.io/my_cs/数据分析/) |
 
+## 生活笔记
+
+[进入生活笔记](https://fangdawei33.github.io/my_cs/life/)
+
+生活内容放在与 `courses/` 并列的 `life/` 中，独立管理随笔和文章目录，共用阅读主题，不计入课程数量。
+
+网站顶部的“生活”会直接打开独立的生活笔记页面；首页下方的生活卡片也可以进入这个页面。
+
+```text
+life/
+├── book.toml                 # 生活笔记的书名、作者与主题配置
+└── src/
+    ├── SUMMARY.md            # 左侧目录
+    ├── introduction.md       # 生活笔记首页
+    ├── essays/
+    │   └── README.md         # 随笔目录；自己的文章也放在这个文件夹
+    └── writing-template.md   # 写作与配图示例
+```
+
+例如，新建 `life/src/essays/first-entry.md` 写一篇随笔，然后在 `life/src/SUMMARY.md` 中添加：
+
+```markdown
+- [随笔](essays/README.md)
+  - [我的第一篇随笔](essays/first-entry.md)
+```
+
+也可以在 `life/src/essays/README.md` 中补上文章链接，方便从随笔目录页阅读。图片放入 `life/src/images/`，在随笔中使用 `../images/图片名` 引用。写作示例见 [生活写作模板](life/src/writing-template.md)。
+
+`npm run dev` 会同时构建课程和生活笔记。本地阅读地址为 <http://localhost:3000/life/>。如果是在预览服务运行期间加入生活模块，请先按 `Ctrl+C`，再重新运行 `npm run dev`，让新的构建与监听逻辑生效。
+
 ## 本地启动（Windows PowerShell）
 
 需要 Node.js 22 或更新版本。无需 `npm install`，项目没有 npm 第三方依赖。
@@ -61,9 +94,17 @@ npm run dev
 
 `setup` 从官方 GitHub 下载固定版本 mdBook 0.4.52 到项目的 `.tools/`，不修改系统 PATH。首次下载需要联网；同一项目已安装后无需重复下载。
 
-打开 <http://localhost:3000/>；机器学习在 <http://localhost:3000/machine-learning/>。
+终端出现“本地预览”地址后，打开：
 
-修改正文、目录、主题或首页后，脚本自动构建；刷新浏览器即可看到变化。按 `Ctrl+C` 停止。
+| 页面 | 本地地址 |
+| --- | --- |
+| 网站首页 | <http://localhost:3000/> |
+| 机器学习 | <http://localhost:3000/machine-learning/> |
+| 生活笔记 | <http://localhost:3000/life/> |
+
+命令要在包含 `package.json` 的 `D:\ml_learning\my_cs` 中执行。如果报 `ENOENT`、找不到 `package.json`，先检查当前目录，执行上面的 `cd` 命令再启动。
+
+修改正文、目录、主题或首页后，脚本自动构建；等待终端显示“完成”后刷新浏览器。按 `Ctrl+C` 停止。修改 `scripts/` 中的构建或预览代码后，需要停止并重新启动服务。
 
 如果 PowerShell 阻止执行 `npm.ps1`，使用 `npm.cmd` 代替 `npm`，不必修改系统执行策略。
 
@@ -77,6 +118,8 @@ npm run dev -- --port 3001
 
 ```text
 my_cs/
+├── README.md               # GitHub 仓库介绍和课程目录
+├── assets/                 # README 封面、项目展示图片
 ├── index.html              # 首页模板，由 build 填充课程列表
 ├── site.json               # 首页标题和介绍
 ├── web/                    # 首页样式、交互和图标
@@ -89,12 +132,43 @@ my_cs/
 │       │   ├── images/     # 笔记插图
 │       │   └── ...         # Markdown 正文
 │       └── experiments/    # .ipynb / .py，构建时复制到网站供下载
-├── theme/                  # 共用主题，构建时自动同步课程所需资源
+├── life/                   # 独立的生活笔记，与 courses 并列
+├── theme/                  # 课程与生活共用主题，构建时自动同步资源
 ├── scripts/                # 安装、构建、预览、新建课程、检查链接
 ├── .github/workflows/      # GitHub Pages 自动构建与发布
 ├── .tools/                 # 本项目专用 mdBook，不提交
 └── dist/                   # 生成的网站，不提交
 ```
+
+## 修改网页界面
+
+GitHub 仓库介绍和笔记网站首页分别由不同的文件控制：
+
+| 想修改的内容 | 编辑位置 |
+| --- | --- |
+| GitHub 仓库介绍、封面、徽章、课程目录 | `README.md`，封面图片放在根目录 `assets/` |
+| 网站首页的文字、导航和区域顺序 | `index.html`，内有中文注释和增删说明 |
+| 网站首页的颜色、字体、间距、布局 | `web/home.css` |
+| 首页课程搜索、快捷键 | `web/home.js` |
+| 浏览器标签页标题、网站描述、首页介绍 | `site.json` 中的 `title`、`description` |
+| 首页课程卡片的名称、简介、排列顺序 | 对应课程的 `course.json` |
+| 课程和生活文章的阅读样式 | 根目录 `theme/` |
+
+首页导航中的两类链接用途不同：
+
+```html
+<!-- 在当前首页内滚动到课程列表 -->
+<a href="#courses">课程笔记</a>
+
+<!-- 打开独立的生活笔记页面 -->
+<a href="./life/">生活</a>
+```
+
+网站首页使用的图片放在 `web/` 中，HTML 中按 `./assets/图片名` 引用。构建时 `web/` 会复制成 `dist/assets/`；根目录用于 README 的 `assets/` 不会自动发布到网站。
+
+`index.html` 中的 `{{title}}`、`{{description}}`、`{{course_cards}}` 等是构建占位符。课程卡片由脚本读取课程配置生成；自定义它的 HTML 结构时，修改 `scripts/build.mjs` 中生成 `cards` 的部分。
+
+修改源文件后使用本地预览检查；`dist/` 是自动生成的网页，请通过源文件修改网站。
 
 ## 写一篇笔记
 
@@ -123,22 +197,27 @@ my_cs/
 ## 新增一门课程
 
 ```powershell
-npm run new-course -- computer-networks "计算机网络"
-npm run new-course -- operating-systems "操作系统" "理解进程、内存、文件与并发。"
-npm run new-course -- 计算机网络 "计算机网络"
-npm run new-course -- 操作系统
+npm run new-course -- 计算机视觉
+```
+
+上面的命令会创建 `courses/计算机视觉/`，显示名称也是“计算机视觉”。如果希望目录名和显示名称不同，可以改用下面的写法；两种方式任选一种：
+
+```powershell
+npm run new-course -- computer-vision "计算机视觉" "记录视觉模型、图像处理与配套实验。"
 ```
 
 目录名支持中文、小写英文、数字和连字符。省略第二个参数时，显示标题默认与目录名相同，因此也可以只写一次中文课程名。中文网址可以正常访问，浏览器或复制链接时可能显示为百分号编码。
 
 命令会创建 `course.json`、`book.toml`、目录、介绍页、首篇笔记和实验目录。首页与构建自动发现所有课程，不需要逐个添加发布任务。
 
+已存在的课程不会被覆盖。网站首页会自动出现新课，README 上方的分类课程表则需要手动补充对应链接。
+
 - `course.json` 的 `title`、`description` 控制首页卡片。
 - `order` 数字越小，卡片越靠前。
 - `book.toml` 的 `title` 控制书内标题。
 - 新课也使用根目录 `theme/`，修改一次可应用到所有课程。
 
-各课程内的 `theme/` 是构建脚本自动生成的资源副本，已忽略提交；只修改仓库根目录的 `theme/`。请使用 `npm run dev` 或 `npm run build`，它们会先同步主题，再调用 mdBook。
+各课程内和 `life/` 内的 `theme/` 是构建脚本自动生成的资源副本，已忽略提交；只修改仓库根目录的 `theme/`。请使用 `npm run dev` 或 `npm run build`，它们会先同步主题，再调用 mdBook。`life` 已作为生活模块的保留路径，新增课程请使用其他目录名。
 
 ## 构建与检查
 
@@ -147,7 +226,7 @@ npm run build
 npm run check
 ```
 
-构建前检查目录引用的 Markdown 是否存在，构建后检查网页中的相对链接及本地资源。`dist/` 可直接作为静态网站部署。
+`build` 会生成网站首页、全部课程和生活笔记；`check` 检查生成网页中的相对链接及本地资源。构建前还会检查目录引用的 Markdown 是否存在。`dist/` 可直接作为静态网站部署。
 
 在自己的 GitHub Pages 仓库路径下构建时，设置基路径以保证 404 页资源链接正确：
 
@@ -161,35 +240,34 @@ Remove-Item Env:SITE_BASE_PATH
 
 ## 发布到 GitHub Pages
 
-本项目已经初始化本地 Git 仓库。先在 GitHub 创建名为 `my_cs` 的空仓库，不要勾选自动创建 README 或许可证。
-
-在项目目录执行以下命令，把 `YOUR_USERNAME` 替换为自己的 GitHub 用户名：
+仓库地址：[fangdawei33/my_cs](https://github.com/fangdawei33/my_cs)。本地已经关联此仓库，日常更新直接提交和推送即可：
 
 ```powershell
+cd D:\ml_learning\my_cs
 git add .
-git commit -m "Set up my_cs course notes"
-git remote add origin https://github.com/YOUR_USERNAME/my_cs.git
-git push -u origin main
+git commit -m "Update notes and website"
+git push
 ```
 
-若首次提交要求姓名和邮箱，先使用 `git config user.name` 和 `git config user.email` 设置本仓库身份。
+三个步骤分别是：暂存改动、创建提交、推送到 GitHub。只有 `git add` 而没有 `git commit` 时，`git push` 不会推送尚未提交的修改。可以用 `git status` 查看当前状态。
 
-然后进入仓库 **Settings → Pages → Build and deployment → Source → GitHub Actions**。在 Actions 页等待任务成功；如果先前任务因未启用 Pages 失败，重新运行即可。
+GitHub Pages 的发布来源应为 **Settings → Pages → Build and deployment → Source → GitHub Actions**，已有 `.github/workflows/deploy.yml` 负责构建和发布。
 
-网站地址：
+推送后，到仓库的 **Actions → Build and deploy my_cs** 查看结果。`build`、`deploy` 均成功后，再刷新网站。若任务因此前未启用 Pages 而失败，可以在启用后重新运行。
 
-```text
-https://YOUR_USERNAME.github.io/my_cs/
-https://YOUR_USERNAME.github.io/my_cs/machine-learning/
-```
+| 页面 | 在线地址 |
+| --- | --- |
+| 网站首页 | <https://fangdawei33.github.io/my_cs/> |
+| 机器学习 | <https://fangdawei33.github.io/my_cs/machine-learning/> |
+| 生活笔记 | <https://fangdawei33.github.io/my_cs/life/> |
 
-之后每次推送到 `main`，工作流会安装固定版本 mdBook、构建全部课程、检查链接并发布。PR 只做构建和检查。
+每次推送到 `main`，工作流会安装固定版本 mdBook、构建课程和生活笔记、检查链接并发布。PR 只做构建和检查。
 
 网站不提供 Python 执行后端；Notebook 在本地或所选远程内核中运行。
 
 ## 作者与致谢
 
-`my_cs` 由 [fangdawei33](https://github.com/fangdawei33) 创建和维护，用于整理自己的计算机课程笔记、学习理解与实验。
+`my_cs` 由 [fangdawei33](https://github.com/fangdawei33) 创建和维护，用于整理自己的计算机课程笔记、学习理解、实验与生活随笔。
 
 网站框架和阅读主题参考并改编自 [Haozhe-Xing/agent_learning](https://github.com/Haozhe-Xing/agent_learning)。感谢原项目提供的基础框架；复用部分的原始版权声明保留在 [LICENSE](LICENSE) 中。
 
