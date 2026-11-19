@@ -12,4 +12,4 @@
 
 ## 教材与学习资源
 
-[查看本课程的 PDF 教材与资料](../resources/?q=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C)
+[查看本课程的 PDF 教材与资料](../resources/?q=计算机网络)

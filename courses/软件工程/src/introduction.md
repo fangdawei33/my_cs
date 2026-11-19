@@ -12,4 +12,4 @@
 
 ## 教材与学习资源
 
-[查看本课程的 PDF 教材与资料](../resources/?q=%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B)
+[查看本课程的 PDF 教材与资料](../resources/?q=软件工程)

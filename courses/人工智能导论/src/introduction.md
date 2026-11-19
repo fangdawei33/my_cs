@@ -12,4 +12,4 @@
 
 ## 教材与学习资源
 
-[查看本课程的 PDF 教材与资料](../resources/?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BA)
+[查看本课程的 PDF 教材与资料](../resources/?q=人工智能导论)
