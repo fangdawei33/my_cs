@@ -53,6 +53,8 @@
 | 数学基础与优化 | [高数](https://fangdawei33.github.io/my_cs/高数/) · [线性代数](https://fangdawei33.github.io/my_cs/线性代数/) · [概率论](https://fangdawei33.github.io/my_cs/概率论/) · [离散数学](https://fangdawei33.github.io/my_cs/离散数学/) · [数值分析](https://fangdawei33.github.io/my_cs/数值分析/) · [最优化理论](https://fangdawei33.github.io/my_cs/最优化理论/) · [凸优化](https://fangdawei33.github.io/my_cs/凸优化/) |
 | 人工智能与数据 | [人工智能导论](https://fangdawei33.github.io/my_cs/人工智能导论/) · [机器学习](https://fangdawei33.github.io/my_cs/machine-learning/) · [强化学习](https://fangdawei33.github.io/my_cs/强化学习/) · [深度学习](https://fangdawei33.github.io/my_cs/深度学习/) · [大模型](https://fangdawei33.github.io/my_cs/大模型/) · [Agentic RL](https://fangdawei33.github.io/my_cs/agentic-rl/) · [数据分析](https://fangdawei33.github.io/my_cs/数据分析/) |
 
+面向对象程序设计已整理 41 篇旧笔记及 72 张配图，包含专题笔记、课堂回顾、作业和期末复习。目录与插图维护方法见[课程整理说明](courses/面向对象程序设计/README.md)。
+
 ## 生活笔记
 
 [进入生活笔记](https://fangdawei33.github.io/my_cs/life/)
