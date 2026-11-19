@@ -15,3 +15,6 @@ courses/*/book/
 courses/*/theme/
 life/book/
 life/theme/
+
+# PDF 原件留在本地；公开下载使用附件地址，避免把大型教材写入 Git 历史。
+resources/files/

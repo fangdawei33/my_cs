@@ -3,8 +3,9 @@ import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { dist, escapeHtml, getCourses, getLifeBook, mdbook, readJson, root } from './lib.mjs';
 import { versionSidebarAssets } from './sidebar-assets.mjs';
+import { buildResources } from './resources.mjs';
 
-export function build() {
+export function build({ localResources = false } = {}) {
   const courses = getCourses();
   const life = getLifeBook();
   if (!courses.length) throw new Error('还没有课程。运行 npm run new-course -- machine-learning "机器学习"。');
@@ -58,6 +59,7 @@ export function build() {
   const html = readFileSync(join(root, 'index.html'), 'utf8').replace(/\{\{(\w+)\}\}/g, (match, key) => values[key] ?? match);
   writeFileSync(join(dist, 'index.html'), html);
   cpSync(join(root, 'web'), join(dist, 'assets'), { recursive: true });
+  buildResources(dist, courses, { localFiles: localResources });
   writeFileSync(join(dist, '.nojekyll'), '');
   console.log(`完成：${dist}`);
 }

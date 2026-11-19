@@ -31,3 +31,7 @@
 ## 接下来
 
 先读[从问题到模型](foundations/problem-and-model.md)，再看[线性回归的模型与损失](supervised/linear-regression.md)。写新笔记时可以参考[笔记写作模板](note-template.md)。
+
+## 教材与学习资源
+
+[查看本课程的 PDF 教材与资料](../resources/?q=%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0)

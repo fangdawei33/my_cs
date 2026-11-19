@@ -1,0 +1,1285 @@
+{
+  "title": "教材与学习资料",
+  "items": [
+    {
+      "id": "c21284c073b3acd5",
+      "title": "数据库系统概论（第6版）习题解析与实验指导 (王珊 张俊 卢卫)",
+      "category": "数据库",
+      "courses": [
+        "数据库"
+      ],
+      "collections": [],
+      "size": 51554429,
+      "sha256": "c21284c073b3acd5d7f475b12a2411aa7ea4a0dfdf981184bacc8bb7f159568e",
+      "localPath": "files/数据库/数据库系统概论（第6版）习题解析与实验指导 (王珊 张俊 卢卫).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "827a3da4e335a756",
+      "title": "《计算机操作系统 第4版》 汤小丹",
+      "category": "操作系统",
+      "courses": [
+        "操作系统"
+      ],
+      "collections": [],
+      "size": 106376700,
+      "sha256": "827a3da4e335a75609d2e38b9ccaf2db5b152f395d4c4f26b73cd2453900d640",
+      "localPath": "files/操作系统/《计算机操作系统 第4版》 汤小丹.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "0cbfa8b092280b55",
+      "title": "《计算机操作系统（第4版）》学习指导与题解含实验 汤小丹",
+      "category": "操作系统",
+      "courses": [
+        "操作系统"
+      ],
+      "collections": [],
+      "size": 55897745,
+      "sha256": "0cbfa8b092280b550fea56b77cd72b59918cac7fd4d7f35cf3166f4c7868bba2",
+      "localPath": "files/操作系统/《计算机操作系统（第4版）》学习指导与题解含实验 汤小丹.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "a6beda8848bb340e",
+      "title": "26王道《操作系统》",
+      "category": "操作系统",
+      "courses": [
+        "操作系统"
+      ],
+      "collections": [],
+      "size": 150452848,
+      "sha256": "a6beda8848bb340eabdb83ccad71eb1dc01905f8830baef7996c7218edf3e582",
+      "localPath": "files/操作系统/26王道《操作系统》.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "257373c8bec632de",
+      "title": "26王道《计算机网络》",
+      "category": "计算机网络",
+      "courses": [
+        "计算机网络"
+      ],
+      "collections": [],
+      "size": 126284709,
+      "sha256": "257373c8bec632de07994027ba8fe9cbcefd6a48611f20f27ecbe97e2a086732",
+      "localPath": "files/计算机网络/26王道《计算机网络》.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "804ef00d1154e8f1",
+      "title": "竟成408真题考点分类 - 操作系统",
+      "category": "操作系统",
+      "courses": [
+        "操作系统"
+      ],
+      "collections": [],
+      "size": 2235661,
+      "sha256": "804ef00d1154e8f14ea8760248f1208bfd46be5caa971a93fab61829fc221525",
+      "localPath": "files/操作系统/竟成408真题考点分类 - 操作系统.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "4c47da34ca2e32bc",
+      "title": "竟成408真题考点分类 - 计算机网络",
+      "category": "计算机网络",
+      "courses": [
+        "计算机网络"
+      ],
+      "collections": [],
+      "size": 2753318,
+      "sha256": "4c47da34ca2e32bcd897f0b2b5bfbc28c0dbd581d87567a01aa3fe5aeac05817",
+      "localPath": "files/计算机网络/竟成408真题考点分类 - 计算机网络.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "07321c1f9c29ce99",
+      "title": "竟成408真题考点分类 - 计算机组成原理",
+      "category": "计算机组成与系统结构",
+      "courses": [
+        "计算机组成与系统结构"
+      ],
+      "collections": [],
+      "size": 5746435,
+      "sha256": "07321c1f9c29ce99b6a056a6a9dbd355bf10451781c00777d81a0fa14eae486b",
+      "localPath": "files/计算机组成与系统结构/竟成408真题考点分类 - 计算机组成原理.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "4073674076434689",
+      "title": "竟成408真题考点分类 - 数据结构",
+      "category": "数据结构",
+      "courses": [
+        "数据结构"
+      ],
+      "collections": [],
+      "size": 2611668,
+      "sha256": "407367407643468982ca7e4c6005346de6a6a5cfcde38ba18ff6a5baa3530133",
+      "localPath": "files/数据结构/竟成408真题考点分类 - 数据结构.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "8efdfe5f8e234a5e",
+      "title": "26版考点分类答案-20250829公开版本",
+      "category": "408综合",
+      "courses": [
+        "操作系统",
+        "计算机网络",
+        "计算机组成与系统结构",
+        "数据结构"
+      ],
+      "collections": [],
+      "size": 145115111,
+      "sha256": "8efdfe5f8e234a5e681f5972534dc8699bd5ba410b88181c7e5715859c4a2dc6",
+      "localPath": "files/408综合/26版考点分类答案-20250829公开版本.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "f8422056f8f3fd77",
+      "title": "25版竟成408考点分类电子版答案-20241019日更新",
+      "category": "408综合",
+      "courses": [
+        "操作系统",
+        "计算机网络",
+        "计算机组成与系统结构",
+        "数据结构"
+      ],
+      "collections": [],
+      "size": 216476736,
+      "sha256": "f8422056f8f3fd775c723616f8e40a71a811d44708158337e48eeb6cdb121df3",
+      "localPath": "files/408综合/25版竟成408考点分类电子版答案-20241019日更新.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "abba10e25daca34b",
+      "title": "《数值分析简明教程上》",
+      "category": "数值分析",
+      "courses": [
+        "数值分析"
+      ],
+      "collections": [],
+      "size": 32140339,
+      "sha256": "abba10e25daca34b5a0bfd8f206f0a3b28e9db092407d98fde777c59579b7fdd",
+      "localPath": "files/数值分析/《数值分析简明教程上》.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "258a31148bce55bd",
+      "title": "《数值分析简明教程下》",
+      "category": "数值分析",
+      "courses": [
+        "数值分析"
+      ],
+      "collections": [],
+      "size": 3624551,
+      "sha256": "258a31148bce55bdfd4b022b4feb556c956a849ed9121ea41e6ce2e8eab0d845",
+      "localPath": "files/数值分析/《数值分析简明教程下》.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "45d9a7822bc12b5a",
+      "title": "《数值分析简明教程中》",
+      "category": "数值分析",
+      "courses": [
+        "数值分析"
+      ],
+      "collections": [],
+      "size": 30067279,
+      "sha256": "45d9a7822bc12b5ac2ad2d468309617a1a84c3177ad67c8e728be41739a8627b",
+      "localPath": "files/数值分析/《数值分析简明教程中》.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "3672a9ad21970512",
+      "title": "计算机科学概论第七版",
+      "category": "计算机科学导论",
+      "courses": [
+        "计算机科学导论"
+      ],
+      "collections": [],
+      "size": 15690657,
+      "sha256": "3672a9ad2197051222809e6dc11d7ba387768ca36fe6ebc97823799869ba5206",
+      "localPath": "files/计算机科学导论/计算机科学概论第七版.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "47f47f2c4472d700",
+      "title": "Computer Science Illuminated-2025-8thEdition",
+      "category": "计算机科学导论",
+      "courses": [
+        "计算机科学导论"
+      ],
+      "collections": [],
+      "size": 79395332,
+      "sha256": "47f47f2c4472d700bea259caa2eb367db43bc2757cc338da1bf7c65939787f39",
+      "localPath": "files/计算机科学导论/Computer Science Illuminated-2025-8thEdition.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "2ee2dafd9b723948",
+      "title": "Computer Science Illuminated-2020-7th",
+      "category": "计算机科学导论",
+      "courses": [
+        "计算机科学导论"
+      ],
+      "collections": [],
+      "size": 41214603,
+      "sha256": "2ee2dafd9b723948c7b36f182d718dec86d741ea6de3d838da1118cc4aa0c7e4",
+      "localPath": "files/计算机科学导论/Computer Science Illuminated-2020-7th.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "27b517058972f170",
+      "title": "computer science illuminated-2016",
+      "category": "计算机科学导论",
+      "courses": [
+        "计算机科学导论"
+      ],
+      "collections": [],
+      "size": 13658992,
+      "sha256": "27b517058972f1708a9f8172c8ea3ce6370e1613ea79f7943c6282d8364afaa9",
+      "localPath": "files/计算机科学导论/computer science illuminated-2016.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "3a12f9ac9f809ed3",
+      "title": "深入理解计算机系统（第三版）",
+      "category": "计算机组成与系统结构",
+      "courses": [
+        "计算机组成与系统结构"
+      ],
+      "collections": [],
+      "size": 524804439,
+      "sha256": "3a12f9ac9f809ed3616b20503efe0ec117108ef4e284a27c5b8219e03783c720",
+      "localPath": "files/计算机组成与系统结构/深入理解计算机系统（第三版）.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "0f02b2187a673b4f",
+      "title": "计算机组成原理试题解析(第七版) (戴志涛, 白中英)",
+      "category": "计算机组成与系统结构",
+      "courses": [
+        "计算机组成与系统结构"
+      ],
+      "collections": [],
+      "size": 93803171,
+      "sha256": "0f02b2187a673b4f2bab4e891a0aa88d5a3f0aeb6e08772ed659049fce58ff4b",
+      "localPath": "files/计算机组成与系统结构/计算机组成原理试题解析(第七版) (戴志涛, 白中英).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "28ba063a22eb71e2",
+      "title": "计算机组成原理-第6版",
+      "category": "计算机组成与系统结构",
+      "courses": [
+        "计算机组成与系统结构"
+      ],
+      "collections": [],
+      "size": 86549888,
+      "sha256": "28ba063a22eb71e2ee034bc660f11ec5298029c18ba8dc7671da563cf4addea2",
+      "localPath": "files/计算机组成与系统结构/计算机组成原理-第6版.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "d85f2e043a1d9c86",
+      "title": "计算机组成原理-白中英-电子书",
+      "category": "计算机组成与系统结构",
+      "courses": [
+        "计算机组成与系统结构"
+      ],
+      "collections": [],
+      "size": 9614806,
+      "sha256": "d85f2e043a1d9c86df8ec7d82c57a0e86afc50bacec05967720dff70627a69e0",
+      "localPath": "files/计算机组成与系统结构/计算机组成原理-白中英-电子书.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "ca60b14274d1c433",
+      "title": "计算机组成原理",
+      "category": "计算机组成与系统结构",
+      "courses": [
+        "计算机组成与系统结构"
+      ],
+      "collections": [],
+      "size": 897161708,
+      "sha256": "ca60b14274d1c433155a9f5b501ac86114de3ab314f7971d85ad261173017bd7",
+      "localPath": "files/计算机组成与系统结构/计算机组成原理.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "99d9245d23b455d8",
+      "title": "计算机组成与系统结构(第3版） (袁春风、唐杰、杨若瑜、李俊)",
+      "category": "计算机组成与系统结构",
+      "courses": [
+        "计算机组成与系统结构"
+      ],
+      "collections": [],
+      "size": 123997694,
+      "sha256": "99d9245d23b455d8114ad64d1f611b63435e6e6f103a1c43f6acd7a7d318cd45",
+      "localPath": "files/计算机组成与系统结构/计算机组成与系统结构(第3版） (袁春风、唐杰、杨若瑜、李俊).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "c3f0a43437d09f72",
+      "title": "27王道《计算机组成原理》高清带书签",
+      "category": "计算机组成与系统结构",
+      "courses": [
+        "计算机组成与系统结构"
+      ],
+      "collections": [],
+      "size": 208734016,
+      "sha256": "c3f0a43437d09f722c59923e3b05070e445707d417d5144ba07a5596f66a29d3",
+      "localPath": "files/计算机组成与系统结构/27王道《计算机组成原理》高清带书签.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "b2c298979038f8dd",
+      "title": "26王道《计算机组成原理》",
+      "category": "计算机组成与系统结构",
+      "courses": [
+        "计算机组成与系统结构"
+      ],
+      "collections": [],
+      "size": 134011039,
+      "sha256": "b2c298979038f8ddc1c0b775ff2e30594abf4295ed213258d263bd4de93134c2",
+      "localPath": "files/计算机组成与系统结构/26王道《计算机组成原理》.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "962383fcc7ec0fda",
+      "title": "VC++动态链接库(DLL)编程深入浅出(全)",
+      "category": "面向对象程序设计",
+      "courses": [
+        "面向对象程序设计"
+      ],
+      "collections": [],
+      "size": 688819,
+      "sha256": "962383fcc7ec0fdaa00a95488fb136dce186527e2587debe777664686ccacde3",
+      "localPath": "files/面向对象程序设计/VC++动态链接库(DLL)编程深入浅出(全).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "18a48cbfef657dfe",
+      "title": "C++ Primer Plus：中文版（第六版） (Stephen Prata)",
+      "category": "面向对象程序设计",
+      "courses": [
+        "面向对象程序设计"
+      ],
+      "collections": [],
+      "size": 315455013,
+      "sha256": "18a48cbfef657dfedc14bc9aa4dbdc0e4b2a116c50af2ad8fe8fbf94f9868115",
+      "localPath": "files/面向对象程序设计/C++ Primer Plus：中文版（第六版） (Stephen Prata).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "c3aca1c1294ec370",
+      "title": "湖南大学出版社-C++面向对象程序设计",
+      "category": "面向对象程序设计",
+      "courses": [
+        "面向对象程序设计"
+      ],
+      "collections": [],
+      "size": 22682838,
+      "sha256": "c3aca1c1294ec370f49797f8bad5632a0a202325d2eba6d0c99f00514d475046",
+      "localPath": "files/面向对象程序设计/湖南大学出版社-C++面向对象程序设计.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "b2dba07f8bfb3972",
+      "title": "新编数据结构习题与解析  第2版_14722478",
+      "category": "数据结构",
+      "courses": [
+        "数据结构"
+      ],
+      "collections": [],
+      "size": 201822211,
+      "sha256": "b2dba07f8bfb39727b23d1658016ebb5c87eb3771b0334277393ff62bdca021d",
+      "localPath": "files/数据结构/新编数据结构习题与解析  第2版_14722478.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "14241e9539333afd",
+      "title": "数据结构（C语言版）",
+      "category": "数据结构",
+      "courses": [
+        "数据结构"
+      ],
+      "collections": [],
+      "size": 19265461,
+      "sha256": "14241e9539333afded26ea1f32fb6159970e51a733d156f0ba30cc10613bf702",
+      "localPath": "files/数据结构/数据结构（C语言版）.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "034de8ea9f0da8da",
+      "title": "26王道《数据结构》",
+      "category": "数据结构",
+      "courses": [
+        "数据结构"
+      ],
+      "collections": [],
+      "size": 133948835,
+      "sha256": "034de8ea9f0da8da2e8e2f3c60c26d19ce1babc743c12dc8a162b268eee7f3d0",
+      "localPath": "files/数据结构/26王道《数据结构》.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "73ad418be0e17e91",
+      "title": "数字逻辑 第5版14984769",
+      "category": "数字逻辑",
+      "courses": [
+        "数字逻辑"
+      ],
+      "collections": [],
+      "size": 56642831,
+      "sha256": "73ad418be0e17e91df1230f17beb8f61a778d261128d7861e12849d4ff235978",
+      "localPath": "files/数字逻辑/数字逻辑 第5版14984769.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "7ea3e4f6576592da",
+      "title": "《离散数学及其应用  第3版》傅彦",
+      "category": "离散数学",
+      "courses": [
+        "离散数学"
+      ],
+      "collections": [],
+      "size": 104195405,
+      "sha256": "7ea3e4f6576592dacf3ffb76cfcb80520615d0ee2f58721565580ad2a4b3131c",
+      "localPath": "files/离散数学/《离散数学及其应用  第3版》傅彦.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "c73a47780b4b588e",
+      "title": "高等数学 第7版 上册 同济大学(1)(3)",
+      "category": "高数",
+      "courses": [
+        "高数"
+      ],
+      "collections": [],
+      "size": 57911657,
+      "sha256": "c73a47780b4b588ec1e2a2589646f08c3c7dc4ca7763932c235ff22fa123e388",
+      "localPath": "files/高数/高等数学 第7版 上册 同济大学(1)(3).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "3723fa747101c260",
+      "title": "高等数学第8版下册",
+      "category": "高数",
+      "courses": [
+        "高数"
+      ],
+      "collections": [],
+      "size": 73736110,
+      "sha256": "3723fa747101c260357a0119d69bbec0da728ef0811cf75af5722b56b23cf779",
+      "localPath": "files/高数/高等数学第8版下册.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "5263d689ed70a8cf",
+      "title": "线性代数及其应用(第六版)",
+      "category": "线性代数",
+      "courses": [
+        "线性代数"
+      ],
+      "collections": [],
+      "size": 805932222,
+      "sha256": "5263d689ed70a8cf86764b19ddf62af932332b360553d27e2f4b407034891e48",
+      "localPath": "files/线性代数/线性代数及其应用(第六版).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "fba18721ce8ed829",
+      "title": "线性代数(同济第六版)",
+      "category": "线性代数",
+      "courses": [
+        "线性代数"
+      ],
+      "collections": [],
+      "size": 143387115,
+      "sha256": "fba18721ce8ed8293cf89a129efd9ba7087be8759d6a5b58b76e171a63092158",
+      "localPath": "files/线性代数/线性代数(同济第六版).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "acd553abb603307d",
+      "title": "数学分析 第五版 下册华东师范大学",
+      "category": "高数",
+      "courses": [
+        "高数"
+      ],
+      "collections": [],
+      "size": 91410493,
+      "sha256": "acd553abb603307d783ce840692bb957c396b083fd8f339bf082c29497753b37",
+      "localPath": "files/高数/数学分析 第五版 下册华东师范大学.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "0c5a1e0f3e0d6d27",
+      "title": "数数学分析 第五版 上册华东师范大学",
+      "category": "高数",
+      "courses": [
+        "高数"
+      ],
+      "collections": [],
+      "size": 75986898,
+      "sha256": "0c5a1e0f3e0d6d27430288170dcfdc8ca72e66e544655f61b4a6bc76beaea988",
+      "localPath": "files/高数/数数学分析 第五版 上册华东师范大学.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "155b9ab460d1b3cb",
+      "title": "华东师范大学数学分析第5五版 下册 辅导课后习题考研真题详解答案张天德",
+      "category": "高数",
+      "courses": [
+        "高数"
+      ],
+      "collections": [],
+      "size": 132656461,
+      "sha256": "155b9ab460d1b3cb21ebca87f345a135e5c2510212960d0b8bfaf6c89101efd7",
+      "localPath": "files/高数/华东师范大学数学分析第5五版 下册 辅导课后习题考研真题详解答案张天德.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "5542b837118e9aa0",
+      "title": "华东师范大学数学分析第5五版 上册 辅导课后习题考研真题详解答案张天德",
+      "category": "高数",
+      "courses": [
+        "高数"
+      ],
+      "collections": [],
+      "size": 138894162,
+      "sha256": "5542b837118e9aa0e705d0fc2fd5f5ed6077f886ac101147f434766daa6a19d9",
+      "localPath": "files/高数/华东师范大学数学分析第5五版 上册 辅导课后习题考研真题详解答案张天德.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "f31c568fb3987aa7",
+      "title": "工程数学+线性代数+同济大学第七版",
+      "category": "线性代数",
+      "courses": [
+        "线性代数"
+      ],
+      "collections": [],
+      "size": 39511492,
+      "sha256": "f31c568fb3987aa7b50bad50ee9f99ed1ab6c6fb668dc5b54d5aaf8594029d26",
+      "localPath": "files/线性代数/工程数学+线性代数+同济大学第七版.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "6a2549da9956c7ba",
+      "title": "百面大模型 (包梦蛟,刘如日,朱俊达)",
+      "category": "大模型",
+      "courses": [
+        "大模型"
+      ],
+      "collections": [],
+      "size": 61643635,
+      "sha256": "6a2549da9956c7ba93203d22d3603ce8af5dc0dd7dce8404b46348a8c5eb6003",
+      "localPath": "files/大模型/百面大模型 (包梦蛟,刘如日,朱俊达).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "5ae3d3fb6b7c405c",
+      "title": "编译原理（第3版） (陈意云，张昱（编著）)",
+      "category": "编译原理",
+      "courses": [
+        "编译原理"
+      ],
+      "collections": [],
+      "size": 74661409,
+      "sha256": "5ae3d3fb6b7c405c5c0b187640a71dc4b62c9bf3ebdfede3fd0cc454163d0003",
+      "localPath": "files/编译原理/编译原理（第3版） (陈意云，张昱（编著）).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "3e114fd9bf51acb4",
+      "title": "编译原理 第2版 (蒋宗礼，姜守旭编著)",
+      "category": "编译原理",
+      "courses": [
+        "编译原理"
+      ],
+      "collections": [],
+      "size": 104183305,
+      "sha256": "3e114fd9bf51acb4b5ad5f046b07cea4ecc25fdcf147df81befdd51e4f16279d",
+      "localPath": "files/编译原理/编译原理 第2版 (蒋宗礼，姜守旭编著).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "287cfcf886b2a3e8",
+      "title": "机器学习（西瓜书） (周志华)",
+      "category": "机器学习",
+      "courses": [
+        "machine-learning"
+      ],
+      "collections": [],
+      "size": 90245776,
+      "sha256": "287cfcf886b2a3e8f3cc11527b2dffa45f63f99b7f15a74bb4e81476543a3ef7",
+      "localPath": "files/机器学习/机器学习（西瓜书） (周志华).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "11b6c832f94a88f2",
+      "title": "李沐动手学习深度学习",
+      "category": "深度学习",
+      "courses": [
+        "深度学习"
+      ],
+      "collections": [],
+      "size": 7439367,
+      "sha256": "11b6c832f94a88f2ba36139b224ecfd3e467f4629ab2411410375778dbf7b44d",
+      "localPath": "files/深度学习/李沐动手学习深度学习.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "a89f3957c1c250c0",
+      "title": "强化学习的数学原理 (赵世钰)",
+      "category": "强化学习",
+      "courses": [
+        "强化学习"
+      ],
+      "collections": [],
+      "size": 71273013,
+      "sha256": "a89f3957c1c250c074d638d13cb2454bdf17ce6205bbfa807e2a5a88945ea0cb",
+      "localPath": "files/强化学习/强化学习的数学原理 (赵世钰).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "f8be1e8b8b4fc3d3",
+      "title": "凸优化理论 (Dimitri P. Bertsekas)",
+      "category": "凸优化",
+      "courses": [
+        "凸优化"
+      ],
+      "collections": [],
+      "size": 43351712,
+      "sha256": "f8be1e8b8b4fc3d3c4928cf6e4df12463b0ebe567944bfdca083e485ae3f48d7",
+      "localPath": "files/凸优化/凸优化理论 (Dimitri P. Bertsekas).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "20eab06e77b73f7b",
+      "title": "凸优化 (Stephen Boyd, Lieven Vandenberghe)",
+      "category": "凸优化",
+      "courses": [
+        "凸优化"
+      ],
+      "collections": [],
+      "size": 55236598,
+      "sha256": "20eab06e77b73f7baa751a36870238e52314adcc238f3196ae3466e2eb083526",
+      "localPath": "files/凸优化/凸优化 (Stephen Boyd, Lieven Vandenberghe).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "025c728537dd1572",
+      "title": "最优化基础理论与方法（第二版） (王燕军 梁治安 崔雪婷)",
+      "category": "最优化理论",
+      "courses": [
+        "最优化理论"
+      ],
+      "collections": [],
+      "size": 23858578,
+      "sha256": "025c728537dd1572e6c50e13c19c9f7059527052cdcd537fc1f621bdb6832018",
+      "localPath": "files/最优化理论/最优化基础理论与方法（第二版） (王燕军 梁治安 崔雪婷).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "047c976f705c6258",
+      "title": "最优化理论与算法 (陈宝林)",
+      "category": "最优化理论",
+      "courses": [
+        "最优化理论"
+      ],
+      "collections": [],
+      "size": 28208173,
+      "sha256": "047c976f705c6258b198446a7343e72a2e82b6e1cc12eada8fcb27db49253810",
+      "localPath": "files/最优化理论/最优化理论与算法 (陈宝林).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "fa0f4fbeae0f5f0f",
+      "title": "101计划微分几何 (来米加)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 68087919,
+      "sha256": "fa0f4fbeae0f5f0f6ca1f695d2b3565afc04a55469e0e7acf3c6e0ed8d6855ea",
+      "localPath": "files/101计划·数学/101计划微分几何 (来米加).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "f0a53a144e682ac1",
+      "title": "101计划核心教材 几何学基础 (盛茂,王作勤)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 13070644,
+      "sha256": "f0a53a144e682ac1c76fda73baed2b426ab4d84e116a60c43cb6b9589de2a197",
+      "localPath": "files/101计划·数学/101计划核心教材 几何学基础 (盛茂,王作勤).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "35f80bc73702ac9e",
+      "title": "代数学(1) (李方 邓少强 冯荣权 刘东文 编著)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 35594471,
+      "sha256": "35f80bc73702ac9edb4bfa6a6a7aef11d588fe5c84423e40e63257e727f711b6",
+      "localPath": "files/101计划·数学/代数学(1) (李方 邓少强 冯荣权 刘东文 编著).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "bd55417b31e12d9d",
+      "title": "代数学(2) (李方 邓少强 冯荣权 刘东文)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 30643089,
+      "sha256": "bd55417b31e12d9dfbc5593089607df50a56bd12124cd70ae6ee7ee79249d898",
+      "localPath": "files/101计划·数学/代数学(2) (李方 邓少强 冯荣权 刘东文).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "04740170ab08ce25",
+      "title": "代数学(3) (冯荣权 邓少强 李方 徐彬斌)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 40464044,
+      "sha256": "04740170ab08ce2597b80e631feaee039694ce1600fc98e59292bca9c90f7e8f",
+      "localPath": "files/101计划·数学/代数学(3) (冯荣权 邓少强 李方 徐彬斌).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "489f3fa3a5f427ca",
+      "title": "代数学(4) (冯荣权 邓少强 李方 徐彬斌)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 32336461,
+      "sha256": "489f3fa3a5f427cacda0947ad50f5d3cf48fb58c35450cf62abb38e4414127e8",
+      "localPath": "files/101计划·数学/代数学(4) (冯荣权 邓少强 李方 徐彬斌).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "47725153604813ea",
+      "title": "代数学(5)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 27628211,
+      "sha256": "47725153604813ea5e159f0b3dd5d39766375c4c41178638f3525640765a7127",
+      "localPath": "files/101计划·数学/代数学(5).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "5e83a571d509435f",
+      "title": "基础复分析 (崔贵珍 高延)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 26780400,
+      "sha256": "5e83a571d509435f7f083f0a64bb52e2990568395904ac90d65bd5d6f4ffb0f0",
+      "localPath": "files/101计划·数学/基础复分析 (崔贵珍 高延).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "14a6a968fb89204f",
+      "title": "基础拓扑学及应用 (雷逢春, 杨志青, 李凤玲)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 49564771,
+      "sha256": "14a6a968fb89204fd0417e6cf5c540f05fc174a61298197b9eedb30b80e37a87",
+      "localPath": "files/101计划·数学/基础拓扑学及应用 (雷逢春, 杨志青, 李凤玲).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "3d007f2748e29a4c",
+      "title": "复变函数 (王晓光)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 15342992,
+      "sha256": "3d007f2748e29a4c3c5e7086cdfbd6a4efbeb4e3afbfd0a8afd92cce16a560c9",
+      "localPath": "files/101计划·数学/复变函数 (王晓光).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "bed2729cdee23603",
+      "title": "实变函数 (程伟 吕勇)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 27861113,
+      "sha256": "bed2729cdee236035d2286e7375685b64117a77b5af7775c66da137bc7cc665b",
+      "localPath": "files/101计划·数学/实变函数 (程伟 吕勇).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "e5f60be1dbada167",
+      "title": "微分方程数值解法 (李荣华)",
+      "category": "101计划·数学",
+      "courses": [
+        "数值分析"
+      ],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 117836700,
+      "sha256": "e5f60be1dbada167c7e503aa52ea19eba4439f4b8a9a95ef76f7440d0fc50eab",
+      "localPath": "files/101计划·数学/微分方程数值解法 (李荣华).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "287f6b2de69e9143",
+      "title": "数值线性代数 (高卫国)",
+      "category": "101计划·数学",
+      "courses": [
+        "数值分析"
+      ],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 94960044,
+      "sha256": "287f6b2de69e9143366b5cc58b3da4812490025398b3be5d362e08d35becd152",
+      "localPath": "files/101计划·数学/数值线性代数 (高卫国).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "b7aa1d8698d344d8",
+      "title": "数学分析 (上中下册) (楼红卫, 杨家忠, 梅加强)",
+      "category": "101计划·数学",
+      "courses": [
+        "高数"
+      ],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 99410314,
+      "sha256": "b7aa1d8698d344d8326acda52e43a381ac9b4a864473b8e578277d89ed00a9bd",
+      "localPath": "files/101计划·数学/数学分析 (上中下册) (楼红卫, 杨家忠, 梅加强).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "0a8aaf2d353fcff2",
+      "title": "数学物理方程 (雷震, 王志强, 华波波)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 20628081,
+      "sha256": "0a8aaf2d353fcff29b4c71203c878d78fc063c714b4c647c818641c77273d810",
+      "localPath": "files/101计划·数学/数学物理方程 (雷震, 王志强, 华波波).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "757ebf40a6b0c6ce",
+      "title": "数论基础 (方江学)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 29453008,
+      "sha256": "757ebf40a6b0c6ce302bd0318aaa0c9737f5e8a84ca706d70c4e84ea25b26bb2",
+      "localPath": "files/101计划·数学/数论基础 (方江学).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "58a75e5c69c082ab",
+      "title": "概率论 下(101计划核心教材 ) (李增沪 张梅 何辉)",
+      "category": "101计划·数学",
+      "courses": [
+        "概率论"
+      ],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 93533087,
+      "sha256": "58a75e5c69c082ab3dab7d45a5064b716ba49f6ecec0e59fdb8a3093ecb50605",
+      "localPath": "files/101计划·数学/概率论 下(101计划核心教材 ) (李增沪 张梅 何辉).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "26f3bf7dad1a99a5",
+      "title": "概率论(上) - 北京师范大学 (李增沪, 张梅, 何辉)",
+      "category": "101计划·数学",
+      "courses": [
+        "概率论"
+      ],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 101537281,
+      "sha256": "26f3bf7dad1a99a54a77bbc39e5d865d64b818e4feac66abd1cfe63518af7e33",
+      "localPath": "files/101计划·数学/概率论(上) - 北京师范大学 (李增沪, 张梅, 何辉).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "ca3f0bf5964584b9",
+      "title": "泛函分析 (有目录) (王凯, 姚一隽, 黄昭波)",
+      "category": "101计划·数学",
+      "courses": [],
+      "collections": [
+        "101计划·数学"
+      ],
+      "size": 34177516,
+      "sha256": "ca3f0bf5964584b9a87836ba089d2a1ba174617bc04af3e14f72b26da23ea464",
+      "localPath": "files/101计划·数学/泛函分析 (有目录) (王凯, 姚一隽, 黄昭波).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "ba27d6fd00cdbdaf",
+      "title": "2023 高等学校计算机类专业人才培养战略研究报告暨核心课程体系",
+      "category": "101计划·计算机",
+      "courses": [
+        "计算机科学导论"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 173714960,
+      "sha256": "ba27d6fd00cdbdaf99507bc767fd460516eb3c5fea7a57c54d004c3f0d83e4ac",
+      "localPath": "files/101计划·计算机/2023 高等学校计算机类专业人才培养战略研究报告暨核心课程体系.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "41e5fed3913df4fa",
+      "title": "人工智能实验教程",
+      "category": "101计划·计算机",
+      "courses": [
+        "人工智能导论"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 50533109,
+      "sha256": "41e5fed3913df4faa91858290b0016e65954d38844cc3bdd1334956c0284881f",
+      "localPath": "files/101计划·计算机/人工智能实验教程.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "dcc93a0649ef177f",
+      "title": "人工智能引论",
+      "category": "101计划·计算机",
+      "courses": [
+        "人工智能导论"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 70250169,
+      "sha256": "dcc93a0649ef177f19a71f7d7d7ff329ee672f2296f1aed36e5365fefdae7223",
+      "localPath": "files/101计划·计算机/人工智能引论.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "3ba2e1bee2fd4aaa",
+      "title": "大模型原理与应用",
+      "category": "101计划·计算机",
+      "courses": [
+        "大模型"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 178694812,
+      "sha256": "3ba2e1bee2fd4aaa8169831f896cee9c1a6a447e60f5229394a74227d0098db3",
+      "localPath": "files/101计划·计算机/大模型原理与应用.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "9f1407b6943a0eb8",
+      "title": "操作系统原理与技术实现 (李治军 夏文 吴帆 申文博 李雪)",
+      "category": "101计划·计算机",
+      "courses": [
+        "操作系统"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 125220557,
+      "sha256": "9f1407b6943a0eb8b3510599f95e33c9979f8e22bd93b9bf487404987c2676e8",
+      "localPath": "files/101计划·计算机/操作系统原理与技术实现 (李治军 夏文 吴帆 申文博 李雪).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "8a069db8e4c22cf8",
+      "title": "数据库管理系统——从基本原理到系统构建(李国良,冯建华,柴成亮,李辉编著)",
+      "category": "101计划·计算机",
+      "courses": [
+        "数据库"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 144055113,
+      "sha256": "8a069db8e4c22cf8d08783c7770ecfe5b8dfb239c4c95626ae9b6d0b43559027",
+      "localPath": "files/101计划·计算机/数据库管理系统——从基本原理到系统构建(李国良,冯建华,柴成亮,李辉编著).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "97a88c9f044663e2",
+      "title": "数据结构 (俞勇 张铭 陈越 韩文弢)",
+      "category": "101计划·计算机",
+      "courses": [
+        "数据结构"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 181282892,
+      "sha256": "97a88c9f044663e2e4a526b4a5e7f0f056da200758b5be8c363273f1209a5614",
+      "localPath": "files/101计划·计算机/数据结构 (俞勇 张铭 陈越 韩文弢).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "8f484673e84c6c6e",
+      "title": "智能计算模型与理论",
+      "category": "101计划·计算机",
+      "courses": [
+        "人工智能导论"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 82087253,
+      "sha256": "8f484673e84c6c6efba212be2aa508811553063076c8a9355e27a23c84c0d736",
+      "localPath": "files/101计划·计算机/智能计算模型与理论.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "4265b4c65b30ef67",
+      "title": "深入理解计算机网络 (袁华,王昊翔,黄敏)",
+      "category": "101计划·计算机",
+      "courses": [
+        "计算机网络"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 264367981,
+      "sha256": "4265b4c65b30ef675da1bdf1a73e324ced945adc47b045d0cb35bbb9014edbb9",
+      "localPath": "files/101计划·计算机/深入理解计算机网络 (袁华,王昊翔,黄敏).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "63bf2a7e08627d9d",
+      "title": "离散数学基础  曹永知",
+      "category": "101计划·计算机",
+      "courses": [
+        "离散数学"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 200185670,
+      "sha256": "63bf2a7e08627d9db1c5750dfff465ba81ecab35f9d591e002cfb9a44d654c9a",
+      "localPath": "files/101计划·计算机/离散数学基础  曹永知.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "9791fe8e0a9a51c1",
+      "title": "编译原理与技术 (张莉 黄春 田玲 王生原 蒋竞)",
+      "category": "101计划·计算机",
+      "courses": [
+        "编译原理"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 154348705,
+      "sha256": "9791fe8e0a9a51c1280390d917383f3b95962864be3bd69f2444a57c83c00a36",
+      "localPath": "files/101计划·计算机/编译原理与技术 (张莉 黄春 田玲 王生原 蒋竞).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "68f740693638c017",
+      "title": "计算机操作系统实验指导",
+      "category": "101计划·计算机",
+      "courses": [
+        "操作系统"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 43067930,
+      "sha256": "68f740693638c017386fd75954b5ff4fd166b6ec2fbf8fad9c657ce5d883107a",
+      "localPath": "files/101计划·计算机/计算机操作系统实验指导.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "ccb9148919cf4f89",
+      "title": "计算机科学导论 (战德臣 张丽杰)",
+      "category": "101计划·计算机",
+      "courses": [
+        "计算机科学导论"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 218865627,
+      "sha256": "ccb9148919cf4f89fb02107651998667c43a8c44abf9aec174b0339a5e97257a",
+      "localPath": "files/101计划·计算机/计算机科学导论 (战德臣 张丽杰).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "dd1117903f252c24",
+      "title": "计算机科学导论以计算思维为舟",
+      "category": "101计划·计算机",
+      "courses": [
+        "计算机科学导论"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 70647647,
+      "sha256": "dd1117903f252c2401ac973f23ceae2f6b522a427ef1fb73c28047b97826a1aa",
+      "localPath": "files/101计划·计算机/计算机科学导论以计算思维为舟.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "4a4d31856213a10e",
+      "title": "计算机系统基于x86+Linux平台(袁春风,朱光辉,余子濠)",
+      "category": "101计划·计算机",
+      "courses": [
+        "计算机组成与系统结构"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 33606719,
+      "sha256": "4a4d31856213a10e4e822f5804551e7689580aa4133064ca78a84519738be83e",
+      "localPath": "files/101计划·计算机/计算机系统基于x86+Linux平台(袁春风,朱光辉,余子濠).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "9137bc1243d7265a",
+      "title": "计算机组成与实现-高小鹏 高等教育出版社",
+      "category": "101计划·计算机",
+      "courses": [
+        "计算机组成与系统结构"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 146493718,
+      "sha256": "9137bc1243d7265aeffc9b584861bd1982eca2691708c013faada47f0d0f8870",
+      "localPath": "files/101计划·计算机/计算机组成与实现-高小鹏 高等教育出版社.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "fd06326ab48025a4",
+      "title": "计算机组成原理实验指导",
+      "category": "101计划·计算机",
+      "courses": [
+        "计算机组成与系统结构"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 89541684,
+      "sha256": "fd06326ab48025a475bbbdca79bae2b6aae178504bb0592c3d75abc27fbe67ca",
+      "localPath": "files/101计划·计算机/计算机组成原理实验指导.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "5027940094e49087",
+      "title": "计算机网络 (胡亮 徐高潮 张宗升 霍严梅 车喜龙)",
+      "category": "101计划·计算机",
+      "courses": [
+        "计算机网络"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 104662003,
+      "sha256": "5027940094e4908780e657abb1650a0837285c75afdca8a364e1ed06733b9d23",
+      "localPath": "files/101计划·计算机/计算机网络 (胡亮 徐高潮 张宗升 霍严梅 车喜龙).pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "8be83bdeffe1494b",
+      "title": "软件工程 理论与实践",
+      "category": "101计划·计算机",
+      "courses": [
+        "软件工程"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 132489748,
+      "sha256": "8be83bdeffe1494b655c3168ce4a4b8807518511648bd2b31bb37914a6ca4029",
+      "localPath": "files/101计划·计算机/软件工程 理论与实践.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "81dfc22a32765d46",
+      "title": "软件工程-彭蓉 清华大学出版社",
+      "category": "101计划·计算机",
+      "courses": [
+        "软件工程"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 219612284,
+      "sha256": "81dfc22a32765d468aa290cfaa7ae73acd9907ae60fe30b363b19c4b44fae895",
+      "localPath": "files/101计划·计算机/软件工程-彭蓉 清华大学出版社.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "e1d7402c1cf3e160",
+      "title": "软件工程实践教程-毛新军 高等教育出版社",
+      "category": "101计划·计算机",
+      "courses": [
+        "软件工程"
+      ],
+      "collections": [
+        "101计划·计算机"
+      ],
+      "size": 138858190,
+      "sha256": "e1d7402c1cf3e160f7f15e286f5472e3489567594473976d79d50b7b1ed32f9a",
+      "localPath": "files/101计划·计算机/软件工程实践教程-毛新军 高等教育出版社.pdf",
+      "downloadUrl": ""
+    },
+    {
+      "id": "3c7dbccf7374dbfc",
+      "title": "数据库系统概论 王珊（彩色）",
+      "category": "数据库",
+      "courses": [
+        "数据库"
+      ],
+      "collections": [],
+      "size": 315637042,
+      "sha256": "3c7dbccf7374dbfc1e60c0f26f970a82e8c5ba6b8e06fab89f9a320795c0e429",
+      "localPath": "files/数据库/数据库系统概论 王珊（彩色）.pdf",
+      "downloadUrl": ""
+    }
+  ]
+}

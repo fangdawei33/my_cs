@@ -21,12 +21,13 @@
   <a href="https://fangdawei33.github.io/my_cs/">在线阅读</a> ·
   <a href="#课程目录">课程目录</a> ·
   <a href="https://fangdawei33.github.io/my_cs/life/">生活</a> ·
+  <a href="https://fangdawei33.github.io/my_cs/resources/">资源</a> ·
   <a href="https://github.com/fangdawei33/my_cs/issues">反馈与建议</a>
 </p>
 
 作者：[fangdawei33](https://github.com/fangdawei33)
 
-`my_cs` 用来整理我的计算机课程笔记、配套实验和生活随笔。课程与生活分开管理，共用一套阅读主题。
+`my_cs` 用来整理我的计算机课程笔记、配套实验、生活随笔和学习资源。网站包含“课程笔记”“生活”“资源”三个入口；每门课程与生活笔记使用独立的 mdBook，资源页提供 PDF 原文件下载。
 
 
 2024年12月份有了自己的第一篇博客园，也第一次解除了github，当时的c语言课设的第一版就上传到了上面，纯豆包生成2000多行，后续由于代码漏洞太多放弃了上传了。
@@ -82,6 +83,48 @@ life/
 
 `npm run dev` 会同时构建课程和生活笔记。本地阅读地址为 <http://localhost:3000/life/>。如果是在预览服务运行期间加入生活模块，请先按 `Ctrl+C`，再重新运行 `npm run dev`，让新的构建与监听逻辑生效。
 
+## 教材与学习资源
+
+[资源目录](https://fangdawei33.github.io/my_cs/resources/)
+
+资源是与“课程笔记”“生活”并列的独立页面，按课程与资料集分类，支持按教材名、作者搜索和分类筛选。相应课程的介绍页也有教材入口；点击后按课程名筛选资源，清空搜索框即可查看全部资料。PDF 保持原有格式、图片与排版。
+
+本次整理 **94 份 PDF、22 个分类，合计约 9.53 GiB**，包括计算机与数学课程教材、习题解析，以及“101 计划·数学”“101 计划·计算机”文件夹中的教材和相关资料。重复文件按内容去重，桌面上的原文件保留。
+
+**非商用，仅供自主学习使用。** 教材及资料的版权归原作者、出版方或相应权利人所有。此用途说明不改变各文件原有的版权和许可，详见[资源用途与版权声明](resources/NOTICE.md)。
+
+```text
+resources/
+├── index.html        # 资源页模板
+├── catalog.json      # 标题、分类、大小、内容哈希和下载地址
+├── NOTICE.md         # 非商用、自主学习与版权声明
+└── files/            # 按分类存放的 PDF 原件，仅保存在本地，不写入 Git
+```
+
+在项目根目录运行 `npm run dev`，打开 <http://localhost:3000/resources/> 可查看本地资源目录。点击“下载 PDF”保存到电脑，再用本地阅读器打开；网站不提供 PDF 网页阅读器。本地资源通过同盘硬链接提供下载，不会在每次构建时再复制一份大型教材。
+
+这些资料总体积较大，不能把所有原件直接加入普通 Git 或 GitHub Pages。公开发布时，在 `catalog.json` 的 `downloadUrl` 填入附件或文件托管的 HTTPS 地址。未配置公开地址的条目在公开构建中显示“待发布”；本地预览仍可下载原件。
+
+本项目使用 GitHub Releases 存放 PDF 附件，网站只提供目录和下载入口。通过官方 GitHub CLI 登录后，可运行：
+
+```powershell
+npm run resources:publish
+```
+
+脚本会校验原件、创建或继续使用 `learning-resources-v1` 草稿、跳过已上传且大小相符的附件。全部上传并校验完成后，再发布附件并自动把下载地址写入 `catalog.json`。中断后可以重新运行续传。发布完成后，构建网站并提交更新后的资源目录即可。
+
+上传时需要保持电脑开机并联网。已上传完成的文件会被跳过；正在传输的单个文件如果中断，需要重新上传。附件发布后，可以在 [GitHub Releases](https://github.com/fangdawei33/my_cs/releases/tag/learning-resources-v1) 查看完整附件列表，或从资源页选择所需教材下载到本地阅读。
+
+以后导入新的 PDF，可以执行：
+
+```powershell
+npm run resources:import -- --category 数据库 --course 数据库 "C:\资料\教材.pdf"
+```
+
+文件夹路径也支持，脚本会递归收集 PDF，并按内容去重。`--category` 为资源分类，`--course` 为现有课程的目录名；例如机器学习使用 `machine-learning`。导入只复制原件，不转换成 Markdown。
+
+新增资料的顺序为：导入 PDF → 运行 `npm run resources:publish` 上传附件 → 运行 `npm run build` 和 `npm run check` → 提交更新后的 `catalog.json` 并推送。PDF 原件放在本地 `resources/files/`；Git 仓库保存页面、说明和资源目录，GitHub Pages 发布网站，GitHub Releases 保存附件。
+
 ## 本地启动（Windows PowerShell）
 
 需要 Node.js 22 或更新版本。无需 `npm install`，项目没有 npm 第三方依赖。
@@ -101,6 +144,7 @@ npm run dev
 | 网站首页 | <http://localhost:3000/> |
 | 机器学习 | <http://localhost:3000/machine-learning/> |
 | 生活笔记 | <http://localhost:3000/life/> |
+| 资源目录 | <http://localhost:3000/resources/> |
 
 命令要在包含 `package.json` 的 `D:\ml_learning\my_cs` 中执行。如果报 `ENOENT`、找不到 `package.json`，先检查当前目录，执行上面的 `cd` 命令再启动。
 
@@ -133,6 +177,7 @@ my_cs/
 │       │   └── ...         # Markdown 正文
 │       └── experiments/    # .ipynb / .py，构建时复制到网站供下载
 ├── life/                   # 独立的生活笔记，与 courses 并列
+├── resources/              # PDF 目录与本地原件，原件已忽略 Git 提交
 ├── theme/                  # 课程与生活共用主题，构建时自动同步资源
 ├── scripts/                # 安装、构建、预览、新建课程、检查链接
 ├── .github/workflows/      # GitHub Pages 自动构建与发布
@@ -217,7 +262,7 @@ npm run new-course -- computer-vision "计算机视觉" "记录视觉模型、�
 - `book.toml` 的 `title` 控制书内标题。
 - 新课也使用根目录 `theme/`，修改一次可应用到所有课程。
 
-各课程内和 `life/` 内的 `theme/` 是构建脚本自动生成的资源副本，已忽略提交；只修改仓库根目录的 `theme/`。请使用 `npm run dev` 或 `npm run build`，它们会先同步主题，再调用 mdBook。`life` 已作为生活模块的保留路径，新增课程请使用其他目录名。
+各课程内和 `life/` 内的 `theme/` 是构建脚本自动生成的资源副本，已忽略提交；只修改仓库根目录的 `theme/`。请使用 `npm run dev` 或 `npm run build`，它们会先同步主题，再调用 mdBook。`life` 和 `resources` 已作为生活与资源模块的保留路径，新增课程请使用其他目录名。
 
 ## 构建与检查
 
@@ -264,6 +309,7 @@ GitHub Pages 的发布来源应为 **Settings → Pages → Build and deployment
 | 网站首页 | <https://fangdawei33.github.io/my_cs/> |
 | 机器学习 | <https://fangdawei33.github.io/my_cs/machine-learning/> |
 | 生活笔记 | <https://fangdawei33.github.io/my_cs/life/> |
+| 资源目录 | <https://fangdawei33.github.io/my_cs/resources/> |
 
 每次推送到 `main`，工作流会安装固定版本 mdBook、构建课程和生活笔记、检查链接并发布。PR 只做构建和检查。
 
@@ -282,6 +328,8 @@ GitHub Pages 的发布来源应为 **Settings → Pages → Build and deployment
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
 本项目采用 [MIT 许可证](LICENSE)。项目作者为 fangdawei33；复用框架部分保留原作者的版权和许可声明。
+
+第三方教材与资源保留各自的版权和许可，不自动适用本仓库代码的 MIT 许可证。资源用途说明见[资源声明](resources/NOTICE.md)。
 
 ## ⭐ Star History
 

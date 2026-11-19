@@ -11,6 +11,8 @@
     "check": "node scripts/check.mjs",
     "test": "node --test",
     "dev": "node scripts/serve.mjs",
-    "new-course": "node scripts/new-course.mjs"
+    "new-course": "node scripts/new-course.mjs",
+    "resources:import": "node scripts/import-pdfs.mjs",
+    "resources:publish": "node scripts/publish-resources.mjs"
   }
 }

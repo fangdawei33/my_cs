@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="my_cs 教材与学习资料，按课程分类。非商用，仅供自主学习使用。">
+    <title>资源 · my_cs</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../assets/home.css">
+    <link rel="stylesheet" href="../assets/resources.css">
+    <script src="../assets/resources.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#resource-list">跳到资源列表</a>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="brand" href="../" aria-label="my_cs 首页">my_cs<span>/</span></a>
+        <nav aria-label="主导航">
+          <a href="../#courses">课程笔记</a>
+          <a href="../life/">生活</a>
+          <a class="nav-active" href="./" aria-current="page">资源</a>
+        </nav>
+      </header>
+
+      <main class="resources-main">
+        <section class="resources-intro" aria-labelledby="resources-title">
+          <p class="eyebrow">RESOURCE LIBRARY</p>
+          <h1 id="resources-title">教材与学习资料</h1>
+          <p class="resources-description">按课程整理的 PDF 原文件，下载到本地阅读，保留原有图片与排版。</p>
+          <p class="resources-count">{{resource_count}} 份资料 · {{resource_size}} GiB</p>
+        </section>
+
+        <!-- 用途声明保持可见；这里的声明不改变各份资料原有的版权和许可。 -->
+        <aside class="resources-disclaimer" aria-label="资源用途与版权声明">
+          <strong>非商用，仅供自主学习使用。</strong>
+          <p>
+            教材及资料的版权归原作者、出版方或相应权利人所有。
+            本站仅作学习资料整理，不对其主张版权；此用途说明不改变各文件原有的版权和许可。
+            如有版权问题，请通过
+            <a href="https://github.com/fangdawei33/my_cs/issues">反馈入口</a>
+            联系处理。
+          </p>
+        </aside>
+
+        <div class="resources-toolbar">
+          <label>
+            <span>搜索资料</span>
+            <input id="resource-search" type="search" placeholder="输入教材名、作者或课程" aria-controls="resource-list">
+          </label>
+          <label>
+            <span>分类</span>
+            <select id="resource-category" aria-controls="resource-list">
+              <option value="">全部分类</option>
+              {{category_options}}
+            </select>
+          </label>
+        </div>
+
+        <div id="resource-list">
+          {{resource_groups}}
+        </div>
+        <p id="resource-empty" class="empty-result" role="status" hidden>没有找到匹配的资料。</p>
+      </main>
+
+      <footer>
+        <a class="brand footer-brand" href="../">my_cs<span>/</span></a>
+        <p>非商用 · 自主学习</p>
+      </footer>
+    </div>
+  </body>
+</html>
