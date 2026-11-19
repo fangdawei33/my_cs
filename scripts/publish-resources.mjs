@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { copyFileSync, createReadStream, existsSync, linkSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join } from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import { root } from './lib.mjs';
 import { resourceFilePath } from './resources.mjs';

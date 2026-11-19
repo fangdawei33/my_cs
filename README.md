@@ -1,6 +1,6 @@
 
 
-![my_cs 计算机学习笔记](assets/Gemini_Generated_Image_lfx9rglfx9rglfx9.jpg)
+![my_cs 计算机学习笔记](assets/Gemini_Generated_Image_3b88t13b88t13b88.jpg)
 
 
 # 计算机科学与技术学习笔记
@@ -111,8 +111,6 @@ resources/
 
 在项目根目录运行 `npm run dev`，打开 <http://localhost:3000/resources/> 可查看本地资源目录。点击“下载 PDF”保存到电脑，再用本地阅读器打开；网站不提供 PDF 网页阅读器。本地资源通过同盘硬链接提供下载，不会在每次构建时再复制一份大型教材。
 
-这些资料总体积较大，不能把所有原件直接加入普通 Git 或 GitHub Pages。公开发布时，在 `catalog.json` 的 `downloadUrl` 填入附件或文件托管的 HTTPS 地址。未配置公开地址的条目在公开构建中显示“待发布”；本地预览仍可下载原件。
-
 本项目使用 GitHub Releases 存放 PDF 附件，网站只提供目录和下载入口。通过官方 GitHub CLI 登录后，可运行：
 
 ```powershell
@@ -180,7 +178,7 @@ my_cs/
 ├── assets/                 # README 封面、项目展示图片
 ├── index.html              # 首页模板，由 build 填充课程列表
 ├── site.json               # 首页标题和介绍
-├── web/                    # 首页样式、交互和图标
+├── web/                    # 首页和资源页的样式、交互及图标
 ├── courses/
 │   └── machine-learning/
 │       ├── course.json     # 首页展示信息、排列顺序
@@ -195,7 +193,7 @@ my_cs/
 ├── theme/                  # 课程与生活共用主题，构建时自动同步资源
 ├── scripts/                # 安装、构建、预览、新建课程、检查链接
 ├── .github/workflows/      # GitHub Pages 自动构建与发布
-├── .tools/                 # 本项目专用 mdBook，不提交
+├── .tools/                 # 项目工具、上传进度与日志，不提交
 └── dist/                   # 生成的网站，不提交
 ```
 
@@ -219,8 +217,9 @@ GitHub 仓库介绍和笔记网站首页分别由不同的文件控制：
 <!-- 在当前首页内滚动到课程列表 -->
 <a href="#courses">课程笔记</a>
 
-<!-- 打开独立的生活笔记页面 -->
+<!-- 打开独立的生活笔记、资源页面 -->
 <a href="./life/">生活</a>
+<a href="./resources/">资源</a>
 ```
 
 网站首页使用的图片放在 `web/` 中，HTML 中按 `./assets/图片名` 引用。构建时 `web/` 会复制成 `dist/assets/`；根目录用于 README 的 `assets/` 不会自动发布到网站。
@@ -308,7 +307,7 @@ Remove-Item Env:SITE_BASE_PATH
 ```powershell
 cd D:\ml_learning\my_cs
 git add .
-git commit -m "Update notes and website"
+git commit -m "更新课程笔记与网站"
 git push
 ```
 
