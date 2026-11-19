@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{description}}">
+  <meta name="color-scheme" content="light">
+  <title>{{title}} · 我的计算机学习笔记</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/home.css">
+  <script src="./assets/home.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#courses">跳到课程列表</a>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="my_cs 首页">my_cs<span>/</span></a>
+      <nav aria-label="主导航"><a class="nav-active" href="#courses">课程笔记</a><a href="#workflow">学习方式</a></nav>
+      <span class="header-label">PERSONAL KNOWLEDGE BASE</span>
+    </header>
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> 我的计算机学习笔记</p>
+          <h1 id="hero-title">学过的知识，<br>慢慢变成<span>自己的理解。</span></h1>
+          <p class="hero-description">{{description}}</p>
+          <a class="primary-link" href="#courses">翻开一本笔记</a>
+          <div class="hero-stats"><span><strong>{{course_count}}</strong> 门课程</span><span><strong>{{page_count}}</strong> 篇笔记</span><span class="stat-note">边学，边写，边实践</span></div>
+        </div>
+        <aside class="notebook" aria-label="笔记的组织方式">
+          <div class="notebook-top"><span class="notebook-tab">my_cs / 学习档案</span><span class="notebook-mark">CS</span></div>
+          <div class="notebook-page">
+            <p class="notebook-caption">一门课，一本书。</p>
+            <div class="tree-row tree-root"><span class="folder-icon"></span><strong>my_cs</strong></div>
+            <div class="tree-branches">
+              <div class="tree-row"><span class="folder-icon"></span><span>机器学习</span><span class="tree-badge">正在整理</span></div>
+              <div class="tree-sub"><span>概念与推导</span><span class="file-type">.md</span></div>
+              <div class="tree-sub"><span>代码与实验</span><span class="file-type">.ipynb / .py</span></div>
+              <div class="tree-row future-row"><span class="folder-icon"></span><span>下一门课</span><span class="tree-future">留给新的好奇</span></div>
+            </div>
+            <div class="notebook-note"><span class="note-stroke"></span>记录问题，也记录想明白的瞬间。</div>
+          </div>
+        </aside>
+      </section>
+      <section class="courses-section" id="courses" aria-labelledby="courses-title">
+        <div class="section-heading"><div><p class="eyebrow">COURSE LIBRARY</p><h2 id="courses-title">从这里开始阅读</h2></div>
+          <label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><input id="course-search" type="search" placeholder="查找课程" aria-label="查找课程"><kbd>/</kbd></label>
+        </div>
+        <div class="course-grid" id="course-grid">{{course_cards}}</div>
+        <p class="empty-result" id="empty-result" role="status" hidden>没有找到这门课程，试试其他关键词。</p>
+        <p class="library-note">新的课程会陆续加入，每本笔记都有独立的目录与搜索。</p>
+      </section>
+      <section class="workflow" id="workflow" aria-labelledby="workflow-title">
+        <div class="workflow-intro"><p class="eyebrow">LEARN · WRITE · BUILD</p><h2 id="workflow-title">让笔记和实践<br>一起生长。</h2></div>
+        <div class="workflow-item"><span class="step-label">理解</span><h3>把概念讲给自己听</h3><p>从一个具体问题出发，用自己的语言梳理定义、直觉与推导。</p></div>
+        <div class="workflow-item"><span class="step-label">验证</span><h3>让代码回答问题</h3><p>做一个小实验，观察结果，再回到笔记里补充证据与疑问。</p></div>
+      </section>
+    </main>
+    <footer><a class="brand footer-brand" href="./">my_cs<span>/</span></a><p>保持好奇，持续记录。</p><span>用 Markdown 写作 · 用 mdBook 阅读</span></footer>
+  </div>
+</body>
+</html>

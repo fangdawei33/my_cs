@@ -1,0 +1,19 @@
+# Keep text files consistent on Windows and GitHub Actions.
+* text=auto eol=lf
+
+# Preserve Windows command script conventions if added later.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets must not undergo newline conversion.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.zip binary

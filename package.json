@@ -1,0 +1,15 @@
+{
+  "name": "my_cs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "我的计算机课程笔记：多本 mdBook、一个课程首页。",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "dev": "node scripts/serve.mjs",
+    "new-course": "node scripts/new-course.mjs"
+  }
+}

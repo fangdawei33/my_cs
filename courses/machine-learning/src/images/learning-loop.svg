@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="180" viewBox="0 0 840 180" role="img" aria-labelledby="title desc">
+<title id="title">机器学习的基本流程</title><desc id="desc">数据输入模型得到预测，通过损失评价预测，再通过优化更新模型参数。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="m0 0 8 4-8 4" fill="#7595bd"/></marker></defs>
+<rect width="840" height="180" rx="12" fill="#f3f6fb"/>
+<g stroke="#d2deed" fill="#fff"><rect x="25" y="42" width="150" height="76" rx="8"/><rect x="235" y="42" width="150" height="76" rx="8"/><rect x="445" y="42" width="150" height="76" rx="8"/><rect x="655" y="42" width="160" height="76" rx="8"/></g>
+<g fill="#254d80" font-family="Microsoft YaHei, sans-serif" font-size="22" text-anchor="middle"><text x="100" y="75">数据</text><text x="310" y="75">模型</text><text x="520" y="75">损失</text><text x="735" y="75">优化</text></g>
+<g fill="#61758c" font-family="Microsoft YaHei, sans-serif" font-size="14" text-anchor="middle"><text x="100" y="101">观察输入与目标</text><text x="310" y="101">根据输入做预测</text><text x="520" y="101">衡量预测的偏差</text><text x="735" y="101">调整模型参数</text><text x="520" y="157">不断更新，再做预测</text></g>
+<g stroke="#7595bd" stroke-width="2" fill="none" marker-end="url(#arrow)"><path d="M180 80h44"/><path d="M390 80h44"/><path d="M600 80h44"/><path d="M735 123v24H310v-20"/></g></svg>
