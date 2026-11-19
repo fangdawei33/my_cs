@@ -30,17 +30,19 @@ function findCli(directory) {
 // gh 自行使用官方登录存储；本脚本不读取、传递或保存访问令牌。
 const cli = process.env.MY_CS_GH ?? findCli(join(root, '.tools', 'gh')) ?? 'gh';
 function command(args, { optional = false } = {}) {
-  // 查询遇到短暂断连可重试；写操作由调用处核对服务器结果，避免重复创建。
+  // 查询和删除中断占位可安全重试；创建操作由调用处核对服务器结果，避免重复创建。
   const readOnly = args[0] === 'api' && !args.includes('--method');
-  for (let attempt = 1; attempt <= (readOnly ? 4 : 1); attempt++) {
+  const deletingPlaceholder = args[0] === 'api' && args[args.indexOf('--method') + 1] === 'DELETE';
+  const retryable = readOnly || deletingPlaceholder;
+  for (let attempt = 1; attempt <= (retryable ? 4 : 1); attempt++) {
     const result = spawnSync(cli, args, {
       cwd: root, encoding: 'utf8', windowsHide: true,
-      maxBuffer: 8 * 1024 ** 2, timeout: readOnly ? 45000 : undefined
+      maxBuffer: 8 * 1024 ** 2, timeout: retryable ? 45000 : undefined
     });
     const message = result.error?.message ?? result.stderr?.trim() ?? '';
     const transient = /EOF|timeout|timed out|ETIMEDOUT|connection.*(?:reset|closed)|TLS handshake|HTTP 50[234]/i.test(message);
-    if (readOnly && attempt < 4 && transient) {
-      console.log(`GitHub 查询连接中断，重试 ${attempt}/3。`);
+    if (retryable && attempt < 4 && transient) {
+      console.log(`GitHub 连接中断，重试 ${attempt}/3。`);
       continue;
     }
     if (result.error) throw result.error;
