@@ -1,10 +1,10 @@
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { bookConfig, root } from './lib.mjs';
+import { bookConfig, root, validCourseName } from './lib.mjs';
 
-const [slug, title, description = '记录概念、推导与配套实验。'] = process.argv.slice(2);
-if (!slug || !title || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || /[\r\n]/.test(title)) {
-  throw new Error('用法：npm run new-course -- computer-networks "计算机网络"\n目录名只能使用小写英文、数字和连字符。');
+const [slug, title = slug, description = '记录概念、推导与配套实验。'] = process.argv.slice(2);
+if (!validCourseName(slug) || !title?.trim() || /[\r\n]/.test(title)) {
+  throw new Error('用法：npm run new-course -- 计算机网络\n也可指定显示标题：npm run new-course -- computer-networks "计算机网络"\n目录名支持中文、小写英文、数字和连字符，不能使用 Windows 保留名称。');
 }
 const course = join(root, 'courses', slug);
 if (existsSync(course)) throw new Error(`课程已存在，不会覆盖：${slug}`);

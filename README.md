@@ -1,3 +1,8 @@
+
+
+![my_cs 计算机学习笔记](assets/banner.png)
+
+
 # my_cs
 
 我的计算机课程笔记。一门课一本 mdBook，共用阅读主题，通过一个课程首页进入。
@@ -80,7 +85,11 @@ my_cs/
 ```powershell
 npm run new-course -- computer-networks "计算机网络"
 npm run new-course -- operating-systems "操作系统" "理解进程、内存、文件与并发。"
+npm run new-course -- 计算机网络 "计算机网络"
+npm run new-course -- 操作系统
 ```
+
+目录名支持中文、小写英文、数字和连字符。省略第二个参数时，显示标题默认与目录名相同，因此也可以只写一次中文课程名。中文网址可以正常访问，浏览器或复制链接时可能显示为百分号编码。
 
 命令会创建 `course.json`、`book.toml`、目录、介绍页、首篇笔记和实验目录。首页与构建自动发现所有课程，不需要逐个添加发布任务。
 

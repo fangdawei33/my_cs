@@ -6,6 +6,9 @@ import { spawnSync } from 'node:child_process';
 export const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const dist = join(root, 'dist');
 export const version = '0.4.52';
+export const validCourseName = (name) => typeof name === 'string' &&
+  /^[\p{Script=Han}a-z0-9]+(?:-[\p{Script=Han}a-z0-9]+)*$/u.test(name) &&
+  !/^(?:con|prn|aux|nul|com[0-9]|lpt[0-9])$/i.test(name);
 export const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'));
 export const escapeHtml = (text) => String(text).replace(/[&<>"']/g, (char) => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -16,7 +19,7 @@ export function getCourses() {
     .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
     .map((entry) => {
       const slug = entry.name;
-      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error(`课程目录只能使用小写英文、数字和连字符：${slug}`);
+      if (!validCourseName(slug)) throw new Error(`课程目录请使用中文、小写英文、数字或连字符，且不能使用 Windows 保留名称：${slug}`);
       const path = join(root, 'courses', slug);
       const meta = readJson(join(path, 'course.json'));
       if (typeof meta.title !== 'string' || !meta.title.trim() || typeof meta.description !== 'string') {

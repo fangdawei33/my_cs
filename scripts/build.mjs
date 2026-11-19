@@ -31,7 +31,7 @@ export function build() {
     }
     const result = spawnSync(binary, ['build', course.path, '--dest-dir', target], {
       stdio: 'inherit',
-      env: { ...process.env, MDBOOK_OUTPUT__HTML__SITE_URL: `${basePath}/${course.slug}/` }
+      env: { ...process.env, MDBOOK_OUTPUT__HTML__SITE_URL: `${basePath}/${encodeURIComponent(course.slug)}/` }
     });
     if (result.status !== 0) throw new Error(`${course.title} 构建失败。`);
     const experiments = join(course.path, 'experiments');
@@ -41,7 +41,7 @@ export function build() {
     });
   }
   const site = readJson(join(root, 'site.json'));
-  const cards = courses.map((course) => `<a class="course-card" href="./${course.slug}/">
+  const cards = courses.map((course) => `<a class="course-card" href="./${encodeURIComponent(course.slug)}/">
     <div class="course-card-top"><span class="course-code">${escapeHtml(course.slug.replaceAll('-', ' / '))}</span><span class="course-status">持续更新</span></div>
     <h3>${escapeHtml(course.title)}</h3><p>${escapeHtml(course.description)}</p>
     <div class="course-card-bottom"><span>${course.pageCount} 篇笔记</span><span class="course-read">进入课程</span></div>
