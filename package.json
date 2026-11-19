@@ -9,6 +9,7 @@
     "setup": "node scripts/setup.mjs",
     "build": "node scripts/build.mjs",
     "check": "node scripts/check.mjs",
+    "test": "node --test",
     "dev": "node scripts/serve.mjs",
     "new-course": "node scripts/new-course.mjs"
   }

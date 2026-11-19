@@ -2,6 +2,7 @@ import { copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, readFileSync, r
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { dist, escapeHtml, getCourses, getLifeBook, mdbook, readJson, root } from './lib.mjs';
+import { versionSidebarAssets } from './sidebar-assets.mjs';
 
 export function build() {
   const courses = getCourses();
@@ -37,6 +38,7 @@ export function build() {
       env: { ...process.env, MDBOOK_OUTPUT__HTML__SITE_URL: `${basePath}/${encodeURIComponent(book.slug)}/` }
     });
     if (result.status !== 0) throw new Error(`${book.title} 构建失败。`);
+    versionSidebarAssets(target);
     const experiments = join(book.path, 'experiments');
     if (existsSync(experiments)) cpSync(experiments, join(target, 'experiments'), {
       recursive: true,

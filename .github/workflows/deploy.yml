@@ -23,6 +23,8 @@ jobs:
           node-version: '22'
       - name: Install project-local mdBook
         run: npm run setup
+      - name: Test build helpers
+        run: npm test
       - name: Build all courses
         # 仓库主页为 /my_cs/；用户名.github.io 仓库则位于站点根目录。
         env:
