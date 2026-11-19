@@ -1,0 +1,17 @@
+[book]
+title = "高数"
+authors = ["my_cs"]
+language = "zh-CN"
+src = "src"
+
+[output.html]
+theme = "../../theme"
+additional-css = ["theme/custom.css", "theme/my-cs.css"]
+additional-js = ["theme/site.js"]
+default-theme = "light"
+preferred-dark-theme = "navy"
+no-section-label = true
+mathjax-support = true
+
+[output.html.print]
+enable = false

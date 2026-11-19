@@ -3,11 +3,51 @@
 ![my_cs 计算机学习笔记](assets/Gemini_Generated_Image_lfx9rglfx9rglfx9.jpg)
 
 
-# my_cs
+# 计算机科学与技术学习笔记
 
-我的计算机课程笔记。一门课一本 mdBook，共用阅读主题，通过一个课程首页进入。
+<p align="center">
+  <a href="https://fangdawei33.github.io/my_cs/"><img src="https://img.shields.io/badge/READ_ONLINE-在线阅读-2c61ae?style=for-the-badge" alt="在线阅读 my_cs"></a>
+</p>
 
-当前包含一本「机器学习」笔记和可运行的线性回归入门示例。示例用于展示写作与实验流程，可按实际课程替换。
+<p align="center">
+  <a href="https://github.com/fangdawei33/my_cs/stargazers"><img src="https://img.shields.io/github/stars/fangdawei33/my_cs?style=flat-square&amp;logo=github&amp;color=yellow" alt="GitHub Stars"></a>
+  <a href="https://github.com/fangdawei33/my_cs/forks"><img src="https://img.shields.io/github/forks/fangdawei33/my_cs?style=flat-square&amp;logo=github&amp;color=blue" alt="GitHub Forks"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="MIT License"></a>
+  <a href="https://github.com/fangdawei33/my_cs/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square" alt="PRs welcome"></a>
+  <a href="https://fangdawei33.github.io/my_cs/"><img src="https://img.shields.io/badge/Language-中文-536dce?style=flat-square" alt="语言：中文"></a>
+</p>
+
+<p align="center">
+  <a href="https://fangdawei33.github.io/my_cs/">在线阅读</a> ·
+  <a href="#课程目录">课程目录</a> ·
+  <a href="https://github.com/fangdawei33/my_cs/issues">反馈与建议</a>
+</p>
+
+作者：[fangdawei33](https://github.com/fangdawei33)
+
+
+2024年12月份有了自己的第一篇博客园，也第一次解除了github，当时的c语言课设的第一版就上传到了上面，纯豆包生成2000多行，后续由于代码漏洞太多放弃了上传了。
+
+后续是在大一的暑假，开始在csdn上写文章，但也不了了之。
+
+我一直想拥有一个自己的网页，尤其是在今年年初（2026），当时还没考完期末考试，很挣扎，找的绿裙群主的教程，后来发现还是不合我心意。
+
+也得益于ai的发展哈，希望这个可以完成我都夙愿吧。
+
+
+## 课程目录
+
+点击课程名称，直接进入对应的在线笔记。新课程目前提供笔记模板，可随学习逐步补充。
+
+| 类别 | 课程 |
+| --- | --- |
+| 基础与工具 | [办公软件](https://fangdawei33.github.io/my_cs/办公软件/) · [计算机科学导论](https://fangdawei33.github.io/my_cs/计算机科学导论/) |
+| 程序设计与开发 | [面向对象程序设计](https://fangdawei33.github.io/my_cs/面向对象程序设计/) · [C 与 C++](https://fangdawei33.github.io/my_cs/c-cpp/) · [Python](https://fangdawei33.github.io/my_cs/python/) · [Java](https://fangdawei33.github.io/my_cs/java/) · [Web 开发](https://fangdawei33.github.io/my_cs/web开发/) · [软件工程](https://fangdawei33.github.io/my_cs/软件工程/) |
+| 计算机系统 | [操作系统](https://fangdawei33.github.io/my_cs/操作系统/) · [计算机组成与系统结构](https://fangdawei33.github.io/my_cs/计算机组成与系统结构/) · [计算机网络](https://fangdawei33.github.io/my_cs/计算机网络/) · [数据库](https://fangdawei33.github.io/my_cs/数据库/) · [编译原理](https://fangdawei33.github.io/my_cs/编译原理/) |
+| 数据结构与算法 | [数据结构](https://fangdawei33.github.io/my_cs/数据结构/) · [算法设计与分析](https://fangdawei33.github.io/my_cs/算法设计与分析/) |
+| 电子电路 | [电路](https://fangdawei33.github.io/my_cs/电路/) · [模电](https://fangdawei33.github.io/my_cs/模电/) · [数字逻辑](https://fangdawei33.github.io/my_cs/数字逻辑/) · [电工电子](https://fangdawei33.github.io/my_cs/电工电子/) |
+| 数学基础与优化 | [高数](https://fangdawei33.github.io/my_cs/高数/) · [线性代数](https://fangdawei33.github.io/my_cs/线性代数/) · [概率论](https://fangdawei33.github.io/my_cs/概率论/) · [离散数学](https://fangdawei33.github.io/my_cs/离散数学/) · [数值分析](https://fangdawei33.github.io/my_cs/数值分析/) · [最优化理论](https://fangdawei33.github.io/my_cs/最优化理论/) · [凸优化](https://fangdawei33.github.io/my_cs/凸优化/) |
+| 人工智能与数据 | [人工智能导论](https://fangdawei33.github.io/my_cs/人工智能导论/) · [机器学习](https://fangdawei33.github.io/my_cs/machine-learning/) · [强化学习](https://fangdawei33.github.io/my_cs/强化学习/) · [深度学习](https://fangdawei33.github.io/my_cs/深度学习/) · [大模型](https://fangdawei33.github.io/my_cs/大模型/) · [Agentic RL](https://fangdawei33.github.io/my_cs/agentic-rl/) · [数据分析](https://fangdawei33.github.io/my_cs/数据分析/) |
 
 ## 本地启动（Windows PowerShell）
 
@@ -147,8 +187,22 @@ https://YOUR_USERNAME.github.io/my_cs/machine-learning/
 
 网站不提供 Python 执行后端；Notebook 在本地或所选远程内核中运行。
 
-## 来源与许可
+## 作者与致谢
 
-阅读主题改编自 [Haozhe-Xing/agent_learning](https://github.com/Haozhe-Xing/agent_learning)，保留其三栏阅读布局、页内目录、进度条、主题支持及 MIT 许可证。上游版权与许可声明见 `LICENSE`。
+`my_cs` 由 [fangdawei33](https://github.com/fangdawei33) 创建和维护，用于整理自己的计算机课程笔记、学习理解与实验。
+
+网站框架和阅读主题参考并改编自 [Haozhe-Xing/agent_learning](https://github.com/Haozhe-Xing/agent_learning)。感谢原项目提供的基础框架；复用部分的原始版权声明保留在 [LICENSE](LICENSE) 中。
 
 构建工具：[mdBook](https://rust-lang.github.io/mdBook/)。发布服务：[GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。
+
+## 📄 许可证
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+
+本项目采用 [MIT 许可证](LICENSE)。项目作者为 fangdawei33；复用框架部分保留原作者的版权和许可声明。
+
+## ⭐ Star History
+
+如果这些笔记对你有帮助，欢迎给项目一个 Star，也欢迎交流和勘误。
+
+[![Star History Chart](https://api.star-history.com/chart?repos=fangdawei33/my_cs&type=date)](https://www.star-history.com/?repos=fangdawei33%2Fmy_cs&type=date)

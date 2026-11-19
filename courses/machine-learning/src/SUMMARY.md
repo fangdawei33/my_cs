@@ -16,3 +16,5 @@
 
 [配套实验](practice.md)
 [笔记写作模板](note-template.md)
+
+[学习资料](resources.md)
