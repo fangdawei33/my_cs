@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+  <!-- 独立课程目录模板。卡片来自各课程的 course.json，不需要在这里手动添加。 -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="my_cs 课程笔记目录，按课程查找笔记、代码和实验。">
+    <title>课程笔记 · {{title}}</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../assets/site.css">
+    <link rel="stylesheet" href="../assets/courses.css">
+    <script src="../assets/courses.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#course-search">跳到课程搜索</a>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="brand" href="../" aria-label="my_cs 首页">my_cs<span>/</span></a>
+        <nav aria-label="主导航">
+          <a href="../">首页</a>
+          <a class="nav-active" href="./" aria-current="page">课程笔记</a>
+          <a href="../life/">生活</a>
+          <a href="../resources/">资源</a>
+        </nav>
+        <a class="header-link" href="https://github.com/fangdawei33/my_cs">GitHub</a>
+      </header>
+
+      <main class="courses-main">
+        <section aria-labelledby="courses-title">
+          <div class="library-heading">
+            <div>
+              <p class="eyebrow">COURSE NOTES</p>
+              <h1 id="courses-title">从这里开始阅读</h1>
+              <p class="library-description">一门课，一本笔记。慢慢学，也慢慢整理。</p>
+            </div>
+            <img src="../assets/illustrations/courses.png" alt="小猫和小熊一起读书" width="120" height="120">
+          </div>
+          <div class="library-toolbar">
+            <p>{{course_count}} 门课程 <span>· 目录页数包含介绍与写作模板</span></p>
+            <label class="search-box">
+              <span>查找课程</span>
+              <input id="course-search" type="search" placeholder="输入课程名称或关键词" aria-controls="course-grid">
+              <kbd>/</kbd>
+            </label>
+          </div>
+          <p id="search-result" class="search-result" role="status" aria-live="polite"></p>
+          <div class="course-grid" id="course-grid">{{course_cards}}</div>
+          <p class="empty-result" id="empty-result" hidden>没有找到这门课程，试试其他关键词。</p>
+        </section>
+      </main>
+
+      <footer>
+        <a class="brand footer-brand" href="../">my_cs<span>/</span></a>
+        <p>记录问题，也记录想明白的瞬间。</p>
+        <span>用 Markdown 写作 · 用 mdBook 阅读</span>
+      </footer>
+    </div>
+  </body>
+</html>

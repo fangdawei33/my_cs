@@ -27,7 +27,9 @@
 
 作者：[fangdawei33](https://github.com/fangdawei33)
 
-`my_cs` 用来整理我的计算机课程笔记、配套实验、生活随笔和学习资源。网站包含“课程笔记”“生活”“资源”三个入口；每门课程与生活笔记使用独立的 mdBook，资源页提供 PDF 原文件下载。
+`my_cs` 用来整理我的计算机课程笔记、配套实验、生活随笔和学习资源。首页是叶臧的个人介绍，采用暖色手绘风格，提供“课程笔记”“生活”“资源”三个入口和一个“待开发”位置。课程列表放在[独立的课程目录页](https://fangdawei33.github.io/my_cs/courses/)；每门课程与生活笔记使用独立的 mdBook，资源页提供 PDF 原文件下载。
+
+首页下方有两个独立的展示窗口，当前分别展示动态壁纸视频和原创插画。每个窗口都能添加多张图片或视频，支持自动轮播、手动切换与暂停。
 
 
 2024年12月份有了自己的第一篇博客园，也第一次解除了github，当时的c语言课设的第一版就上传到了上面，纯豆包生成2000多行，后续由于代码漏洞太多放弃了上传了。
@@ -158,6 +160,7 @@ npm run dev
 | 页面 | 本地地址 |
 | --- | --- |
 | 网站首页 | <http://localhost:3000/> |
+| 课程目录 | <http://localhost:3000/courses/> |
 | 机器学习 | <http://localhost:3000/machine-learning/> |
 | 生活笔记 | <http://localhost:3000/life/> |
 | 资源目录 | <http://localhost:3000/resources/> |
@@ -180,12 +183,16 @@ npm run dev -- --port 3001
 my_cs/
 ├── README.md               # GitHub 仓库介绍和课程目录
 ├── assets/                 # README 封面、项目展示图片
-├── index.html              # 首页模板，由 build 填充课程列表
-├── site.json               # 首页标题和介绍
-├── web/                    # 首页和资源页的样式、交互及图标
+├── index.html              # 个人介绍、四个入口、展示区的首页模板
+├── site.json               # 网站标题、昵称和个人介绍
+├── web/                    # 首页、课程目录、资源页的样式和交互
+│   ├── gallery.json        # 两个展示窗口的图片、视频及轮播配置
+│   ├── illustrations/     # 首页原创插画和生成提示词
+│   └── media/             # 展示用视频或自选图片
 ├── courses/
+│   ├── index.html          # 独立课程目录页模板
 │   └── machine-learning/
-│       ├── course.json     # 首页展示信息、排列顺序
+│       ├── course.json     # 课程目录中的展示信息、排列顺序
 │       ├── book.toml       # 书名、语言、共用主题配置
 │       ├── src/
 │       │   ├── SUMMARY.md  # 本课程左侧目录
@@ -210,25 +217,58 @@ GitHub 仓库介绍和笔记网站首页分别由不同的文件控制：
 | GitHub 仓库介绍、封面、徽章、课程目录 | `README.md`，封面图片放在根目录 `assets/` |
 | 网站首页的文字、导航和区域顺序 | `index.html`，内有中文注释和增删说明 |
 | 网站首页的颜色、字体、间距、布局 | `web/home.css` |
-| 首页课程搜索、快捷键 | `web/home.js` |
-| 浏览器标签页标题、网站描述、首页介绍 | `site.json` 中的 `title`、`description` |
-| 首页课程卡片的名称、简介、排列顺序 | 对应课程的 `course.json` |
+| 首页、课程目录、资源页共用的配色和导航样式 | `web/site.css` |
+| 首页两个展示窗口的轮播交互 | `web/home.js` |
+| 首页展示的图片、视频、说明与切换间隔 | `web/gallery.json` |
+| 课程目录的布局、搜索和快捷键 | `courses/index.html`、`web/courses.css`、`web/courses.js` |
+| 网站标题、描述、昵称、个人介绍 | `site.json` 中的 `title`、`description`、`nickname`、`introduction` |
+| 课程卡片的名称、简介、排列顺序 | 对应课程的 `course.json` |
 | 课程和生活文章的阅读样式 | 根目录 `theme/` |
 
 首页导航中的两类链接用途不同：
 
 ```html
-<!-- 在当前首页内滚动到课程列表 -->
-<a href="#courses">课程笔记</a>
+<!-- 在当前首页内滚动到“关于这里” -->
+<a href="#about">关于这里</a>
 
-<!-- 打开独立的生活笔记、资源页面 -->
+<!-- 打开独立的课程目录、生活笔记、资源页面 -->
+<a href="./courses/">课程笔记</a>
 <a href="./life/">生活</a>
 <a href="./resources/">资源</a>
 ```
 
 网站首页使用的图片放在 `web/` 中，HTML 中按 `./assets/图片名` 引用。构建时 `web/` 会复制成 `dist/assets/`；根目录用于 README 的 `assets/` 不会自动发布到网站。
 
-`index.html` 中的 `{{title}}`、`{{description}}`、`{{course_cards}}` 等是构建占位符。课程卡片由脚本读取课程配置生成；自定义它的 HTML 结构时，修改 `scripts/build.mjs` 中生成 `cards` 的部分。
+模板中的 `{{title}}`、`{{nickname}}` 等由构建脚本填充。首页的 `{{gallery_panels}}` 来自 `web/gallery.json`；课程目录页的 `{{course_cards}}` 由脚本读取课程配置生成。自定义课程卡片的 HTML 结构时，修改 `scripts/build.mjs` 中生成 `cards` 的部分。
+
+### 给首页添加图片和视频
+
+两个窗口分别对应 `web/gallery.json` 中 `panels` 数组的第一项和第二项。每个窗口的 `items` 是素材列表；把文件放进 `web/media/`，再往对应列表里添加一项即可。路径相对 `web/`，不要写电脑上的 `C:\...` 或 `D:\...`。
+
+例如把 `旅行.jpg` 和 `日常.mp4` 放入 `web/media/`，某个窗口的 `items` 可以写成：
+
+```json
+"items": [
+  {
+    "type": "image",
+    "src": "media/旅行.jpg",
+    "caption": "留住一个喜欢的瞬间。",
+    "alt": "对图片内容的简短说明"
+  },
+  {
+    "type": "video",
+    "src": "media/日常.mp4",
+    "caption": "今天的小片段。",
+    "alt": "对视频内容的简短说明"
+  }
+]
+```
+
+这是配置片段，用它替换相应窗口的 `items`，不要替换整个文件。相邻素材之间用英文逗号分隔，最后一项后面不加逗号。`type` 填 `image` 或 `video`，`caption` 是下方文字，`alt` 是内容说明；视频还可以添加 `poster` 字段指定封面图，路径写法相同。
+
+顶层的 `intervalSeconds` 控制图片切换间隔，默认 8 秒。视频至少展示一遍完整时长再切换；单个视频会静音循环播放。窗口有多个素材时才显示上一张、下一张和暂停轮播按钮；鼠标停留、键盘操作或切到其他标签页时会暂停切换。视频离开可见区域会暂停，支持进度条、音量和全屏控件；系统启用减少动态效果或节省流量时，由读者手动播放。
+
+当前使用 1080P 动态壁纸，约 44 MB；4K 原文件保留在原目录。网页用的副本放在 `web/media/wallpaper-1080p.mp4`。图片支持 PNG、JPG、WebP、GIF 等，视频支持 MP4、WebM；首次使用的新视频应先在浏览器确认能播放。
 
 修改源文件后使用本地预览检查；`dist/` 是自动生成的网页，请通过源文件修改网站。
 
@@ -270,16 +310,16 @@ npm run new-course -- computer-vision "计算机视觉" "记录视觉模型、�
 
 目录名支持中文、小写英文、数字和连字符。省略第二个参数时，显示标题默认与目录名相同，因此也可以只写一次中文课程名。中文网址可以正常访问，浏览器或复制链接时可能显示为百分号编码。
 
-命令会创建 `course.json`、`book.toml`、目录、介绍页、首篇笔记和实验目录。首页与构建自动发现所有课程，不需要逐个添加发布任务。
+命令会创建 `course.json`、`book.toml`、目录、介绍页、首篇笔记和实验目录。课程目录页与构建自动发现所有课程，不需要逐个添加发布任务。
 
-已存在的课程不会被覆盖。网站首页会自动出现新课，README 上方的分类课程表则需要手动补充对应链接。
+已存在的课程不会被覆盖。网站的课程目录页会自动出现新课，README 上方的分类课程表则需要手动补充对应链接。
 
-- `course.json` 的 `title`、`description` 控制首页卡片。
+- `course.json` 的 `title`、`description` 控制课程目录中的卡片。
 - `order` 数字越小，卡片越靠前。
 - `book.toml` 的 `title` 控制书内标题。
 - 新课也使用根目录 `theme/`，修改一次可应用到所有课程。
 
-各课程内和 `life/` 内的 `theme/` 是构建脚本自动生成的资源副本，已忽略提交；只修改仓库根目录的 `theme/`。请使用 `npm run dev` 或 `npm run build`，它们会先同步主题，再调用 mdBook。`life` 和 `resources` 已作为生活与资源模块的保留路径，新增课程请使用其他目录名。
+各课程内和 `life/` 内的 `theme/` 是构建脚本自动生成的资源副本，已忽略提交；只修改仓库根目录的 `theme/`。请使用 `npm run dev` 或 `npm run build`，它们会先同步主题，再调用 mdBook。`courses`、`life` 和 `resources` 已作为课程目录、生活与资源模块的保留路径，新增课程请使用其他目录名。
 
 ## 构建与检查
 
@@ -288,7 +328,7 @@ npm run build
 npm run check
 ```
 
-`build` 会生成网站首页、全部课程和生活笔记；`check` 检查生成网页中的相对链接及本地资源。构建前还会检查目录引用的 Markdown 是否存在。`dist/` 可直接作为静态网站部署。
+`build` 会生成网站首页、课程目录、全部课程和生活笔记；`check` 检查生成网页中的相对链接及本地资源。构建前还会检查目录引用的 Markdown 是否存在。`dist/` 可直接作为静态网站部署。
 
 左侧目录由 `SUMMARY.md` 生成，并通过单独的 `toc.js` 加载。构建脚本会给目录资源加上随内容变化的版本号，避免更新目录后浏览器仍使用旧缓存。若刚部署后仍看到旧页，可以按 `Ctrl+F5` 强制刷新。
 
@@ -324,6 +364,7 @@ GitHub Pages 的发布来源应为 **Settings → Pages → Build and deployment
 | 页面 | 在线地址 |
 | --- | --- |
 | 网站首页 | <https://fangdawei33.github.io/my_cs/> |
+| 课程目录 | <https://fangdawei33.github.io/my_cs/courses/> |
 | 机器学习 | <https://fangdawei33.github.io/my_cs/machine-learning/> |
 | 生活笔记 | <https://fangdawei33.github.io/my_cs/life/> |
 | 资源目录 | <https://fangdawei33.github.io/my_cs/resources/> |

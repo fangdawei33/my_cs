@@ -1,0 +1,163 @@
+/* 独立课程目录。共用颜色和导航见 site.css。 */
+.courses-main {
+  padding: 42px 0 55px;
+}
+.library-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 32px;
+}
+.library-heading .eyebrow {
+  margin: 0 0 8px;
+}
+.library-heading h1 {
+  margin: 0 0 12px;
+  font-size: clamp(30px, 4vw, 40px);
+}
+.library-description {
+  margin: 0;
+  color: var(--muted);
+}
+.library-heading img {
+  border-radius: 50%;
+  border: 1px solid var(--line);
+}
+.library-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 18px 0;
+  border-top: 1px dashed var(--line);
+}
+.library-toolbar p {
+  font-size: 15px;
+  margin: 0;
+}
+.library-toolbar p span {
+  color: var(--muted);
+  font-size: 14px;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1.5px solid #b7aa97;
+  border-radius: 14px;
+  padding: 10px 14px;
+}
+.search-box > span {
+  font-size: 14px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.search-box input {
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  min-width: 0;
+  width: 205px;
+  font-size: 16px;
+}
+kbd {
+  padding: 0 5px;
+  font: 14px ui-monospace, Consolas, monospace;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--muted);
+}
+.search-result {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0 0 18px;
+}
+.search-result:empty {
+  display: none;
+}
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.course-card {
+  display: flex;
+  flex-direction: column;
+  padding: 23px 26px 19px;
+  border: 1.5px solid #bbae99;
+  border-radius: 17px 20px 18px 19px;
+  background: #fffefd;
+  transition: transform .2s, box-shadow .2s;
+}
+.course-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 3px 5px 0 #e7decc;
+}
+.course-card-top, .course-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  font-size: 14px;
+}
+.course-code {
+  color: var(--muted);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.course-status {
+  color: #546b45;
+  white-space: nowrap;
+}
+.course-card h2 {
+  margin: 16px 0 10px;
+  font-size: 24px;
+}
+.course-card p {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 16px;
+}
+.course-card-bottom {
+  margin-top: auto;
+  padding-top: 13px;
+  border-top: 1px dashed var(--line);
+  color: var(--muted);
+}
+.course-read {
+  font-weight: 600;
+  color: var(--blue);
+}
+@media (max-width: 900px) {
+  .library-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .search-box input {
+    width: 100%;
+  }
+}
+@media (max-width: 650px) {
+  .courses-main {
+    padding-top: 30px;
+  }
+  .library-heading img {
+    width: 80px;
+    height: 80px;
+  }
+  .library-heading {
+    gap: 15px;
+  }
+  .library-toolbar p span {
+    display: block;
+  }
+  .course-grid {
+    grid-template-columns: 1fr;
+  }
+  .course-card {
+    padding: 20px;
+  }
+}

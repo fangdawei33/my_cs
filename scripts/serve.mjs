@@ -8,7 +8,7 @@ const portIndex = process.argv.indexOf('--port');
 const port = Number(portIndex < 0 ? 3000 : process.argv[portIndex + 1]);
 if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('端口必须在 1–65535 之间。');
 build({ localResources: true });
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.woff2': 'font/woff2', '.woff': 'font/woff', '.ttf': 'font/ttf', '.ipynb': 'application/x-ipynb+json', '.py': 'text/plain; charset=utf-8', '.md': 'text/plain; charset=utf-8' };
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.avif': 'image/avif', '.gif': 'image/gif', '.mp4': 'video/mp4', '.webm': 'video/webm', '.woff2': 'font/woff2', '.woff': 'font/woff', '.ttf': 'font/ttf', '.ipynb': 'application/x-ipynb+json', '.py': 'text/plain; charset=utf-8', '.md': 'text/plain; charset=utf-8' };
 const server = createServer((request, response) => {
   try {
     if (!['GET', 'HEAD'].includes(request.method)) { response.writeHead(405); response.end(); return; }
@@ -30,6 +30,23 @@ const server = createServer((request, response) => {
     };
     if (isPdf) {
       headers['Content-Disposition'] = `attachment; filename="resource.pdf"; filename*=UTF-8''${encodeURIComponent(basename(target))}`;
+    }
+    // 视频支持按字节读取，拖动进度条无需重新下载整份文件。
+    const isVideo = ['.mp4', '.webm'].includes(extname(target).toLowerCase());
+    if (isVideo) headers['Accept-Ranges'] = 'bytes';
+    if (isVideo && request.headers.range) {
+      const range = /^bytes=(\d*)-(\d*)$/.exec(request.headers.range);
+      let start = range?.[1] ? Number(range[1]) : 0;
+      let end = range?.[2] ? Number(range[2]) : size - 1;
+      if (range && !range[1] && range[2]) { start = Math.max(0, size - Number(range[2])); end = size - 1; }
+      if (!range || (!range[1] && !range[2]) || !Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start > end || start >= size) {
+        response.writeHead(416, { 'Content-Range': `bytes */${size}` }); response.end(); return;
+      }
+      end = Math.min(end, size - 1);
+      response.writeHead(206, { ...headers, 'Content-Length': end - start + 1, 'Content-Range': `bytes ${start}-${end}/${size}` });
+      if (request.method === 'HEAD') response.end();
+      else createReadStream(target, { start, end }).on('error', () => response.destroy()).pipe(response);
+      return;
     }
     response.writeHead(200, headers);
     if (request.method === 'HEAD') response.end();

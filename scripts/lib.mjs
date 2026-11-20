@@ -47,7 +47,7 @@ export function getCourses() {
     .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
     .map((entry) => {
       const slug = entry.name;
-      if (['life', 'resources'].includes(slug)) throw new Error('life 和 resources 是生活与资源模块的保留路径，请为课程使用其他目录名。');
+      if (['courses', 'life', 'resources'].includes(slug)) throw new Error('courses、life 和 resources 是课程目录、生活与资源模块的保留路径，请为课程使用其他目录名。');
       if (!validCourseName(slug)) throw new Error(`课程目录请使用中文、小写英文、数字或连字符，且不能使用 Windows 保留名称：${slug}`);
       const path = join(root, 'courses', slug);
       const meta = readJson(join(path, 'course.json'));

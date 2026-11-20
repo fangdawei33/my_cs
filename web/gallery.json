@@ -1,0 +1,27 @@
+{
+  "intervalSeconds": 8,
+  "panels": [
+    {
+      "title": "会动的风景",
+      "items": [
+        {
+          "type": "video",
+          "src": "media/wallpaper-1080p.mp4",
+          "caption": "让喜欢的风景，在这里多停留一会儿。",
+          "alt": "循环播放的动态壁纸"
+        }
+      ]
+    },
+    {
+      "title": "日常的小画面",
+      "items": [
+        {
+          "type": "image",
+          "src": "illustrations/riverside.png",
+          "caption": "认真学习，也别错过窗外的好天气。",
+          "alt": "小猫和小熊在开满花的河边长椅上休息"
+        }
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process';
 import { dist, escapeHtml, getCourses, getLifeBook, mdbook, readJson, root } from './lib.mjs';
 import { versionSidebarAssets } from './sidebar-assets.mjs';
 import { buildResources } from './resources.mjs';
+import { renderGallery } from './homepage.mjs';
 
 export function build({ localResources = false } = {}) {
   const courses = getCourses();
@@ -47,17 +48,24 @@ export function build({ localResources = false } = {}) {
     });
   }
   const site = readJson(join(root, 'site.json'));
-  const cards = courses.map((course) => `<a class="course-card" href="./${encodeURIComponent(course.slug)}/">
+  const cards = courses.map((course) => `<a class="course-card" href="../${encodeURIComponent(course.slug)}/">
     <div class="course-card-top"><span class="course-code">${escapeHtml(course.slug.replaceAll('-', ' / '))}</span><span class="course-status">持续更新</span></div>
-    <h3>${escapeHtml(course.title)}</h3><p>${escapeHtml(course.description)}</p>
-    <div class="course-card-bottom"><span>${course.pageCount} 篇笔记</span><span class="course-read">进入课程</span></div>
+    <h2>${escapeHtml(course.title)}</h2><p>${escapeHtml(course.description)}</p>
+    <div class="course-card-bottom"><span>${course.pageCount} 个目录页面</span><span class="course-read">进入课程</span></div>
   </a>`).join('\n');
   const values = {
     title: escapeHtml(site.title), description: escapeHtml(site.description), course_cards: cards,
+    nickname: escapeHtml(site.nickname || site.title), introduction: escapeHtml(site.introduction || site.description),
+    gallery_panels: renderGallery(readJson(join(root, 'web', 'gallery.json')), join(root, 'web')),
     course_count: String(courses.length), page_count: String(courses.reduce((sum, course) => sum + course.pageCount, 0))
   };
   const html = readFileSync(join(root, 'index.html'), 'utf8').replace(/\{\{(\w+)\}\}/g, (match, key) => values[key] ?? match);
   writeFileSync(join(dist, 'index.html'), html);
+  // 课程目录单独生成；原有各门课程的 URL 保持不变。
+  const courseIndex = readFileSync(join(root, 'courses', 'index.html'), 'utf8')
+    .replace(/\{\{(\w+)\}\}/g, (match, key) => values[key] ?? match);
+  mkdirSync(join(dist, 'courses'), { recursive: true });
+  writeFileSync(join(dist, 'courses', 'index.html'), courseIndex);
   cpSync(join(root, 'web'), join(dist, 'assets'), { recursive: true });
   buildResources(dist, courses, { localFiles: localResources });
   writeFileSync(join(dist, '.nojekyll'), '');
