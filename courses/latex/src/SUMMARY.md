@@ -2,4 +2,4 @@
 
 [课程介绍](introduction.md)
 
-- [第一篇排版笔记](first-note.md)
+- [安装与首次编译](安装LaTeX与首次编译.md)
