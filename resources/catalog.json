@@ -1280,6 +1280,19 @@
       "sha256": "3c7dbccf7374dbfc1e60c0f26f970a82e8c5ba6b8e06fab89f9a320795c0e429",
       "localPath": "files/数据库/数据库系统概论 王珊（彩色）.pdf",
       "downloadUrl": "https://github.com/fangdawei33/my_cs/releases/download/learning-resources-v1/3c7dbccf7374dbfc-._._.pdf"
+    },
+    {
+      "id": "d4ddfad4f296168c",
+      "title": "lshort-zh-cn",
+      "category": "LaTeX",
+      "courses": [
+        "latex"
+      ],
+      "collections": [],
+      "size": 1472327,
+      "sha256": "d4ddfad4f296168c9ac18270afa2838bdde088fe04c7d2da35a97c77b529ca05",
+      "localPath": "files/LaTeX/lshort-zh-cn.pdf",
+      "downloadUrl": "https://github.com/fangdawei33/my_cs/releases/download/learning-resources-v1/d4ddfad4f296168c-lshort-zh-cn.pdf"
     }
   ]
 }

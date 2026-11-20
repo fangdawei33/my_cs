@@ -45,7 +45,7 @@
 
 | 类别 | 课程 |
 | --- | --- |
-| 基础与工具 | [办公软件](https://fangdawei33.github.io/my_cs/办公软件/) · [计算机科学导论](https://fangdawei33.github.io/my_cs/计算机科学导论/) |
+| 基础与工具 | [办公软件](https://fangdawei33.github.io/my_cs/办公软件/) · [LaTeX](https://fangdawei33.github.io/my_cs/latex/) · [计算机科学导论](https://fangdawei33.github.io/my_cs/计算机科学导论/) |
 | 程序设计与开发 | [面向对象程序设计](https://fangdawei33.github.io/my_cs/面向对象程序设计/) · [C 与 C++](https://fangdawei33.github.io/my_cs/c-cpp/) · [Python](https://fangdawei33.github.io/my_cs/python/) · [Java](https://fangdawei33.github.io/my_cs/java/) · [Web 开发](https://fangdawei33.github.io/my_cs/web开发/) · [软件工程](https://fangdawei33.github.io/my_cs/软件工程/) |
 | 计算机系统 | [操作系统](https://fangdawei33.github.io/my_cs/操作系统/) · [计算机组成与系统结构](https://fangdawei33.github.io/my_cs/计算机组成与系统结构/) · [计算机网络](https://fangdawei33.github.io/my_cs/计算机网络/) · [数据库](https://fangdawei33.github.io/my_cs/数据库/) · [编译原理](https://fangdawei33.github.io/my_cs/编译原理/) |
 | 数据结构与算法 | [数据结构](https://fangdawei33.github.io/my_cs/数据结构/) · [算法设计与分析](https://fangdawei33.github.io/my_cs/算法设计与分析/) |
@@ -99,7 +99,7 @@ life/
 
 `q=` 后面是资源页要搜索的课程名。给同一门课新增教材时，这个入口不用改；上传并发布更新后的资源目录，原入口就能找到新教材。
 
-本次整理 **94 份 PDF、22 个分类，合计约 9.53 GiB**，包括计算机与数学课程教材、习题解析，以及“101 计划·数学”“101 计划·计算机”文件夹中的教材和相关资料。重复文件按内容去重，桌面上的原文件保留。
+目前整理 **95 份 PDF、23 个分类，合计约 9.53 GiB**，包括计算机与数学课程教材、习题解析、LaTeX 教材，以及“101 计划·数学”“101 计划·计算机”文件夹中的教材和相关资料。重复文件按内容去重，桌面上的原文件保留。
 
 **非商用，仅供自主学习使用。** 教材及资料的版权归原作者、出版方或相应权利人所有。此用途说明不改变各文件原有的版权和许可，详见[资源用途与版权声明](resources/NOTICE.md)。
 
