@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的第一个小网页</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./main.js" defer></script>
+  </head>
+  <body>
+    <main class="card">
+      <p class="label">MY FIRST WEB PAGE</p>
+      <h1>你好，这是我的小网页</h1>
+      <p>这个示例只有三个文件。试着点击下面的按钮，观察文字变化。</p>
+      <ul class="roles">
+        <li><strong>HTML</strong> 写内容</li>
+        <li><strong>CSS</strong> 管外观</li>
+        <li><strong>JavaScript</strong> 做交互</li>
+      </ul>
+      <p id="message" role="status" aria-live="polite">我已经准备好学习 Web 了。</p>
+      <button id="change-message" type="button">点我改变文字</button>
+    </main>
+  </body>
+</html>

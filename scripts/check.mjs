@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve, sep } from 'node:path';
 import { dist } from './lib.mjs';
+import { htmlResourceLinks } from './html-links.mjs';
 
 // 检查实际产物中的本地页面、图片、脚本、样式和实验下载链接。
 if (!existsSync(join(dist, 'index.html'))) throw new Error('先运行 npm run build，再检查生成的网站。');
@@ -12,8 +13,7 @@ function walk(directory) {
     if (entry.isDirectory()) walk(path);
     else if (path.endsWith('.html')) {
       count++;
-      for (const match of readFileSync(path, 'utf8').matchAll(/(?:href|src)="([^"]+)"/g)) {
-        const link = match[1].replaceAll('&amp;', '&');
+      for (const link of htmlResourceLinks(readFileSync(path, 'utf8'))) {
         if (/^(?:[a-z][a-z0-9+.-]*:|\/\/|#)/i.test(link)) continue;
         const targetPath = decodeURIComponent(link.split(/[?#]/)[0]);
         if (!targetPath) continue;

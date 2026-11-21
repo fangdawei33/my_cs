@@ -59,6 +59,8 @@
 
 LaTeX 课程已加入安装与首次编译的图文笔记，语雀导出的配图已迁入课程目录，使用相对路径随网站发布。
 
+Web 开发课程新增了面向零基础的 [my_cs 网站搭建笔记](https://fangdawei33.github.io/my_cs/web开发/first-note.html)，共 8 章：从项目目录与网址、HTML/CSS/JavaScript、Markdown 与 mdBook，讲到 Node.js 构建、本地预览、首页素材维护和 GitHub Pages 发布。课程内附三文件入门网页、构建流程图、常见问题和动手练习；可以从[课程介绍](courses/web开发/src/introduction.md)按顺序阅读。
+
 ## 生活笔记
 
 [进入生活笔记](https://fangdawei33.github.io/my_cs/life/)

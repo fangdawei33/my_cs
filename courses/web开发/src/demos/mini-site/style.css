@@ -1,0 +1,67 @@
+/* 统一把边框和内边距计算在元素声明的宽度中。 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px 16px;
+  background: #fff8ed;
+  color: #493f36;
+  font: 16px/1.8 "Microsoft YaHei", sans-serif;
+}
+
+.card {
+  max-width: 660px;
+  margin: 0 auto;
+  padding: 28px;
+  border: 2px solid #756651;
+  border-radius: 20px;
+  background: white;
+}
+
+.label {
+  color: #546746;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+h1 {
+  font-size: clamp(26px, 5vw, 34px);
+  line-height: 1.5;
+}
+
+.roles {
+  padding-left: 24px;
+}
+
+#message {
+  padding: 12px;
+  border-radius: 10px;
+  background: #edf2e5;
+}
+
+button {
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 10px;
+  background: #496449;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #354b35;
+}
+
+button:focus-visible {
+  outline: 3px solid #ad813a;
+  outline-offset: 4px;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 20px;
+  }
+}

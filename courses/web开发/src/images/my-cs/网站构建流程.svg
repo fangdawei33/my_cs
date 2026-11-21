@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 350" role="img" aria-labelledby="title desc">
+  <title id="title">my_cs 网站从源码到网页的流程</title>
+  <desc id="desc">写作源文件经过 Node.js 脚本和 mdBook 构建为 dist。dist 可以由本地预览服务或 GitHub Pages 提供给浏览器。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#657352" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="960" height="350" rx="18" fill="#fffaf2"/>
+  <g font-family="Microsoft YaHei, PingFang SC, sans-serif" text-anchor="middle" fill="#443f35">
+    <text x="480" y="36" font-size="22" font-weight="700">写作、构建与阅读</text>
+    <g stroke="#908675" stroke-width="1.5">
+      <rect x="24" y="90" width="245" height="130" rx="14" fill="#fff"/>
+      <rect x="349" y="90" width="245" height="130" rx="14" fill="#edf2e5"/>
+      <rect x="674" y="90" width="260" height="130" rx="14" fill="#fff"/>
+    </g>
+    <text x="146" y="121" font-size="20" font-weight="700">源文件</text>
+    <text x="146" y="153" font-size="17">Markdown · HTML · 配置</text>
+    <text x="146" y="184" font-size="17">CSS · JavaScript · 素材</text>
+    <text x="471" y="121" font-size="20" font-weight="700">构建工具</text>
+    <text x="471" y="153" font-size="17">Node.js 脚本负责汇总</text>
+    <text x="471" y="184" font-size="17">mdBook 负责生成笔记书</text>
+    <text x="804" y="121" font-size="20" font-weight="700">dist/ 网站产物</text>
+    <text x="804" y="153" font-size="17">HTML · CSS · JS</text>
+    <text x="804" y="184" font-size="17">图片 · 视频 · 可下载文件</text>
+    <path d="M279 155 H335 M604 155 H660" fill="none" stroke="#657352" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M804 228 V265 H471" fill="none" stroke="#657352" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="623" y="298" font-size="18">本地预览 / GitHub Pages</text>
+    <text x="623" y="325" font-size="17">提供文件给浏览器，浏览器显示与交互</text>
+    <text x="210" y="280" font-size="18" fill="#68745a">长期修改写在源文件中</text>
+  </g>
+</svg>
