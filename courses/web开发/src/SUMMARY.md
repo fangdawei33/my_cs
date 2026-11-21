@@ -2,7 +2,7 @@
 
 [课程介绍](introduction.md)
 
-- [my_cs网站拆解](my-cs\readme.md)
+- [my_cs网站拆解](my-cs/readme.md)
 
   - [01 网页、网站与 my_cs](first-note.md)
   - [02 看懂项目目录与网址](my-cs/目录结构与网址.md)

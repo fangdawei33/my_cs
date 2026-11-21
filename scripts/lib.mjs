@@ -17,7 +17,8 @@ export const escapeHtml = (text) => String(text).replace(/[&<>"']/g, (char) => (
 // 课程和生活笔记使用相同的目录校验，避免 mdBook 自动创建误拼写的空白文章。
 export function getBookPages(path) {
   const summary = readFileSync(join(path, 'src', 'SUMMARY.md'), 'utf8');
-  const pages = [...summary.matchAll(/\]\(([^)]+\.md)\)/g)].map((match) => match[1]);
+  const pages = [...summary.matchAll(/\]\(([^)]+\.md)\)/g)]
+    .map((match) => match[1].replaceAll('\\', '/'));
 
   for (const page of pages) {
     const target = resolve(path, 'src', page);
