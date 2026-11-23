@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const brand = document.createElement('a');
     brand.className = 'my-cs-brand';
     brand.href = homeUrl;
-    brand.innerHTML = '<strong>my_cs<span> / </span></strong><small>我的计算机学习笔记</small>';
+    brand.innerHTML = '<strong>my_cs</strong><small>我的计算机学习笔记</small>';
     sidebar.prepend(brand);
   }
 });

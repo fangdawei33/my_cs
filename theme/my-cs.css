@@ -2,7 +2,6 @@
 .my-cs-home { font-size: 1.4rem; font-weight: 600; padding: 0 10px; }
 .my-cs-brand { display: flex; flex-direction: column; gap: 5px; padding: 22px 10px 25px; color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--table-border-color); margin-bottom: 18px; }
 .my-cs-brand strong { font: 700 2.8rem ui-monospace, Consolas, monospace; letter-spacing: -1.5px; }
-.my-cs-brand strong span { color: var(--links); }
 .my-cs-brand small { font-size: 1.3rem; opacity: .7; }
 .content img { height: auto; }
 .content main { min-width: 0; }
