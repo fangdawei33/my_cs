@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="my_cs 书页与绿叶">
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="#fff8ed" stroke="#665a4c" stroke-width="2.5"/>
+  <circle cx="18" cy="13" r="3" fill="#e8cd8f"/>
+  <g stroke="#665a4c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 25C25 20 17 20 11 24V47C19 44 25 46 32 51Z" fill="#fffdf7"/>
+    <path d="M32 25C39 20 47 20 53 24V47C45 44 39 46 32 51Z" fill="#d7e3c6"/>
+    <path d="M32 19C31 11 37 8 44 9C44 16 39 20 32 19Z" fill="#a8bc8c"/>
+    <path d="M32 24V19M16 30C20 29 24 30 27 32M16 36C20 35 24 36 27 38M37 32C40 30 44 29 48 30M37 38C40 36 44 35 48 36" fill="none"/>
+  </g>
+</svg>

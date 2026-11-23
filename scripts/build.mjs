@@ -1,6 +1,7 @@
 import { copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { dist, escapeHtml, getCourses, getLifeBook, mdbook, readJson, root } from './lib.mjs';
 import { versionSidebarAssets } from './sidebar-assets.mjs';
 import { buildResources } from './resources.mjs';
@@ -68,6 +69,13 @@ export function build({ localResources = false } = {}) {
   writeFileSync(join(dist, 'courses', 'index.html'), courseIndex);
   cpSync(join(root, 'web'), join(dist, 'assets'), { recursive: true });
   buildResources(dist, courses, { localFiles: localResources });
+  // 入口页也给图标带上内容版本号，避免浏览器继续显示旧的标签页图标。
+  const iconVersion = createHash('sha256').update(readFileSync(join(root, 'web', 'favicon.svg'))).digest('hex').slice(0, 12);
+  for (const entry of ['index.html', 'courses/index.html', 'resources/index.html']) {
+    const path = join(dist, entry);
+    const html = readFileSync(path, 'utf8').replace(/(href="[^"?#]*\/favicon\.svg)(?:\?[^"#]*)?"/g, `$1?v=${iconVersion}"`);
+    writeFileSync(path, html);
+  }
   writeFileSync(join(dist, '.nojekyll'), '');
   console.log(`完成：${dist}`);
 }

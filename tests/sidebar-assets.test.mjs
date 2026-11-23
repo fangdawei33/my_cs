@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import { root } from '../scripts/lib.mjs';
 import { versionSidebarAssets } from '../scripts/sidebar-assets.mjs';
 
-test('目录内容变化后更新资源 URL，保留正文及独立演示', () => {
+test('目录和图标变化后更新资源 URL，保留正文及独立演示', () => {
   const temporaryRoot = join(root, '.tools');
   mkdirSync(temporaryRoot, { recursive: true });
   const fixture = mkdtempSync(join(temporaryRoot, 'sidebar-cache-test-'));
@@ -15,9 +15,11 @@ test('目录内容变化后更新资源 URL，保留正文及独立演示', () =
     mkdirSync(join(fixture, 'demos'));
     writeFileSync(join(fixture, 'toc.js'), '// 旧目录');
     writeFileSync(join(fixture, 'toc.html'), '<nav>旧目录</nav>');
+    writeFileSync(join(fixture, 'favicon.svg'), '<svg>旧图标</svg>');
     const template = '<!-- Book generated using mdBook -->' +
       '<script src="toc.js"></script><iframe src="toc.html"></iframe>' +
-      '<script src="https://example.com/toc.js"></script><h1>正文保留</h1>';
+      '<script src="https://example.com/toc.js"></script><h1>正文保留</h1>' +
+      '<link rel="icon" href="favicon.svg">';
     writeFileSync(join(fixture, 'index.html'), template);
     writeFileSync(join(fixture, 'problems', 'entry.html'), template.replaceAll('src="toc.', 'src="../toc.'));
     writeFileSync(join(fixture, '404.html'), template.replaceAll('src="toc.', 'src="/my_cs/course/toc.'));
@@ -29,6 +31,7 @@ test('目录内容变化后更新资源 URL，保留正文及独立演示', () =
     const first = read('index.html');
     assert.match(first, /src="toc\.js\?v=[a-f0-9]{12}"/);
     assert.match(first, /src="toc\.html\?v=[a-f0-9]{12}"/);
+    assert.match(first, /href="favicon\.svg\?v=[a-f0-9]{12}"/);
     assert.ok(first.includes('src="https://example.com/toc.js"'));
     assert.ok(first.includes('<h1>正文保留</h1>'));
     assert.match(read('problems/entry.html'), /src="\.\.\/toc\.js\?v=/);
@@ -42,7 +45,12 @@ test('目录内容变化后更新资源 URL，保留正文及独立演示', () =
     writeFileSync(join(fixture, 'toc.html'), '<nav>新目录：刷题笔记</nav>');
     versionSidebarAssets(fixture);
     assert.notEqual(read('index.html'), first);
-    assert.equal((read('index.html').match(/\?v=/g) ?? []).length, 2);
+    assert.equal((read('index.html').match(/\?v=/g) ?? []).length, 3);
+    const beforeIconChange = read('index.html');
+    writeFileSync(join(fixture, 'favicon.svg'), '<svg>新图标</svg>');
+    versionSidebarAssets(fixture);
+    assert.notEqual(read('index.html'), beforeIconChange);
+    assert.equal((read('index.html').match(/\?v=/g) ?? []).length, 3);
   } finally {
     // 仅清理本测试刚创建的目录。
     assert.equal(dirname(fixture), temporaryRoot);
