@@ -2,4 +2,5 @@
 
 [课程介绍](introduction.md)
 
-- [第一篇笔记](first-note.md)
+- [课堂回顾](课堂回顾/README.md)
+  - [期末复习](课堂回顾/期末复习.md)
